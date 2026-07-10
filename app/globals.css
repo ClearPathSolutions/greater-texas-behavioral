@@ -1,0 +1,221 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ------------------------------------------------------------------ */
+/*  Base                                                               */
+/* ------------------------------------------------------------------ */
+@layer base {
+  :root {
+    --header-h: 4.5rem; /* 72px */
+  }
+
+  * {
+    @apply border-cream-300;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    /* offset anchor targets so they clear the sticky header */
+    scroll-padding-top: calc(var(--header-h) + 1rem);
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-cream-50 text-ink font-sans antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display font-bold tracking-tight text-forest-900;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    @apply bg-forest-900 text-cream-50;
+  }
+
+  /* Accessible focus ring */
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible,
+  [tabindex]:focus-visible {
+    @apply outline-none ring-2 ring-forest-500 ring-offset-2 ring-offset-cream-50 rounded-sm;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Layout primitives                                                  */
+/* ------------------------------------------------------------------ */
+@layer components {
+  /* Centered content column — no side dead space on desktop because
+     section backgrounds are full-bleed while content is constrained. */
+  .container-x {
+    @apply mx-auto w-full max-w-content px-5 sm:px-6 lg:px-8;
+  }
+  .container-narrow {
+    @apply mx-auto w-full max-w-prose px-5 sm:px-6;
+  }
+
+  /* Consistent vertical rhythm for every section */
+  .section {
+    @apply py-16 sm:py-20 lg:py-28;
+  }
+  .section-sm {
+    @apply py-12 sm:py-16 lg:py-20;
+  }
+
+  /* Eyebrow / kicker label above headings */
+  .eyebrow {
+    @apply inline-flex items-center gap-2 text-xs sm:text-sm font-semibold uppercase tracking-[0.16em] text-forest-600;
+  }
+  .eyebrow::before {
+    content: '';
+    @apply inline-block h-px w-6 bg-gold-400;
+  }
+
+  /* Fluid, balanced display headings */
+  .h-display {
+    font-size: clamp(2.1rem, 5.2vw, 3.75rem);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+  }
+  .h-section {
+    font-size: clamp(1.7rem, 3.6vw, 2.6rem);
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+  }
+  .lead {
+    @apply text-lg sm:text-xl text-muted leading-relaxed;
+  }
+
+  /* Buttons */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-full font-semibold
+           px-6 py-3 text-base transition-all duration-200 will-change-transform
+           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2;
+  }
+  .btn-primary {
+    @apply btn bg-forest-800 text-cream-50 shadow-soft
+           hover:bg-forest-900 hover:-translate-y-0.5 hover:shadow-lift
+           focus-visible:ring-forest-500 focus-visible:ring-offset-cream-50;
+  }
+  .btn-gold {
+    @apply btn bg-gold-500 text-forest-950 shadow-soft
+           hover:bg-gold-400 hover:-translate-y-0.5 hover:shadow-lift
+           focus-visible:ring-gold-500 focus-visible:ring-offset-cream-50;
+  }
+  .btn-outline {
+    @apply btn border border-forest-300 text-forest-800 bg-transparent
+           hover:bg-forest-50 hover:border-forest-400 focus-visible:ring-forest-500;
+  }
+  .btn-ghost-light {
+    @apply btn border border-cream-100/40 text-cream-50 bg-cream-50/5 backdrop-blur
+           hover:bg-cream-50/15 focus-visible:ring-cream-100;
+  }
+
+  /* Cards */
+  .card {
+    @apply rounded-2xl bg-white border border-cream-300/70 shadow-card;
+  }
+
+  /* Prose (blog articles) */
+  .prose-tx {
+    @apply text-ink/90 leading-[1.8];
+  }
+  .prose-tx > * + * {
+    @apply mt-6;
+  }
+  .prose-tx h2 {
+    @apply text-2xl sm:text-3xl mt-12 mb-2 text-forest-900;
+  }
+  .prose-tx h3 {
+    @apply text-xl sm:text-2xl mt-10 mb-1 text-forest-800;
+  }
+  .prose-tx p {
+    @apply text-[1.0625rem] text-ink/85;
+  }
+  .prose-tx ul {
+    @apply list-none space-y-3 pl-0;
+  }
+  .prose-tx ul > li {
+    @apply relative pl-7 text-ink/85;
+  }
+  .prose-tx ul > li::before {
+    content: '';
+    @apply absolute left-0 top-[0.65em] h-2 w-2 rounded-full bg-gold-400;
+  }
+  .prose-tx ol {
+    @apply list-decimal space-y-3 pl-5 marker:text-forest-500 marker:font-semibold;
+  }
+  .prose-tx a {
+    @apply text-forest-700 underline decoration-gold-300 underline-offset-2 hover:text-forest-900;
+  }
+  .prose-tx blockquote {
+    @apply border-l-4 border-gold-400 bg-cream-100 rounded-r-xl py-4 pl-6 pr-4 italic text-forest-800;
+  }
+  .prose-tx strong {
+    @apply text-forest-900 font-semibold;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Utilities                                                          */
+/* ------------------------------------------------------------------ */
+@layer utilities {
+  /* Reveal-on-scroll.
+     IMPORTANT: content is visible by default and only starts hidden when JS is
+     present (html.js) — so if JS is disabled or fails, nothing is ever hidden.
+     A JS safety-timeout also force-reveals, so content can never get stuck. */
+  html.js .reveal {
+    opacity: 0;
+    transform: translateY(22px);
+    transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+  }
+  html.js .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html.js .reveal {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Subtle grain-free radial glow used behind hero content */
+  .bg-radial-forest {
+    background-image: radial-gradient(
+      110% 90% at 50% 0%,
+      rgba(24, 48, 36, 0.0) 0%,
+      rgba(12, 36, 24, 0.55) 62%,
+      rgba(12, 36, 24, 0.85) 100%
+    );
+  }
+}
