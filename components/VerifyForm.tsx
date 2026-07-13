@@ -25,10 +25,14 @@ export default function VerifyForm() {
     setError('');
     const form = e.currentTarget;
     const fd = new FormData(form);
-    const payload = Object.fromEntries(fd.entries());
+    const payload = {
+      ...Object.fromEntries(fd.entries()),
+      page_url: typeof window !== 'undefined' ? window.location.href : '',
+      referrer: typeof document !== 'undefined' ? document.referrer : '',
+    };
 
     try {
-      const res = await fetch('/api/contact', {
+      const res = await fetch('/api/lead', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),

@@ -24,6 +24,20 @@ export const site = {
   copyrightHolder: 'Greater Texas Behavioral',
 } as const;
 
+/**
+ * Clarion Labs webchat / lead capture.
+ * The cpx_ key is a PUBLIC site key (safe to ship). The server route reads
+ * process.env.CLARION_SITE_KEY first and falls back to this so the integration
+ * works with zero env config; override via env if the key is ever rotated.
+ * NOTE: every production origin (apex + www + the .vercel.app alias, and any
+ * custom domain) must be allowlisted in Clarion → Website Integrations.
+ */
+export const clarion = {
+  siteKey: 'cpx_uP2v8Lehf_DtiZrt7m8Sl2DXgEYVYmit',
+  api: 'https://api.clarionlabs.ai',
+  widgetSrc: 'https://www.clarionlabs.ai/widget.v1.js',
+} as const;
+
 export type NavChild = { label: string; href: string; description?: string };
 export type NavItem = { label: string; href: string; children?: NavChild[] };
 
