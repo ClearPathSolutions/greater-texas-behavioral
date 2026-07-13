@@ -1,0 +1,6 @@
+_scrape
+.env
+.env.*
+node_modules
+.next
+.git
