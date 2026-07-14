@@ -1,8 +1,10 @@
 import type { MetadataRoute } from 'next';
 import { site } from '@/lib/site';
-import { getAllPosts } from '@/lib/blog';
+import { getClarionFeed } from '@/lib/clarion-blog';
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export const revalidate = 300;
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const routes = ['', '/our-story', '/what-we-treat', '/verify-insurance', '/blog'];
   const now = new Date();
   const staticPages = routes.map((route) => ({
@@ -12,9 +14,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: route === '' ? 1 : 0.8,
   }));
 
-  const postPages = getAllPosts().map((post) => ({
+  const posts = await getClarionFeed();
+  const postPages = posts.map((post) => ({
     url: `${site.url}/blog/${post.slug}`,
-    lastModified: new Date(post.date + 'T00:00:00'),
+    lastModified: post.published_at ? new Date(post.published_at) : now,
     changeFrequency: 'monthly' as const,
     priority: 0.6,
   }));

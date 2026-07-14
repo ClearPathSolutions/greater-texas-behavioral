@@ -1,21 +1,27 @@
 import type { Metadata } from 'next';
-import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import CTABand from '@/components/CTABand';
-import { getAllPosts, getPost, formatDate, type Block } from '@/lib/blog';
+import {
+  getClarionFeed,
+  getClarionPost,
+  formatClarionDate,
+} from '@/lib/clarion-blog';
 import { IconArrowLeft } from '@/components/ui/Icon';
 
-export function generateStaticParams() {
-  return getAllPosts().map((p) => ({ slug: p.slug }));
+export const revalidate = 300;
+
+export async function generateStaticParams() {
+  const posts = await getClarionFeed();
+  return posts.map((p) => ({ slug: p.slug }));
 }
 
-export function generateMetadata({
+export async function generateMetadata({
   params,
 }: {
   params: { slug: string };
-}): Metadata {
-  const post = getPost(params.slug);
+}): Promise<Metadata> {
+  const post = await getClarionPost(params.slug);
   if (!post) return { title: 'Article not found' };
   return {
     title: post.title,
@@ -25,79 +31,42 @@ export function generateMetadata({
       title: post.title,
       description: post.excerpt,
       type: 'article',
-      images: [{ url: post.image }],
+      images: post.cover_image_url ? [{ url: post.cover_image_url }] : undefined,
     },
   };
 }
 
-function renderBlock(block: Block, i: number) {
-  switch (block.type) {
-    case 'h2':
-      return <h2 key={i}>{block.text}</h2>;
-    case 'h3':
-      return <h3 key={i}>{block.text}</h3>;
-    case 'quote':
-      return <blockquote key={i}>{block.text}</blockquote>;
-    case 'ul':
-      return (
-        <ul key={i}>
-          {block.items.map((it, j) => (
-            <li key={j}>{it}</li>
-          ))}
-        </ul>
-      );
-    case 'ol':
-      return (
-        <ol key={i}>
-          {block.items.map((it, j) => (
-            <li key={j}>{it}</li>
-          ))}
-        </ol>
-      );
-    default:
-      return <p key={i}>{block.text}</p>;
-  }
-}
-
-export default function BlogPostPage({
+export default async function BlogPostPage({
   params,
 }: {
   params: { slug: string };
 }) {
-  const post = getPost(params.slug);
+  const post = await getClarionPost(params.slug);
   if (!post) notFound();
 
   return (
     <>
       <article>
         {/* Hero */}
-        <header className="relative isolate overflow-hidden">
-          <Image
-            src={post.image}
-            alt={post.imageAlt || post.title}
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover"
-          />
+        <header className="relative isolate overflow-hidden bg-forest-900">
+          {post.cover_image_url && (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={post.cover_image_url}
+              alt=""
+              className="absolute inset-0 h-full w-full object-cover"
+            />
+          )}
           <div className="absolute inset-0 bg-forest-950/70" />
-          <div
-            className="absolute inset-0"
-            style={{
-              backgroundImage:
-                'linear-gradient(180deg, rgba(12,36,24,0.55) 0%, rgba(12,36,24,0.35) 40%, rgba(12,36,24,0.8) 100%)',
-            }}
-          />
-          <div className="container-x relative pt-28 pb-16 sm:pt-32 sm:pb-20 lg:pt-40 lg:pb-24">
+          <div className="container-x relative pt-28 pb-14 sm:pt-32 sm:pb-16 lg:pt-40 lg:pb-20">
             <div className="max-w-3xl">
               <div className="flex items-center gap-3 text-sm font-medium text-cream-100/80">
-                {post.category && (
-                  <span className="rounded-full bg-cream-50/15 px-3 py-1 backdrop-blur">
-                    {post.category}
-                  </span>
+                {post.published_at && (
+                  <time dateTime={post.published_at}>
+                    {formatClarionDate(post.published_at)}
+                  </time>
                 )}
-                <time dateTime={post.date}>{formatDate(post.date)}</time>
-                {post.readingTime && <span>· {post.readingTime}</span>}
+                {post.author_name && <span>· {post.author_name}</span>}
               </div>
               <h1 className="h-display mt-4 text-cream-50">{post.title}</h1>
             </div>
@@ -107,10 +76,16 @@ export default function BlogPostPage({
         {/* Body */}
         <div className="section bg-cream-50">
           <div className="container-narrow">
-            <p className="lead mb-8 border-l-4 border-gold-400 pl-5">
-              {post.excerpt}
-            </p>
-            <div className="prose-tx">{post.body.map(renderBlock)}</div>
+            {post.excerpt && (
+              <p className="lead mb-8 border-l-4 border-gold-400 pl-5">
+                {post.excerpt}
+              </p>
+            )}
+            <div
+              className="prose-tx"
+              // Content authored by the site owner in Clarion (trusted CMS source).
+              dangerouslySetInnerHTML={{ __html: post.body_html || '' }}
+            />
 
             <div className="mt-12 border-t border-cream-300 pt-8">
               <Link
