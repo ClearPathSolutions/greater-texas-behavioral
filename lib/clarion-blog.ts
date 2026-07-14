@@ -64,10 +64,44 @@ export async function getClarionPost(slug: string): Promise<ClarionPost | null> 
   );
 }
 
+// ---------------------------------------------------------------------------
+// Merged blog source: Clarion-managed posts + the adapted original posts.
+// Clarion is the live source of truth; a Clarion post with the same slug as a
+// local one takes precedence. Results are sorted newest-first.
+// ---------------------------------------------------------------------------
+import { originalPosts } from './original-posts';
+
+export async function getAllBlogPosts(): Promise<ClarionListPost[]> {
+  const feed = await getClarionFeed();
+  const clarionSlugs = new Set(feed.map((p) => p.slug));
+  const locals = originalPosts.filter((p) => !clarionSlugs.has(p.slug));
+  return [...feed, ...locals].sort((a, b) =>
+    (b.published_at || '').localeCompare(a.published_at || ''),
+  );
+}
+
+export async function getBlogPost(slug: string): Promise<ClarionPost | null> {
+  const fromClarion = await getClarionPost(slug);
+  if (fromClarion) return fromClarion;
+  return originalPosts.find((p) => p.slug === slug) ?? null;
+}
+
+export async function getAllBlogSlugs(): Promise<string[]> {
+  const feed = await getClarionFeed();
+  return Array.from(
+    new Set([...feed.map((p) => p.slug), ...originalPosts.map((p) => p.slug)]),
+  );
+}
+
 export function formatClarionDate(iso?: string): string {
   if (!iso) return '';
   try {
-    return new Date(iso).toLocaleDateString('en-US', {
+    // Treat date-only values (YYYY-MM-DD) as local noon to avoid a UTC
+    // off-by-one that can render the previous day.
+    const d = /^\d{4}-\d{2}-\d{2}$/.test(iso)
+      ? new Date(`${iso}T12:00:00`)
+      : new Date(iso);
+    return d.toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'long',
       day: 'numeric',

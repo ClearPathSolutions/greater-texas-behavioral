@@ -1,6 +1,6 @@
 import type { MetadataRoute } from 'next';
 import { site } from '@/lib/site';
-import { getClarionFeed } from '@/lib/clarion-blog';
+import { getAllBlogPosts } from '@/lib/clarion-blog';
 
 export const revalidate = 300;
 
@@ -14,7 +14,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: route === '' ? 1 : 0.8,
   }));
 
-  const posts = await getClarionFeed();
+  const posts = await getAllBlogPosts();
   const postPages = posts.map((post) => ({
     url: `${site.url}/blog/${post.slug}`,
     lastModified: post.published_at ? new Date(post.published_at) : now,

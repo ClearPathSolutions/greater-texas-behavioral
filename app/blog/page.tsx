@@ -3,7 +3,7 @@ import Link from 'next/link';
 import PageHero from '@/components/PageHero';
 import CTABand from '@/components/CTABand';
 import Reveal from '@/components/ui/Reveal';
-import { getClarionFeed, formatClarionDate } from '@/lib/clarion-blog';
+import { getAllBlogPosts, formatClarionDate } from '@/lib/clarion-blog';
 import { IconArrowRight, IconChat, IconPhone } from '@/components/ui/Icon';
 import { site } from '@/lib/site';
 
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 export const revalidate = 300;
 
 export default async function BlogPage() {
-  const posts = await getClarionFeed();
+  const posts = await getAllBlogPosts();
 
   return (
     <>

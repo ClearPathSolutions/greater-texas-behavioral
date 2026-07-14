@@ -3,8 +3,8 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import CTABand from '@/components/CTABand';
 import {
-  getClarionFeed,
-  getClarionPost,
+  getAllBlogSlugs,
+  getBlogPost,
   formatClarionDate,
 } from '@/lib/clarion-blog';
 import { IconArrowLeft } from '@/components/ui/Icon';
@@ -12,8 +12,8 @@ import { IconArrowLeft } from '@/components/ui/Icon';
 export const revalidate = 300;
 
 export async function generateStaticParams() {
-  const posts = await getClarionFeed();
-  return posts.map((p) => ({ slug: p.slug }));
+  const slugs = await getAllBlogSlugs();
+  return slugs.map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({
@@ -21,7 +21,7 @@ export async function generateMetadata({
 }: {
   params: { slug: string };
 }): Promise<Metadata> {
-  const post = await getClarionPost(params.slug);
+  const post = await getBlogPost(params.slug);
   if (!post) return { title: 'Article not found' };
   return {
     title: post.title,
@@ -41,7 +41,7 @@ export default async function BlogPostPage({
 }: {
   params: { slug: string };
 }) {
-  const post = await getClarionPost(params.slug);
+  const post = await getBlogPost(params.slug);
   if (!post) notFound();
 
   return (
