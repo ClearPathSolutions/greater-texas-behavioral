@@ -36,6 +36,8 @@ export const clarion = {
   siteKey: 'cpx_uP2v8Lehf_DtiZrt7m8Sl2DXgEYVYmit',
   api: 'https://api.clarionlabs.ai',
   widgetSrc: 'https://www.clarionlabs.ai/widget.v1.js',
+  formsCaptureSrc: 'https://www.clarionlabs.ai/forms-capture.v1.js',
+  blogEmbedSrc: 'https://www.clarionlabs.ai/blog-embed.v1.js',
 } as const;
 
 export type NavChild = { label: string; href: string; description?: string };

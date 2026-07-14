@@ -114,6 +114,13 @@ export default function RootLayout({
           data-site-key={clarion.siteKey}
           data-api={clarion.api}
         />
+        {/* Clarion Labs form capture — hooks any <form data-clarion-form="…"> */}
+        <Script
+          src={clarion.formsCaptureSrc}
+          strategy="afterInteractive"
+          data-site-key={clarion.siteKey}
+          data-api={clarion.api}
+        />
       </body>
     </html>
   );

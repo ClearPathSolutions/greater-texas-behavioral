@@ -7,48 +7,29 @@ import { IconCheck, IconLock, IconPhone } from './ui/Icon';
 const fieldBase =
   'w-full rounded-xl border border-cream-300 bg-white px-4 py-3 text-ink placeholder:text-muted transition-colors focus:border-forest-400 focus:outline-none focus:ring-2 focus:ring-forest-500/40';
 
+/**
+ * Insurance verification form.
+ *
+ * Leads are captured by Clarion's forms-capture.v1.js script (loaded in the
+ * root layout), which hooks any <form data-clarion-form="…"> and sends the
+ * submission to Clarion → Form Submissions. This handler runs on the same
+ * submit event: it prevents a full-page reload and shows the confirmation,
+ * while Clarion's listener reads the field values. (For Clarion to accept the
+ * data, the production origin must be allowlisted in Clarion.)
+ */
 export default function VerifyForm() {
-  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>(
-    'idle',
-  );
-  const [error, setError] = useState('');
+  const [status, setStatus] = useState<'idle' | 'success'>('idle');
   const successHeadingRef = useRef<HTMLHeadingElement>(null);
 
-  // Move focus to the confirmation on success so AT + keyboard users are informed.
   useEffect(() => {
     if (status === 'success') successHeadingRef.current?.focus();
   }, [status]);
 
-  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+  function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+    // Let Clarion's capture listener read the fields, but stop the browser
+    // from navigating/reloading, then show our confirmation.
     e.preventDefault();
-    setStatus('loading');
-    setError('');
-    const form = e.currentTarget;
-    const fd = new FormData(form);
-    const payload = {
-      ...Object.fromEntries(fd.entries()),
-      page_url: typeof window !== 'undefined' ? window.location.href : '',
-      referrer: typeof document !== 'undefined' ? document.referrer : '',
-    };
-
-    try {
-      const res = await fetch('/api/lead', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      });
-      const json = await res.json();
-      if (!res.ok || !json.ok) {
-        throw new Error(json.error || 'Submission failed.');
-      }
-      setStatus('success');
-      form.reset();
-    } catch (err) {
-      setStatus('error');
-      setError(
-        err instanceof Error ? err.message : 'Something went wrong. Please call us.',
-      );
-    }
+    setStatus('success');
   }
 
   if (status === 'success') {
@@ -77,7 +58,11 @@ export default function VerifyForm() {
   }
 
   return (
-    <form onSubmit={onSubmit} className="card p-6 sm:p-8">
+    <form
+      onSubmit={onSubmit}
+      data-clarion-form="insurance_verification"
+      className="card p-6 sm:p-8"
+    >
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="sm:col-span-2">
           <label htmlFor="name" className="mb-1.5 block text-sm font-semibold text-forest-800">
@@ -128,21 +113,8 @@ export default function VerifyForm() {
         <input id="company" name="company" tabIndex={-1} autoComplete="off" />
       </div>
 
-      {status === 'error' && (
-        <p role="alert" className="mt-4 rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700">
-          {error}{' '}
-          <a href={site.phoneHref} className="font-semibold underline">
-            Call {site.phone}
-          </a>
-        </p>
-      )}
-
-      <button
-        type="submit"
-        disabled={status === 'loading'}
-        className="btn-gold mt-6 w-full disabled:cursor-not-allowed disabled:opacity-70"
-      >
-        {status === 'loading' ? 'Sending…' : 'Verify My Insurance'}
+      <button type="submit" className="btn-gold mt-6 w-full">
+        Verify My Insurance
       </button>
 
       <p className="mt-4 flex items-center justify-center gap-2 text-center text-sm text-muted">
