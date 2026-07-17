@@ -73,7 +73,7 @@
     @apply mx-auto w-full max-w-content px-5 sm:px-6 lg:px-8;
   }
   .container-narrow {
-    @apply mx-auto w-full max-w-prose px-5 sm:px-6;
+    @apply mx-auto w-full max-w-3xl px-5 sm:px-6;
   }
 
   /* Consistent vertical rhythm for every section */
