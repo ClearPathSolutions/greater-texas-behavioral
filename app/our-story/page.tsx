@@ -3,6 +3,7 @@ import Image from 'next/image';
 import PageHero from '@/components/PageHero';
 import CTABand from '@/components/CTABand';
 import Reveal from '@/components/ui/Reveal';
+import StaffGrid from '@/components/StaffGrid';
 import {
   IconShieldCheck,
   IconHeartHand,
@@ -154,6 +155,11 @@ export default function OurStoryPage() {
           </div>
         </div>
       </section>
+
+      <StaffGrid
+        facility="greater-texas-behavioral"
+        body="Licensed clinicians and case managers who will be walking alongside you."
+      />
 
       <CTABand
         eyebrow="Start your recovery today"
