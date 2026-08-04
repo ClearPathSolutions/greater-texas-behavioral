@@ -13,13 +13,13 @@ const testimonials = [
   {
     quote:
       'Being able to get real treatment from home changed everything for me. I never had to choose between my job and my recovery — the structure kept me accountable every single week.',
-    name: 'Virtual IOP Client',
+    name: 'Virtual OP Client',
     location: 'Houston, TX',
   },
   {
     quote:
       'The clinicians genuinely listened. They treated my anxiety and my drinking together instead of like two separate problems, and for the first time the progress actually stuck.',
-    name: 'Virtual IOP Client',
+    name: 'Virtual OP Client',
     location: 'Austin, TX',
   },
   {
@@ -41,7 +41,7 @@ export default function Testimonials() {
           </h2>
           <p className="lead mt-5">
             Stories from Texans who found structure, support, and lasting change
-            through our Virtual IOP.
+            through our Virtual OP.
           </p>
         </Reveal>
 

@@ -22,15 +22,15 @@ const jakarta = Plus_Jakarta_Sans({
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: `${site.name} | Virtual IOP for Addiction & Mental Health in Texas`,
+    default: `${site.name} | Virtual OP for Addiction & Mental Health in Texas`,
     template: `%s | ${site.name}`,
   },
   description: site.description,
   keywords: [
-    'Virtual IOP Texas',
+    'Virtual OP Texas',
     'online addiction treatment Texas',
     'telehealth mental health Texas',
-    'intensive outpatient program',
+    'outpatient program',
     'dual diagnosis treatment',
     'online rehab Texas',
   ],
@@ -40,13 +40,13 @@ export const metadata: Metadata = {
     locale: 'en_US',
     url: site.url,
     siteName: site.name,
-    title: `${site.name} | Virtual IOP for Addiction & Mental Health in Texas`,
+    title: `${site.name} | Virtual OP for Addiction & Mental Health in Texas`,
     description: site.description,
     images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: site.name }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: `${site.name} | Virtual IOP in Texas`,
+    title: `${site.name} | Virtual OP in Texas`,
     description: site.description,
     images: ['/og-image.jpg'],
   },
@@ -75,7 +75,7 @@ export default function RootLayout({
     areaServed: { '@type': 'State', name: 'Texas' },
     medicalSpecialty: ['Psychiatric', 'Addiction Medicine'],
     availableService: [
-      { '@type': 'MedicalTherapy', name: 'Virtual Intensive Outpatient Program (IOP)' },
+      { '@type': 'MedicalTherapy', name: 'Virtual Outpatient Program (OP)' },
       { '@type': 'MedicalTherapy', name: 'Online Dual Diagnosis Treatment' },
     ],
   };

@@ -8,7 +8,7 @@ export const site = {
   shortName: 'Greater Texas Behavioral',
   tagline: 'Structured Online Addiction & Mental Health Treatment — Statewide in Texas',
   description:
-    'Greater Texas Behavioral offers a fully licensed Virtual Intensive Outpatient Program (IOP) for addiction and mental health treatment, delivered through secure telehealth anywhere in Texas.',
+    'Greater Texas Behavioral offers a fully licensed Virtual Outpatient Program (OP) for addiction and mental health treatment, delivered through secure telehealth anywhere in Texas.',
   url: 'https://greatertexasbehavioral.com',
   email: 'info@greatertexasbehavioral.com',
   // Primary published number

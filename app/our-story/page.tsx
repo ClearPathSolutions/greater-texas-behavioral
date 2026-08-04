@@ -14,7 +14,7 @@ import {
 export const metadata: Metadata = {
   title: 'Our Story',
   description:
-    'Greater Texas Behavioral was founded to make high-quality, evidence-based addiction and mental health treatment accessible to Texans everywhere through a licensed Virtual IOP.',
+    'Greater Texas Behavioral was founded to make high-quality, evidence-based addiction and mental health treatment accessible to Texans everywhere through a licensed Virtual OP.',
   alternates: { canonical: '/our-story' },
 };
 
@@ -32,7 +32,7 @@ const principles = [
   {
     icon: IconMapPin,
     title: 'Accessible Treatment',
-    body: 'Our Virtual IOP lets you receive structured addiction treatment from anywhere in Texas. No travel. No relocation. Just secure, confidential telehealth sessions designed around your schedule.',
+    body: 'Our Virtual OP lets you receive structured addiction treatment from anywhere in Texas. No travel. No relocation. Just secure, confidential telehealth sessions designed around your schedule.',
   },
   {
     icon: IconLeaf,
@@ -71,7 +71,7 @@ export default function OurStoryPage() {
                 We recognized that many people delay seeking help due to work
                 obligations, family responsibilities, or the inability to travel
                 for treatment. Our solution was to build a fully licensed Virtual
-                Intensive Outpatient Program that delivers structured clinical
+                Outpatient Program that delivers structured clinical
                 care through secure telehealth technology.
               </p>
               <p>
@@ -115,7 +115,7 @@ export default function OurStoryPage() {
               Our mission
             </span>
             <p className="mt-6 font-display text-2xl font-semibold leading-snug text-cream-50 sm:text-3xl">
-              To deliver structured, evidence-based Virtual IOP care to
+              To deliver structured, evidence-based Virtual OP care to
               individuals struggling with substance use and co-occurring mental
               health conditions across Texas — combining clinical expertise,
               accountability, and compassionate support.
@@ -164,7 +164,7 @@ export default function OurStoryPage() {
       <CTABand
         eyebrow="Start your recovery today"
         title="Compassionate, structured care is one call away"
-        body="Talk with our admissions team about whether our Virtual IOP is the right fit — free, confidential, and no obligation."
+        body="Talk with our admissions team about whether our Virtual OP is the right fit — free, confidential, and no obligation."
         image="/images/horses-sunset.jpg"
         imageAlt="Horses grazing at sunset"
       />

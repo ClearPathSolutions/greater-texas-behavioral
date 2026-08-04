@@ -19,7 +19,7 @@ import { site } from '@/lib/site';
 export const metadata: Metadata = {
   title: 'What We Treat',
   description:
-    'Our Texas Virtual IOP treats substance use disorders and co-occurring mental health conditions — anxiety, depression, trauma, and more — through secure, evidence-based telehealth.',
+    'Our Texas Virtual OP treats substance use disorders and co-occurring mental health conditions — anxiety, depression, trauma, and more — through secure, evidence-based telehealth.',
   alternates: { canonical: '/what-we-treat' },
 };
 
@@ -31,7 +31,7 @@ const conditions = [
     title: 'Substance Use Disorders',
     image: '/images/substances.jpg',
     alt: 'Clinical support for substance use disorders',
-    body: 'Our Texas Virtual IOP provides clinically structured support for individuals struggling with substance use. Because addiction impacts both behavior and mental health, our program focuses on identifying triggers, restructuring harmful patterns, and building practical relapse-prevention strategies. Through therapist-led groups and individualized counseling conducted online, clients gain accountability, support, and measurable progress while continuing to live at home.',
+    body: 'Our Texas Virtual OP provides clinically structured support for individuals struggling with substance use. Because addiction impacts both behavior and mental health, our program focuses on identifying triggers, restructuring harmful patterns, and building practical relapse-prevention strategies. Through therapist-led groups and individualized counseling conducted online, clients gain accountability, support, and measurable progress while continuing to live at home.',
     tags: [
       'Alcohol use disorder',
       'Opioid misuse',
@@ -48,7 +48,7 @@ const conditions = [
     title: 'Mental Health Conditions',
     image: '/images/freedom-nature.jpg',
     alt: 'Support for mental health conditions',
-    body: 'Our Virtual IOP treats a wide range of mental health conditions that often occur alongside substance use. Because many people facing addiction also live with underlying emotional or psychological distress, we integrate dual-diagnosis care into every treatment plan. Through structured online sessions, clients build emotional-regulation skills, strengthen coping strategies, and develop long-term wellness plans — all delivered securely through telehealth.',
+    body: 'Our Virtual OP treats a wide range of mental health conditions that often occur alongside substance use. Because many people facing addiction also live with underlying emotional or psychological distress, we integrate dual-diagnosis care into every treatment plan. Through structured online sessions, clients build emotional-regulation skills, strengthen coping strategies, and develop long-term wellness plans — all delivered securely through telehealth.',
     tags: [
       'Anxiety disorders',
       'Depression',
@@ -89,7 +89,7 @@ export default function WhatWeTreatPage() {
       <PageHero
         eyebrow="What We Treat"
         title="Recover from addiction & mental health challenges"
-        subtitle="Structured, evidence-based Virtual IOP care for substance use, anxiety, depression, trauma, and co-occurring conditions — delivered securely across Texas."
+        subtitle="Structured, evidence-based Virtual OP care for substance use, anxiety, depression, trauma, and co-occurring conditions — delivered securely across Texas."
         image="/images/horses-grazing.jpg"
         imageAlt="Horses grazing in a Texas field at sunset"
       />
@@ -102,7 +102,7 @@ export default function WhatWeTreatPage() {
               We help you recover — and stay well
             </h2>
             <p className="lead mt-5">
-              Our Texas Virtual IOP delivers evidence-based therapy through
+              Our Texas Virtual OP delivers evidence-based therapy through
               secure telehealth, so you can receive professional support while
               maintaining daily responsibilities. We focus on accountability,
               measurable progress, and practical relapse-prevention strategies

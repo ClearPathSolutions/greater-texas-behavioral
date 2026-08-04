@@ -9,7 +9,7 @@ import { IconPhone, IconClipboard, IconChat, IconShieldCheck, IconArrowRight } f
 export const metadata: Metadata = {
   title: 'Verify Your Insurance',
   description:
-    'Verify your insurance for Virtual IOP treatment in Texas. We work with most major PPO providers — the process is quick, confidential, and free.',
+    'Verify your insurance for Virtual OP treatment in Texas. We work with most major PPO providers — the process is quick, confidential, and free.',
   alternates: { canonical: '/verify-insurance' },
 };
 
@@ -42,7 +42,7 @@ export default function VerifyInsurancePage() {
       <PageHero
         eyebrow="Insurance"
         title="Verify your insurance"
-        subtitle="Many people are surprised to learn their health plan may cover Virtual IOP treatment. Verification is quick, completely confidential, and free."
+        subtitle="Many people are surprised to learn their health plan may cover Virtual OP treatment. Verification is quick, completely confidential, and free."
         image="/images/tx-star-frisco.jpg"
         imageAlt="Texas at dusk"
       />

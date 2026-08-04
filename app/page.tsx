@@ -22,7 +22,7 @@ import {
 } from '@/components/ui/Icon';
 
 const trustBadges = [
-  { icon: IconShieldCheck, label: 'Licensed Virtual IOP' },
+  { icon: IconShieldCheck, label: 'Licensed Virtual OP' },
   { icon: IconMapPin, label: 'All of Texas' },
   { icon: IconVideo, label: 'Secure Telehealth' },
   { icon: IconCheck, label: 'Most PPO Plans' },
@@ -31,8 +31,8 @@ const trustBadges = [
 const programs = [
   {
     icon: IconVideo,
-    title: 'Virtual Intensive Outpatient Program',
-    body: 'Our Virtual IOP includes multiple therapy sessions per week delivered through secure video conferencing — structured support that fits around work, school, and family.',
+    title: 'Virtual Outpatient Program',
+    body: 'Our Virtual OP includes multiple therapy sessions per week delivered through secure video conferencing — structured support that fits around work, school, and family.',
     features: [
       'Individual therapy',
       'Therapist-led group sessions',
@@ -61,7 +61,7 @@ const steps = [
   {
     icon: IconChat,
     title: 'Initial Consultation',
-    body: 'Speak with a Virtual IOP admissions specialist to discuss your needs and determine if online treatment is the right fit.',
+    body: 'Speak with a Virtual OP admissions specialist to discuss your needs and determine if online treatment is the right fit.',
   },
   {
     icon: IconShieldCheck,
@@ -152,10 +152,10 @@ export default function HomePage() {
             </Reveal>
             <Reveal delay={160}>
               <p className="mt-6 max-w-2xl text-lg leading-relaxed text-cream-100/90 sm:text-xl">
-                Greater Texas Behavioral is a fully licensed Virtual Intensive
-                Outpatient Program — comprehensive, confidential care delivered
-                through secure telehealth, without stepping away from work,
-                school, or family.
+                Greater Texas Behavioral is a fully licensed Virtual
+                Outpatient Program (OP) — comprehensive, confidential care
+                delivered through secure telehealth, without stepping away from
+                work, school, or family.
               </p>
             </Reveal>
             <Reveal delay={240}>
@@ -194,13 +194,13 @@ export default function HomePage() {
       <section className="section bg-cream-50">
         <div className="container-x grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
           <Reveal>
-            <span className="eyebrow">A leading online IOP in Texas</span>
+            <span className="eyebrow">A leading online OP in Texas</span>
             <h2 className="h-section mt-4">
               Comprehensive virtual care that meets you where you are
             </h2>
             <div className="mt-6 space-y-4 text-lg leading-relaxed text-muted">
               <p>
-                Our online IOP delivers comprehensive addiction and mental health
+                Our online OP delivers comprehensive addiction and mental health
                 treatment through secure telehealth sessions. We combine clinical
                 expertise with flexibility, so Texans can receive high-quality
                 care from the comfort and privacy of home.
@@ -209,7 +209,7 @@ export default function HomePage() {
                 We treat substance use disorders and co-occurring mental health
                 conditions using research-backed therapies led by licensed
                 clinicians. Whether you&apos;re transitioning from a higher level
-                of care or starting treatment for the first time, our Virtual IOP
+                of care or starting treatment for the first time, our Virtual OP
                 provides accountability, structure, and long-term recovery
                 support.
               </p>
@@ -300,7 +300,7 @@ export default function HomePage() {
               Getting started
             </span>
             <h2 className="h-section mt-4 text-cream-50">
-              Start Virtual IOP in four simple steps
+              Start Virtual OP in four simple steps
             </h2>
             <p className="mt-5 text-lg text-cream-100/75">
               Confidential &amp; 100% online — from first call to first session.
@@ -387,7 +387,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ================= WHY VIRTUAL IOP ================= */}
+      {/* ================= WHY VIRTUAL OP ================= */}
       <section className="section bg-cream-100">
         <div className="container-x">
           <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
@@ -397,7 +397,7 @@ export default function HomePage() {
                 Real clinical care, built for real life
               </h2>
               <p className="lead mt-5">
-                Unlike residential programs, our Virtual IOP lets you receive
+                Unlike residential programs, our Virtual OP lets you receive
                 consistent, HIPAA-compliant therapeutic support without
                 relocating or disrupting your career or family.
               </p>
@@ -439,7 +439,7 @@ export default function HomePage() {
       {/* ================= CTA ================= */}
       <CTABand
         title="Take the first step toward recovery today"
-        body="If you or a loved one is struggling with substance use or mental health challenges, we offer flexible, confidential Virtual IOP treatment throughout Texas — structured clinical care without residential treatment."
+        body="If you or a loved one is struggling with substance use or mental health challenges, we offer flexible, confidential Virtual OP treatment throughout Texas — structured clinical care without residential treatment."
         image="/images/tx-barn-bluebonnets.jpg"
         imageAlt="Texas barn among bluebonnets"
       />

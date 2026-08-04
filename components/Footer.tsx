@@ -40,7 +40,7 @@ export default function Footer() {
         <div className="sm:col-span-2 lg:col-span-1">
           <LogoLight />
           <p className="mt-5 max-w-sm text-sm leading-relaxed text-cream-100/70">
-            A fully licensed Virtual Intensive Outpatient Program delivering
+            A fully licensed Virtual Outpatient Program delivering
             structured, evidence-based addiction and mental health treatment
             through secure telehealth — anywhere in Texas.
           </p>
@@ -135,7 +135,7 @@ export default function Footer() {
             © {year} {site.copyrightHolder}. All Rights Reserved.
           </p>
           <p>
-            Licensed Virtual IOP · Confidential &amp; HIPAA-compliant telehealth
+            Licensed Virtual OP · Confidential &amp; HIPAA-compliant telehealth
           </p>
         </div>
       </div>

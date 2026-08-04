@@ -1,10 +1,10 @@
 /**
  * Original blog posts, carried over from the previous site and ADAPTED to the
- * Greater Texas Behavioral (Texas virtual IOP) brand:
+ * Greater Texas Behavioral (Texas virtual OP) brand:
  *   - "Seaside Wellness" -> "Greater Texas Behavioral"
  *   - Florida / West Palm Beach / Palm Beach / South Florida -> Texas
  *   - In-person / residential / facility / coastal claims rewritten to reflect a
- *     licensed VIRTUAL IOP that coordinates medical detox (delivered in person by
+ *     licensed VIRTUAL OP that coordinates medical detox (delivered in person by
  *     partners) and provides ongoing telehealth treatment.
  *
  * The educational substance (withdrawal risks, SAMHSA/NIDA/CDC references,
@@ -50,13 +50,13 @@ export const originalPosts: ClarionPost[] = [
 <p>These are warning signs that the body is no longer regulating itself. Reaching out is not about punishment &mdash; it is about safety.</p>
 <h2>Why Professional Support Matters More in December</h2>
 <p>Withdrawal doesn&rsquo;t care about the calendar &mdash; it can happen anytime. But stress makes it worse. Holiday stress raises heart rate, disrupts sleep, and increases emotional instability, all of which can make withdrawal unpredictable. When there is physical dependence, a medically supervised detox is the safest option.</p>
-<p>Greater Texas Behavioral is a licensed Virtual Intensive Outpatient Program (IOP). If detox is needed first, we help you connect quickly with safe, medically supervised care &mdash; and then our structured telehealth program supports your recovery from the comfort and privacy of home. Many people describe getting help as the first moment they finally feel safe: it gives the body time to reset and the mind space to breathe.</p>
+<p>Greater Texas Behavioral is a licensed Virtual Outpatient Program (OP). If detox is needed first, we help you connect quickly with safe, medically supervised care &mdash; and then our structured telehealth program supports your recovery from the comfort and privacy of home. Many people describe getting help as the first moment they finally feel safe: it gives the body time to reset and the mind space to breathe.</p>
 <h2>What Comes After Detox</h2>
-<p>Detox is only the beginning. Once the body starts to stabilize, recovery continues in a deeper, more meaningful way. At Greater Texas Behavioral, each person follows a path that fits their needs. After stabilization, many Texans continue care through our Virtual IOP and dual diagnosis support &mdash; therapist-led groups, individual therapy, and relapse-prevention planning delivered securely by telehealth, so you can keep recovering without stepping away from work, school, or family.</p>
+<p>Detox is only the beginning. Once the body starts to stabilize, recovery continues in a deeper, more meaningful way. At Greater Texas Behavioral, each person follows a path that fits their needs. After stabilization, many Texans continue care through our Virtual OP and dual diagnosis support &mdash; therapist-led groups, individual therapy, and relapse-prevention planning delivered securely by telehealth, so you can keep recovering without stepping away from work, school, or family.</p>
 <p>Our team walks with you through the entire process. We look at your mental health needs, your substance history, and the moments where you feel most vulnerable. Together we build a plan that includes therapy, coordination of medication support when needed, and real relapse-prevention skills. The goal is long-term stability, not a quick patch.</p>
 <h2>You Don&rsquo;t Have to Do This Alone</h2>
 <p>The holidays can be heavy. Many people feel overwhelmed this time of year, even if they don&rsquo;t say it out loud. If you&rsquo;re struggling, you&rsquo;re not failing &mdash; you&rsquo;re human. Asking for help is not giving up; it&rsquo;s choosing safety and relief.</p>
-<p>Greater Texas Behavioral offers a licensed Virtual IOP and dual diagnosis care across Texas, and we can help you find safe detox when it&rsquo;s needed. Our admissions team is here to help &mdash; because crisis doesn&rsquo;t wait for the right moment. If you or someone you love feels unsafe or on the edge of relapse, reach out today. Call our admissions team at (877) 590-3665. You deserve support, and healing can start right now.</p>
+<p>Greater Texas Behavioral offers a licensed Virtual OP and dual diagnosis care across Texas, and we can help you find safe detox when it&rsquo;s needed. Our admissions team is here to help &mdash; because crisis doesn&rsquo;t wait for the right moment. If you or someone you love feels unsafe or on the edge of relapse, reach out today. Call our admissions team at (877) 590-3665. You deserve support, and healing can start right now.</p>
 `,
   },
 
@@ -110,11 +110,11 @@ export const originalPosts: ClarionPost[] = [
 </ul>
 <p>This personalized approach helps ensure you or your loved one receives the level of care that best supports safety and recovery.</p>
 <h2>How Greater Texas Behavioral Supports Your Recovery</h2>
-<p>Greater Texas Behavioral is a licensed Virtual Intensive Outpatient Program serving all of Texas. We believe recovery should be safe, individualized, and accessible.</p>
+<p>Greater Texas Behavioral is a licensed Virtual Outpatient Program serving all of Texas. We believe recovery should be safe, individualized, and accessible.</p>
 <h3>Help Connecting to Safe Detox</h3>
 <p>Because medically supervised detox is delivered in person, our team helps assess whether detox is needed and coordinates a safe, prompt connection to trusted medical detox providers when it is.</p>
 <h3>A Continuum of Care &mdash; Virtually</h3>
-<p>Detox is not an isolated experience. Once you&rsquo;re stabilized, our Virtual IOP and dual diagnosis care provide structured therapy, relapse-prevention planning, and aftercare support &mdash; all delivered securely by telehealth, so you can continue recovery without leaving home.</p>
+<p>Detox is not an isolated experience. Once you&rsquo;re stabilized, our Virtual OP and dual diagnosis care provide structured therapy, relapse-prevention planning, and aftercare support &mdash; all delivered securely by telehealth, so you can continue recovery without leaving home.</p>
 <h3>Care Built Around Real Life</h3>
 <p>Our licensed Texas clinicians deliver evidence-based therapy &mdash; including cognitive behavioral therapy (CBT) and relapse-prevention planning &mdash; on a schedule that fits around work, school, and family.</p>
 <h2>Take the First Step Toward Recovery</h2>
@@ -154,13 +154,13 @@ export const originalPosts: ClarionPost[] = [
 <li><strong>Failed tapering:</strong> repeated attempts to &ldquo;just have one&rdquo; that inevitably lead back to heavy use.</li>
 </ul>
 <h2>How Greater Texas Behavioral Helps</h2>
-<p>We believe white-knuckling through sobriety isn&rsquo;t a sustainable strategy. Our Virtual IOP focuses on treating the whole picture &mdash; the substance use and the underlying conditions driving it &mdash; so your recovery has a real foundation.</p>
+<p>We believe white-knuckling through sobriety isn&rsquo;t a sustainable strategy. Our Virtual OP focuses on treating the whole picture &mdash; the substance use and the underlying conditions driving it &mdash; so your recovery has a real foundation.</p>
 <h3>Healing the &lsquo;Why&rsquo; with Dual Diagnosis Care</h3>
 <p>If you&rsquo;ve been self-medicating for generalized anxiety, depression, or PTSD, removing the substance leaves the underlying wound exposed. Our licensed Texas clinicians use evidence-based therapies such as cognitive behavioral therapy (CBT) and dialectical behavior therapy (DBT) to treat those underlying conditions alongside the addiction.</p>
 <h3>Structured Support That Fits Your Life</h3>
 <p>Because our program is fully virtual, you get consistent, accountable clinical support &mdash; therapist-led groups and individual sessions &mdash; without leaving work, school, or family. When medication support is appropriate, we help coordinate it as part of your plan.</p>
 <h2>Moving Toward a Purposeful February</h2>
-<p>Recovery shouldn&rsquo;t be a 31-day trial; it should be a lasting transformation. Greater Texas Behavioral provides a real continuum of care &mdash; from helping you connect to detox when needed, to structured Virtual IOP and dual diagnosis treatment across Texas.</p>
+<p>Recovery shouldn&rsquo;t be a 31-day trial; it should be a lasting transformation. Greater Texas Behavioral provides a real continuum of care &mdash; from helping you connect to detox when needed, to structured Virtual OP and dual diagnosis treatment across Texas.</p>
 <p>If this January has shown you that your relationship with alcohol is more complex than a New Year&rsquo;s resolution can fix, we&rsquo;re here to help you build a foundation that lasts. Call us at (877) 590-3665 to get started.</p>
 `,
   },
@@ -169,18 +169,18 @@ export const originalPosts: ClarionPost[] = [
     slug: 'comprehensive-addiction-treatment-in-texas',
     title: 'Comprehensive Addiction Treatment in Texas',
     excerpt:
-      'What comprehensive, evidence-based addiction treatment looks like in Texas — and how a licensed Virtual IOP delivers intensive support, dual diagnosis care, and detox coordination without leaving home.',
+      'What comprehensive, evidence-based addiction treatment looks like in Texas — and how a licensed Virtual OP delivers structured support, dual diagnosis care, and detox coordination without leaving home.',
     published_at: '2026-02-23',
     author_name: 'The Greater Texas Behavioral Team',
     cover_image_url: '/images/community-support.jpg',
     body_html: `
 <p>Finding the right addiction treatment can change the course of your life or the life of someone you love. At Greater Texas Behavioral, evidence-based care meets a supportive, flexible clinical model to help Texans begin recovery with confidence &mdash; without leaving home.</p>
-<p>As a licensed Virtual Intensive Outpatient Program (IOP) serving all of Texas, we deliver structured treatment through secure telehealth. Our programs help people build healthy coping skills, address the roots of substance use, and create a strong foundation for long-term recovery.</p>
+<p>As a licensed Virtual Outpatient Program (OP) serving all of Texas, we deliver structured treatment through secure telehealth. Our programs help people build healthy coping skills, address the roots of substance use, and create a strong foundation for long-term recovery.</p>
 <h2>What Addiction Treatment Involves</h2>
 <p>Treatment at Greater Texas Behavioral is personalized and comprehensive. Licensed clinicians evaluate physical, psychological, and behavioral needs to create an individualized plan. Common components of care include:</p>
 <ul>
 <li><strong>Coordinated medical detox.</strong> When there&rsquo;s physical dependence, detox is the safe first step. Because detox is delivered in person, we assess the need and help connect you quickly to trusted medical detox providers.</li>
-<li><strong>Virtual Intensive Outpatient care.</strong> Structured, therapist-led group and individual sessions delivered by telehealth &mdash; the support of an intensive program, without residential stays or time away from your life.</li>
+<li><strong>Virtual Outpatient care.</strong> Structured, therapist-led group and individual sessions delivered by telehealth &mdash; the structured support of an outpatient program, without residential stays or time away from your life.</li>
 <li><strong>Mental health stabilization.</strong> Individuals with anxiety, depression, trauma, or other conditions receive therapeutic support to stabilize symptoms and build emotional balance.</li>
 <li><strong>Dual diagnosis treatment.</strong> We address addiction and co-occurring mental health disorders together, improving outcomes by working on the emotional and psychological aspects of recovery at the same time.</li>
 </ul>
@@ -249,9 +249,9 @@ export const originalPosts: ClarionPost[] = [
 <h3>Step 2: Stabilization</h3>
 <p>Clients receive medication and monitoring to manage withdrawal symptoms safely.</p>
 <h3>Step 3: Transition Planning</h3>
-<p>Detox alone is rarely enough for long-term recovery. Before discharge, a clinical team typically recommends continuing care &mdash; such as an intensive outpatient program (IOP) and aftercare planning. A seamless transition improves long-term outcomes.</p>
+<p>Detox alone is rarely enough for long-term recovery. Before discharge, a clinical team typically recommends continuing care &mdash; such as an outpatient program (OP) and aftercare planning. A seamless transition improves long-term outcomes.</p>
 <h2>How Greater Texas Behavioral Helps</h2>
-<p>Greater Texas Behavioral is a licensed Virtual IOP serving all of Texas. If you need medical detox, the most important first step is speaking with a knowledgeable admissions team. Ours can:</p>
+<p>Greater Texas Behavioral is a licensed Virtual OP serving all of Texas. If you need medical detox, the most important first step is speaking with a knowledgeable admissions team. Ours can:</p>
 <ul>
 <li>Verify your private insurance benefits and explain your coverage clearly</li>
 <li>Assess your needs confidentially</li>
