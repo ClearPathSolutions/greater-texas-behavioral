@@ -14,6 +14,7 @@ export const revalidate = 300;
 const ROUTES: Array<{ path: string; priority: number }> = [
   { path: '', priority: 1 },
   { path: 'about', priority: 0.8 },
+  { path: 'team', priority: 0.6 },
   { path: 'what-we-treat', priority: 0.8 },
   { path: 'verify-insurance', priority: 0.8 },
   { path: 'contact', priority: 0.7 },

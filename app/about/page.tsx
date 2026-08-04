@@ -160,6 +160,7 @@ export default function AboutPage() {
       <StaffGrid
         facility="greater-texas-behavioral"
         body="Licensed clinicians and case managers who will be walking alongside you."
+        moreHref="/team"
       />
 
       <CTABand

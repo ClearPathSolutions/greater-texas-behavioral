@@ -1,61 +1,30 @@
+import Link from 'next/link';
 import Reveal from '@/components/ui/Reveal';
+import { IconArrowRight } from '@/components/ui/Icon';
+import { fetchStaff, initials } from '@/lib/staff';
 
 /**
- * "Our Team" section, fed by the Quadrant support portal.
+ * "Our Team" teaser section, fed by the Quadrant support portal.
  *
- *   <StaffGrid facility="greater-texas-behavioral" />
+ *   <StaffGrid facility="greater-texas-behavioral" moreHref="/team" />
  *
- * Content is managed at support.quadranthealthgroup.com/dev/staff. Only
- * published bios are returned, so this renders nothing until someone publishes.
- * Set STAFF_FEED_ORIGIN to point at a different portal environment.
+ * Renders a compact card per published bio. Pass `moreHref` to surface a link
+ * to the full team page (where bios appear in full). Renders nothing until at
+ * least one bio is published for the facility.
  */
-
-const FEED_ORIGIN =
-  process.env.STAFF_FEED_ORIGIN ?? 'https://support.quadranthealthgroup.com';
-
-type StaffMember = {
-  id: string;
-  name: string;
-  title: string;
-  credentials: string | null;
-  bio: string | null;
-  photoUrl: string | null;
-};
-
-async function fetchStaff(facility: string): Promise<StaffMember[]> {
-  try {
-    const res = await fetch(
-      `${FEED_ORIGIN}/api/public/facilities/${encodeURIComponent(facility)}/staff`,
-      { next: { revalidate: 300 } },
-    );
-    if (!res.ok) return [];
-    const data = (await res.json()) as { staff?: StaffMember[] };
-    return data.staff ?? [];
-  } catch {
-    // A directory outage must never take the page down.
-    return [];
-  }
-}
-
-function initials(name: string) {
-  return name
-    .trim()
-    .split(/\s+/)
-    .slice(0, 2)
-    .map((p) => p[0]?.toUpperCase() ?? '')
-    .join('');
-}
-
 export default async function StaffGrid({
   facility,
   eyebrow = 'The people behind your care',
   title = 'Meet our team',
   body,
+  moreHref,
 }: {
   facility: string;
   eyebrow?: string;
   title?: string;
   body?: string;
+  /** When set, shows a "Meet the full team" link below the grid. */
+  moreHref?: string;
 }) {
   const staff = await fetchStaff(facility);
   if (staff.length === 0) return null;
@@ -135,6 +104,18 @@ export default async function StaffGrid({
             </Reveal>
           ))}
         </div>
+
+        {moreHref && (
+          <Reveal className="mt-12 text-center">
+            <Link
+              href={moreHref}
+              className="group inline-flex items-center gap-2 text-sm font-semibold text-forest-700 transition-colors hover:text-forest-900"
+            >
+              Meet the full team &amp; read their bios
+              <IconArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+            </Link>
+          </Reveal>
+        )}
       </div>
     </section>
   );

@@ -67,6 +67,7 @@ export const nav: NavItem[] = [
     ],
   },
   { label: 'About', href: '/about' },
+  { label: 'Team', href: '/team' },
   { label: 'Blog', href: '/blog' },
   { label: 'Contact', href: '/contact' },
   // NOTE: "Verify Your Insurance" is intentionally NOT listed here. It is
@@ -79,6 +80,7 @@ export const nav: NavItem[] = [
 // Footer "Get Help" quick links
 export const footerLinks: NavChild[] = [
   { label: 'About', href: '/about' },
+  { label: 'Our Team', href: '/team' },
   { label: 'What We Treat', href: '/what-we-treat' },
   { label: 'Verify Your Insurance', href: '/verify-insurance' },
   { label: 'Blog', href: '/blog' },
