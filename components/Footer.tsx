@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { LogoLight } from './Logo';
-import { footerLinks, site } from '@/lib/site';
+import { footerLinks, legalLinks, site } from '@/lib/site';
 import { IconPhone, IconMail, IconMapPin, IconArrowRight } from './ui/Icon';
 
 export default function Footer() {
@@ -134,9 +134,20 @@ export default function Footer() {
           <p>
             © {year} {site.copyrightHolder}. All Rights Reserved.
           </p>
-          <p>
-            Licensed Virtual OP · Confidential &amp; HIPAA-compliant telehealth
-          </p>
+          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
+            {legalLinks.map((l) => (
+              <Link
+                key={l.href}
+                href={l.href}
+                className="transition-colors hover:text-cream-100"
+              >
+                {l.label}
+              </Link>
+            ))}
+            <span>
+              Licensed Virtual OP · Confidential &amp; HIPAA-compliant telehealth
+            </span>
+          </div>
         </div>
       </div>
     </footer>

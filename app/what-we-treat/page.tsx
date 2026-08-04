@@ -15,13 +15,14 @@ import {
   IconLock,
 } from '@/components/ui/Icon';
 import { site } from '@/lib/site';
+import { pageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: 'What We Treat',
   description:
     'Our Texas Virtual OP treats substance use disorders and co-occurring mental health conditions — anxiety, depression, trauma, and more — through secure, evidence-based telehealth.',
-  alternates: { canonical: '/what-we-treat' },
-};
+  path: 'what-we-treat',
+});
 
 const conditions = [
   {

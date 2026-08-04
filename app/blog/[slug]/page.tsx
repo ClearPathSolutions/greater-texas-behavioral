@@ -8,6 +8,8 @@ import {
   formatClarionDate,
 } from '@/lib/clarion-blog';
 import { IconArrowLeft } from '@/components/ui/Icon';
+import { pageMetadata } from '@/lib/seo';
+import { site } from '@/lib/site';
 
 export const revalidate = 300;
 
@@ -22,18 +24,22 @@ export async function generateMetadata({
   params: { slug: string };
 }): Promise<Metadata> {
   const post = await getBlogPost(params.slug);
-  if (!post) return { title: 'Article not found' };
-  return {
+  // Unknown slugs render notFound() below; keep them out of the index.
+  if (!post) {
+    return pageMetadata({
+      title: 'Article not found',
+      description: site.description,
+      path: `blog/${params.slug}`,
+      noIndex: true,
+    });
+  }
+  return pageMetadata({
     title: post.title,
-    description: post.excerpt,
-    alternates: { canonical: `/blog/${post.slug}` },
-    openGraph: {
-      title: post.title,
-      description: post.excerpt,
-      type: 'article',
-      images: post.cover_image_url ? [{ url: post.cover_image_url }] : undefined,
-    },
-  };
+    description: post.excerpt || site.description,
+    path: `blog/${post.slug}`,
+    type: 'article',
+    image: post.cover_image_url || '/og-image.jpg',
+  });
 }
 
 export default async function BlogPostPage({

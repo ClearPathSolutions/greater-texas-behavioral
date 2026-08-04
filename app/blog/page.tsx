@@ -6,13 +6,14 @@ import Reveal from '@/components/ui/Reveal';
 import { getAllBlogPosts, formatClarionDate } from '@/lib/clarion-blog';
 import { IconArrowRight, IconChat, IconPhone } from '@/components/ui/Icon';
 import { site } from '@/lib/site';
+import { pageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: 'Blog',
   description:
     'Insights on addiction recovery, mental health, and virtual treatment from the team at Greater Texas Behavioral.',
-  alternates: { canonical: '/blog' },
-};
+  path: 'blog',
+});
 
 // Re-render from Clarion at most every 5 minutes.
 export const revalidate = 300;

@@ -35,10 +35,13 @@ export const metadata: Metadata = {
     'online rehab Texas',
   ],
   alternates: { canonical: '/' },
+  // NOTE: deliberately no `openGraph.url` here. Next.js merges openGraph
+  // field-by-field with child routes, so a URL set at the layout level leaks
+  // onto every page that doesn't override it — the exact cause of audit V0047.
+  // Per-page OG/Twitter tags are built by `pageMetadata()` in lib/seo.ts.
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: site.url,
     siteName: site.name,
     title: `${site.name} | Virtual OP for Addiction & Mental Health in Texas`,
     description: site.description,

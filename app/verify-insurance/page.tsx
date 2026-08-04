@@ -5,13 +5,14 @@ import VerifyForm from '@/components/VerifyForm';
 import Reveal from '@/components/ui/Reveal';
 import { insuranceCarriers, site } from '@/lib/site';
 import { IconPhone, IconClipboard, IconChat, IconShieldCheck, IconArrowRight } from '@/components/ui/Icon';
+import { pageMetadata } from '@/lib/seo';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: 'Verify Your Insurance',
   description:
     'Verify your insurance for Virtual OP treatment in Texas. We work with most major PPO providers — the process is quick, confidential, and free.',
-  alternates: { canonical: '/verify-insurance' },
-};
+  path: 'verify-insurance',
+});
 
 const steps = [
   {

@@ -4,6 +4,7 @@ import PageHero from '@/components/PageHero';
 import CTABand from '@/components/CTABand';
 import Reveal from '@/components/ui/Reveal';
 import StaffGrid from '@/components/StaffGrid';
+import { pageMetadata } from '@/lib/seo';
 import {
   IconShieldCheck,
   IconHeartHand,
@@ -11,12 +12,12 @@ import {
   IconLeaf,
 } from '@/components/ui/Icon';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: 'Our Story',
   description:
     'Greater Texas Behavioral was founded to make high-quality, evidence-based addiction and mental health treatment accessible to Texans everywhere through a licensed Virtual OP.',
-  alternates: { canonical: '/our-story' },
-};
+  path: 'our-story',
+});
 
 const principles = [
   {

@@ -20,6 +20,15 @@ import {
   IconLeaf,
   IconMapPin,
 } from '@/components/ui/Icon';
+import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo';
+
+export const metadata: Metadata = pageMetadata({
+  title: `${site.name} | Virtual OP for Addiction & Mental Health in Texas`,
+  description: site.description,
+  path: '',
+  absoluteTitle: true,
+});
 
 const trustBadges = [
   { icon: IconShieldCheck, label: 'Licensed Virtual OP' },

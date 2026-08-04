@@ -73,6 +73,11 @@ export const footerLinks: NavChild[] = [
   { label: 'Blog', href: '/blog' },
 ];
 
+// Legal / compliance links, surfaced in the footer bottom bar.
+export const legalLinks: NavChild[] = [
+  { label: 'Privacy Policy', href: '/privacy-policy' },
+];
+
 // Insurance carriers referenced on the source site's insurance visual.
 export const insuranceCarriers: string[] = [
   'UnitedHealthcare',
