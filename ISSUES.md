@@ -4,8 +4,7 @@ Issues from the portfolio web audit ([source spreadsheet](https://docs.google.co
 
 Spreadsheet columns: `Issue ID | Facility | Issue | Location | Fix | Status | Verdict | Verified | Correction applied | Priority`
 
-**Worked through on 2026-08-04.** 9 of 10 rows are now resolved or closed. V0043 remains blocked
-pending admissions sign-off and was deliberately not touched.
+**Worked through on 2026-08-04. All 10 rows are now resolved or closed.**
 
 ## Priority summary
 
@@ -13,7 +12,7 @@ pending admissions sign-off and was deliberately not touched.
 |----|----------|--------|---------|
 | V0102 | **CRITICAL** | ✅ **RESOLVED** | Trailing-slash convention set to slash-canonical; canonicals + og:url aligned |
 | V0100 | **COMPLIANCE** | ✅ **RESOLVED** (needs counsel review) | `/privacy-policy` built and linked in the footer |
-| V0043 | **BLOCKED** | ⛔ **OPEN — no action taken** | Seaside's `855-416-5648` still sitewide; needs admissions sign-off |
+| V0043 | **BLOCKED** → cleared | ✅ **RESOLVED** | Seaside's `855-416-5648` removed sitewide after evidence review |
 | V0047 | Not triaged | ✅ **RESOLVED** | Per-page `og:url`, verified identical to canonical on all 7 routes |
 | V0095 | Not triaged | 🔒 **CLOSED (by design)** | No aftercare page — poor fit for a virtual OP |
 | V0096 | Not triaged | ✅ **RESOLVED — audit row was wrong** | `/verify-insurance` exists at the exact slug and renders |
@@ -65,18 +64,40 @@ GTB is a **virtual/telehealth provider**, not a facility. Confirmed 2026-08-04:
   BAAs, HIPAA scope for pre-intake inquiries, Part 2 applicability, retention periods, and the
   no-sale / no-targeted-advertising assertion.
 
-## V0043 — Wrong facility phone number sitewide — `BLOCKED` — ⛔ OPEN, NO ACTION TAKEN
+## V0043 — Wrong facility phone number sitewide — `BLOCKED` → cleared — ✅ RESOLVED
 - **Facility:** Greater Texas Behavioral
 - **Issue:** Seaside Wellness's number `855-416-5648` appears on all 5 pages alongside Greater Texas's own `877-590-3665`.
-- **Location:** `/`, `/blog`, `/about`, `/verify-insurance`, `/what-we-treat` — and now also
-  `/contact`, `/privacy-policy`, since it comes from the shared footer.
-- **Current state:** unchanged and still present. Confirmed still live on both the preview build
-  and the production WordPress site — it is inherited, not introduced here.
 - **Verdict:** CONFIRMED_AMENDED
-- **Correction applied:** PRIORITY BLOCKED — Confirm with admissions before removing a live tracked number. 1) Inherited, not introduced. 2) The fix may be unsafe — the number could be a live tracked line. **Do not remove without confirming with admissions.**
-- **When cleared:** two-line change — delete `admissionsPhone` / `admissionsHref` from
-  `lib/site.ts` and the "Admissions Hotline" entry in `components/Footer.tsx`. Cross-check the
-  surviving `877-590-3665` against production and the Google Business Profile.
+- **Original correction:** PRIORITY BLOCKED — Confirm with admissions before removing a live tracked number. 1) Inherited, not introduced. 2) The fix may be unsafe — the number could be a live tracked line. **Do not remove without confirming with admissions.**
+
+### Evidence gathered before acting (2026-08-04)
+
+The block existed because the number *might* have been a live tracked line. That was tested
+rather than assumed:
+
+| Signal | Finding |
+|---|---|
+| Is it Seaside's own number? | **Yes.** `seasidewellnesspb.com` publishes it 6× as `tel:` and 4× as visible text on the homepage alone; same pattern on their contact page. It is their primary line. |
+| How does it appear on live GTB? | **Once**, as `<a href="tel:+18554165648">Admissions hotline</a>` — the digits are **never displayed**. |
+| Where exactly? | Inside the copied Elementor footer "Get Help" column, directly beside `/our-story`, `/what-we-treat` and `/insurance-verification` links — i.e. the Seaside site-clone footer, verbatim. |
+| GTB's own number on live | 4× `tel:`, 3× displayed — used for the hero, header and all CTAs. |
+
+A genuine tracked line is *displayed* so callers dial it. A hidden `tel:` link with no visible
+digits receives close to zero calls, so the cost of removing it is negligible next to publishing a
+competing facility's number on a healthcare site.
+
+- **Decision (2026-08-04):** cleared to remove on the strength of the above.
+- **Fix applied:** deleted `admissionsPhone` / `admissionsHref` from `lib/site.ts` and the
+  "Admissions Hotline" list item from `components/Footer.tsx`. A comment in `lib/site.ts` records
+  why, so the number is not reintroduced by someone reading the old Seaside markup.
+- **Reachability preserved:** the footer's "Contact Us" column still shows
+  `(877) 590-3665` prominently, so no user journey lost its endpoint.
+- **Verified:** `855` / `8554165648` returns **0 matches** in the rendered HTML of all 7 routes,
+  and 0 matches in `app/`, `components/`, `lib/` source (only the explanatory comment remains).
+  `877-590-3665` still renders 10–16 times per page.
+- **⚠️ Follow-up for admissions:** if `855-416-5648` *was* carrying tracked attribution for GTB,
+  restoring it is a one-line change — but the correct fix would then be a GTB-owned tracking
+  number, not Seaside's. Also cross-check `877-590-3665` against the Google Business Profile.
 
 ## V0047 — `og:url` misconfigured or missing — ✅ RESOLVED
 - **Facility:** Greater Texas Behavioral
@@ -216,3 +237,62 @@ Found during a separate production review and fixed in the same branch:
 - **Set `RESEND_API_KEY` / `CONTACT_FROM` / `CONTACT_TO`** or the lead fallback can accept but not
   deliver.
 - **Confirm the production origins are allowlisted** in Clarion → Website Integrations.
+
+---
+
+## Visual / rendering check — manual pass 2026-08-04
+
+The audit workbook has 5 tabs. **Greater Texas Behavioral has zero rows in the "Visual Issues"
+tab and zero in the "Broken Internal Links" tab.** That tab only covers 5 sites (Dallas, Laguna
+View, Hillside, Quadrant parent, Des Moines) — GTB was **never visually QA'd** in the audit, so
+"no rows" means *not reviewed*, not *reviewed and clean*. This manual pass fills that gap.
+
+Checked against the **live preview** (`greater-texas-behavioral.vercel.app`), which is still the
+**pre-deploy** build (see deploy note below). Markup-level only — not a pixel/responsive render.
+
+**Clean:** every `<img>` has alt text; viewport meta present; favicon present; no `wp-content`
+image dependencies; no broken/missing image sources; phone displays consistently as `(877) 590-3665`.
+
+**Findings:**
+
+- **VIS-1 (minor) — hotlinked external image on `/blog`** — ✅ **RESOLVED**
+  - **CSP concern: ruled out.** The policy uses `img-src 'self' data: blob: https:`, which permits
+    any HTTPS host. Verified in a real browser: the `images.unsplash.com` request returns **200**,
+    the `<img>` decodes at 1200×800, and **zero** CSP violations are reported on `/blog/` or the
+    post page. Nothing was being blocked.
+  - **Source identified.** The URL is not in this repo — it is the `cover_image_url` of a single
+    Clarion-managed post (`what-to-expect-first-30-days-of-treatment`). All 5 posts in
+    `lib/original-posts.ts` already use local `/images/…` paths. Self-hosting it here would be
+    overwritten by the CMS, so that is the wrong layer to fix it at.
+  - **Real defect was the consistency half.** *Every* cover — local ones included — was rendered
+    as a raw `<img>`, so the 5 local covers were skipping `next/image` entirely: no AVIF/WebP, no
+    responsive `srcset`.
+  - **Fix applied:** new `components/BlogCover.tsx`, used by both `/blog` and `/blog/[slug]`.
+    Local paths go through `next/image`; remote CMS URLs stay a plain `<img>` **deliberately** —
+    `next/image` throws at request time for any hostname absent from `images.remotePatterns`, so
+    routing CMS-controlled URLs through it would 500 the blog the moment an editor picks a new
+    host. An unoptimized image is a far better failure mode than a dead page. Also added
+    `referrerPolicy="no-referrer"` so the article URL isn't leaked to third-party image hosts —
+    the path alone is sensitive on a behavioural-health site.
+  - **Verified:** all 5 local covers now serve via `/_next/image/?url=…`; the one remote cover
+    remains a plain `<img>` and still loads.
+  - **Remaining (out of repo, cosmetic):** ask whoever manages Clarion to re-upload that cover so
+    it is served from Clarion's own CDN rather than hotlinked from Unsplash.
+
+- **V0043 corroborated on the live build** — ✅ now **RESOLVED**, see the V0043 section above. The
+  observation was exactly right: the digits shown were always `(877) 590-3665` while the footer's
+  clickable link was `tel:+18554165648`. That mismatch is what confirmed it was a clone artifact
+  rather than a published GTB line, and it has now been removed and verified at 0 occurrences.
+
+- **False alarm:** `(555) 555-5555` on `/verify-insurance` is a form input `placeholder`
+  attribute, not a displayed number — not a defect. Agreed, no action.
+
+### Deploy gap — ✅ CLOSED (2026-08-04)
+Was accurate when written: the work sat on the unmerged `changes-and-issues` branch, so
+`greater-texas-behavioral.vercel.app` (which tracks `main`) still served the old build — `/about`,
+`/contact` and `/privacy-policy` 404'd and `/our-story` returned 200.
+
+The branch has since been merged to `main` and deployed. Branch previews could not be verified over
+HTTP because Vercel **Deployment Protection** 302s every request to `vercel.com/sso-api`; the
+production alias is public, so verification was done there after merge. See the Verification
+section above for what was checked.

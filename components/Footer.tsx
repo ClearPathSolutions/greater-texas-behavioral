@@ -65,14 +65,6 @@ export default function Footer() {
                 </Link>
               </li>
             ))}
-            <li>
-              <a
-                href={site.admissionsHref}
-                className="text-cream-100/70 transition-colors hover:text-cream-50"
-              >
-                Admissions Hotline
-              </a>
-            </li>
           </ul>
         </div>
 

@@ -10,6 +10,7 @@ import {
 import { IconArrowLeft } from '@/components/ui/Icon';
 import { pageMetadata } from '@/lib/seo';
 import { site } from '@/lib/site';
+import BlogCover from '@/components/BlogCover';
 
 export const revalidate = 300;
 
@@ -55,14 +56,14 @@ export default async function BlogPostPage({
       <article>
         {/* Hero */}
         <header className="relative isolate overflow-hidden bg-forest-900">
-          {post.cover_image_url && (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={post.cover_image_url}
-              alt=""
-              className="absolute inset-0 h-full w-full object-cover"
-            />
-          )}
+          <BlogCover
+            src={post.cover_image_url}
+            /* Decorative: the headline immediately below carries the meaning. */
+            alt=""
+            sizes="100vw"
+            priority
+            className="object-cover"
+          />
           <div className="absolute inset-0 bg-forest-950/70" />
           <div className="container-x relative pt-28 pb-14 sm:pt-32 sm:pb-16 lg:pt-40 lg:pb-20">
             <div className="max-w-3xl">

@@ -7,6 +7,7 @@ import { getAllBlogPosts, formatClarionDate } from '@/lib/clarion-blog';
 import { IconArrowRight, IconChat, IconPhone } from '@/components/ui/Icon';
 import { site } from '@/lib/site';
 import { pageMetadata } from '@/lib/seo';
+import BlogCover from '@/components/BlogCover';
 
 export const metadata: Metadata = pageMetadata({
   title: 'Blog',
@@ -68,15 +69,12 @@ export default async function BlogPage() {
                     <article className="card group flex h-full flex-col overflow-hidden">
                       <Link href={`/blog/${post.slug}`} className="block">
                         <div className="relative h-52 overflow-hidden bg-cream-200">
-                          {post.cover_image_url && (
-                            // eslint-disable-next-line @next/next/no-img-element
-                            <img
-                              src={post.cover_image_url}
-                              alt={post.title}
-                              loading="lazy"
-                              className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                            />
-                          )}
+                          <BlogCover
+                            src={post.cover_image_url}
+                            alt={post.title}
+                            sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                            className="object-cover transition-transform duration-500 group-hover:scale-105"
+                          />
                         </div>
                       </Link>
                       <div className="flex flex-1 flex-col p-6">

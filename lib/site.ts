@@ -11,12 +11,18 @@ export const site = {
     'Greater Texas Behavioral offers a fully licensed Virtual Outpatient Program (OP) for addiction and mental health treatment, delivered through secure telehealth anywhere in Texas.',
   url: 'https://greatertexasbehavioral.com',
   email: 'info@greatertexasbehavioral.com',
-  // Primary published number
+  // The single published number for Greater Texas Behavioral.
+  //
+  // Audit V0043: a second number, (855) 416-5648, used to live here as an
+  // "admissions hotline" inherited from the Seaside Wellness site this build was
+  // cloned from. It was removed on 2026-08-04 after confirming it is Seaside's
+  // OWN primary published line — it appears 6 times as a tel: link and 4 times
+  // as visible text on seasidewellnesspb.com, while on the live Greater Texas
+  // site it appeared exactly once, as a footer link whose digits were never
+  // displayed. Do not reintroduce a second number without confirming with
+  // admissions that it belongs to this facility.
   phone: '(877) 590-3665',
   phoneHref: 'tel:+18775903665',
-  // Admissions hotline (from source site)
-  admissionsPhone: '(855) 416-5648',
-  admissionsHref: 'tel:+18554165648',
   address: {
     region: 'Texas',
     country: 'United States',
