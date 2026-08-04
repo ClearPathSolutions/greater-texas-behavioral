@@ -13,10 +13,10 @@ import {
 } from '@/components/ui/Icon';
 
 export const metadata: Metadata = pageMetadata({
-  title: 'Our Story',
+  title: 'About Us',
   description:
     'Greater Texas Behavioral was founded to make high-quality, evidence-based addiction and mental health treatment accessible to Texans everywhere through a licensed Virtual OP.',
-  path: 'our-story',
+  path: 'about',
 });
 
 const principles = [
@@ -42,7 +42,7 @@ const principles = [
   },
 ];
 
-export default function OurStoryPage() {
+export default function AboutPage() {
   return (
     <>
       <PageHero

@@ -13,9 +13,10 @@ export const revalidate = 300;
  */
 const ROUTES: Array<{ path: string; priority: number }> = [
   { path: '', priority: 1 },
-  { path: 'our-story', priority: 0.8 },
+  { path: 'about', priority: 0.8 },
   { path: 'what-we-treat', priority: 0.8 },
   { path: 'verify-insurance', priority: 0.8 },
+  { path: 'contact', priority: 0.7 },
   { path: 'blog', priority: 0.8 },
   // Low priority but deliberately indexable: the live site already serves this
   // URL, and a healthcare site should have a discoverable privacy policy.

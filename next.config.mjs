@@ -11,9 +11,9 @@
  *   slash-canonical today, so `true` is the convention that aligns everything.
  *
  * REDIRECTS
- * The old site's 9 indexed URLs are mapped below. Three slugs carry over
- * unchanged (`/`, `/our-story`, `/what-we-treat`) and `/privacy-policy` is now
- * a real page again, so only the renamed and retired URLs need entries.
+ * The old site's 9 indexed URLs are mapped below. Two slugs carry over
+ * unchanged (`/` and `/what-we-treat`) and `/privacy-policy` is now a real page
+ * again, so only the renamed and retired URLs need entries.
  * Destinations include the trailing slash so nothing takes a double hop.
  */
 
@@ -109,10 +109,14 @@ const nextConfig = {
         destination: '/blog/',
         permanent: true,
       })),
-      // Portfolio-standard alias for the about page (audit V0097). A full
-      // rename of /our-story -> /about is a portfolio-wide decision; this
-      // makes the standard slug resolve in the meantime.
-      { source: '/about', destination: '/our-story/', permanent: true },
+      // Audit V0097 — adopt the portfolio-standard `/about` slug. `/about` is
+      // now the canonical route; the old WordPress `/our-story/` (which IS
+      // indexed on the live site) redirects to it.
+      { source: '/our-story', destination: '/about/', permanent: true },
+      // Audit V0098 — `/contact` is the portfolio standard; catch the two
+      // variants used elsewhere in the portfolio so inbound links resolve.
+      { source: '/contact-us', destination: '/contact/', permanent: true },
+      { source: '/contact-location', destination: '/contact/', permanent: true },
       // Common inbound variant for the privacy page.
       { source: '/privacy', destination: '/privacy-policy/', permanent: true },
     ];

@@ -41,8 +41,16 @@ type LeadFields = {
   insurance?: string;
   memberId?: string;
   message?: string;
+  /** Which form this came from, e.g. `insurance_verification` or `contact`. */
+  form_key?: string;
   /** Honeypot — humans never fill this. */
   company?: string;
+};
+
+/** Human-readable labels for the known form keys. */
+const FORM_LABELS: Record<string, string> = {
+  insurance_verification: 'Insurance verification',
+  contact: 'Contact form',
 };
 
 /**
@@ -75,22 +83,33 @@ function escapeHtml(s: string): string {
     .replace(/"/g, '&quot;');
 }
 
-async function sendViaResend(fields: Required<Pick<LeadFields, 'name' | 'phone'>> & LeadFields) {
+async function sendViaResend(fields: {
+  name: string;
+  phone: string;
+  email: string;
+  insurance: string;
+  memberId: string;
+  message: string;
+  formKey: string;
+}) {
   const key = process.env.RESEND_API_KEY;
   const from = process.env.CONTACT_FROM;
   const to = process.env.CONTACT_TO || site.email;
   if (!key || !from || !to) return { sent: false, reason: 'not_configured' as const };
 
+  const label = FORM_LABELS[fields.formKey] ?? 'Website inquiry';
+
   const rows: Array<[string, string]> = [
+    ['Form', label],
     ['Name', fields.name],
-    ['Phone', fields.phone],
+    ['Phone', fields.phone || '—'],
     ['Email', fields.email || '—'],
     ['Insurance', fields.insurance || '—'],
     ['Member ID', fields.memberId || '—'],
     ['Message', fields.message || '—'],
   ];
 
-  const html = `<h2>New insurance verification request</h2>
+  const html = `<h2>New ${escapeHtml(label.toLowerCase())} submission</h2>
 <p><strong>Source:</strong> ${escapeHtml(site.url)} (server-side fallback — Clarion capture did not confirm)</p>
 <table cellpadding="6" style="border-collapse:collapse">
 ${rows
@@ -112,7 +131,7 @@ ${rows
         from,
         to: [to],
         reply_to: fields.email || undefined,
-        subject: `Insurance verification — ${fields.name}`,
+        subject: `${label} — ${fields.name}`,
         html,
       }),
     });
@@ -167,9 +186,12 @@ export async function POST(request: Request) {
     insurance: clean(body.insurance),
     memberId: clean(body.memberId),
     message: clean(body.message),
+    formKey: clean(body.form_key) || 'default',
   };
 
-  if (!fields.name || !fields.phone) {
+  // Name plus at least one way to reach the person back. The insurance form
+  // requires a phone in markup; /contact accepts phone OR email.
+  if (!fields.name || !(fields.phone || fields.email)) {
     return NextResponse.json(
       { ok: false, delivered: false, error: 'missing_required_fields' },
       { status: 422 },
@@ -186,6 +208,7 @@ export async function POST(request: Request) {
     JSON.stringify({
       tag: 'lead',
       at: new Date().toISOString(),
+      form: fields.formKey,
       name: fields.name,
       phone: fields.phone,
       email: fields.email || null,

@@ -60,17 +60,23 @@ export const nav: NavItem[] = [
       },
     ],
   },
-  { label: 'Our Story', href: '/our-story' },
+  { label: 'About', href: '/about' },
   { label: 'Blog', href: '/blog' },
-  { label: 'Verify Your Insurance', href: '/verify-insurance' },
+  { label: 'Contact', href: '/contact' },
+  // NOTE: "Verify Your Insurance" is intentionally NOT listed here. It is
+  // already a prominent gold CTA button in both the desktop header and the
+  // mobile menu panel, so listing it again duplicated the link — and the extra
+  // item pushed the desktop nav past its available width at exactly the `lg`
+  // breakpoint (1024px), wrapping two labels onto two lines.
 ];
 
 // Footer "Get Help" quick links
 export const footerLinks: NavChild[] = [
-  { label: 'Our Story', href: '/our-story' },
+  { label: 'About', href: '/about' },
   { label: 'What We Treat', href: '/what-we-treat' },
   { label: 'Verify Your Insurance', href: '/verify-insurance' },
   { label: 'Blog', href: '/blog' },
+  { label: 'Contact', href: '/contact' },
 ];
 
 // Legal / compliance links, surfaced in the footer bottom bar.

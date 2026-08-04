@@ -228,7 +228,7 @@ export default function HomePage() {
                 Explore What We Treat
                 <IconArrowRight className="h-5 w-5" />
               </Link>
-              <Link href="/our-story" className="btn-outline">
+              <Link href="/about" className="btn-outline">
                 Our Story
               </Link>
             </div>
@@ -411,7 +411,7 @@ export default function HomePage() {
                 relocating or disrupting your career or family.
               </p>
               <div className="mt-8">
-                <Link href="/our-story" className="btn-primary">
+                <Link href="/about" className="btn-primary">
                   Learn about our approach
                   <IconArrowRight className="h-5 w-5" />
                 </Link>

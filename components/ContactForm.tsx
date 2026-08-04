@@ -9,14 +9,18 @@ const fieldBase =
   'w-full rounded-xl border border-cream-300 bg-white px-4 py-3 text-ink placeholder:text-muted transition-colors focus:border-forest-400 focus:outline-none focus:ring-2 focus:ring-forest-500/40';
 
 /**
- * Insurance verification form.
+ * General contact form (audit V0098).
+ *
+ * Deliberately shorter than the insurance form: no member ID, no insurance
+ * carrier. Someone who just wants to ask a question should not have to hand over
+ * insurance details to do it.
  *
  * Delivery is handled by `useLeadDelivery` — see lib/useLeadDelivery.ts for why
  * the success screen requires confirmation and why this form must NOT carry a
  * `data-clarion-form` attribute.
  */
-export default function VerifyForm() {
-  const { status, submit } = useLeadDelivery('insurance_verification');
+export default function ContactForm() {
+  const { status, submit } = useLeadDelivery('contact');
   const successHeadingRef = useRef<HTMLHeadingElement>(null);
   const errorRef = useRef<HTMLParagraphElement>(null);
 
@@ -41,11 +45,11 @@ export default function VerifyForm() {
           tabIndex={-1}
           className="mt-5 font-display text-2xl font-bold text-forest-900 focus:outline-none"
         >
-          Thank you — we&apos;ve got it.
+          Message received.
         </h3>
         <p className="mx-auto mt-3 max-w-sm text-muted">
-          A member of our admissions team will reach out shortly. Need help right
-          now? We&apos;re available around the clock.
+          Someone from our team will get back to you shortly. If you&apos;d
+          rather not wait, our admissions line is open around the clock.
         </p>
         <a href={site.phoneHref} className="btn-primary mt-6">
           <IconPhone className="h-5 w-5" />
@@ -67,7 +71,7 @@ export default function VerifyForm() {
             tabIndex={-1}
             className="font-semibold text-forest-900 focus:outline-none"
           >
-            We couldn&apos;t submit your request.
+            We couldn&apos;t send your message.
           </p>
           <p className="mt-1.5 text-sm leading-relaxed text-muted">
             Something on our end failed — please don&apos;t let it stop you. Call
@@ -77,69 +81,108 @@ export default function VerifyForm() {
               className="font-semibold text-forest-800 underline decoration-gold-300 underline-offset-2"
             >
               {site.phone}
-            </a>{' '}
-            and we&apos;ll take your information over the phone, or try
-            submitting again.
+            </a>
+            , email{' '}
+            <a
+              href={`mailto:${site.email}`}
+              className="font-semibold text-forest-800 underline decoration-gold-300 underline-offset-2"
+            >
+              {site.email}
+            </a>
+            , or try again.
           </p>
         </div>
       )}
 
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="sm:col-span-2">
-          <label htmlFor="name" className="mb-1.5 block text-sm font-semibold text-forest-800">
+          <label
+            htmlFor="contact-name"
+            className="mb-1.5 block text-sm font-semibold text-forest-800"
+          >
             Full name <span className="text-gold-600">*</span>
           </label>
-          <input id="name" name="name" required autoComplete="name" className={fieldBase} placeholder="Your name" />
+          <input
+            id="contact-name"
+            name="name"
+            required
+            autoComplete="name"
+            className={fieldBase}
+            placeholder="Your name"
+          />
         </div>
 
         <div>
-          <label htmlFor="phone" className="mb-1.5 block text-sm font-semibold text-forest-800">
+          <label
+            htmlFor="contact-phone"
+            className="mb-1.5 block text-sm font-semibold text-forest-800"
+          >
             Phone <span className="text-gold-600">*</span>
           </label>
-          <input id="phone" name="phone" type="tel" required aria-required="true" autoComplete="tel" className={fieldBase} placeholder="(555) 555-5555" />
+          <input
+            id="contact-phone"
+            name="phone"
+            type="tel"
+            required
+            aria-required="true"
+            autoComplete="tel"
+            className={fieldBase}
+            placeholder="(555) 555-5555"
+          />
         </div>
 
         <div>
-          <label htmlFor="email" className="mb-1.5 block text-sm font-semibold text-forest-800">
-            Email
+          <label
+            htmlFor="contact-email"
+            className="mb-1.5 block text-sm font-semibold text-forest-800"
+          >
+            Email <span className="font-normal text-muted">(optional)</span>
           </label>
-          <input id="email" name="email" type="email" autoComplete="email" className={fieldBase} placeholder="you@email.com" />
-        </div>
-
-        <div>
-          <label htmlFor="insurance" className="mb-1.5 block text-sm font-semibold text-forest-800">
-            Insurance provider
-          </label>
-          <input id="insurance" name="insurance" className={fieldBase} placeholder="e.g. Blue Cross Blue Shield" />
-        </div>
-
-        <div>
-          <label htmlFor="memberId" className="mb-1.5 block text-sm font-semibold text-forest-800">
-            Member ID <span className="font-normal text-muted">(optional)</span>
-          </label>
-          <input id="memberId" name="memberId" className={fieldBase} placeholder="Found on your insurance card" />
+          <input
+            id="contact-email"
+            name="email"
+            type="email"
+            autoComplete="email"
+            className={fieldBase}
+            placeholder="you@email.com"
+          />
         </div>
 
         <div className="sm:col-span-2">
-          <label htmlFor="message" className="mb-1.5 block text-sm font-semibold text-forest-800">
-            How can we help? <span className="font-normal text-muted">(optional)</span>
+          <label
+            htmlFor="contact-message"
+            className="mb-1.5 block text-sm font-semibold text-forest-800"
+          >
+            How can we help? <span className="text-gold-600">*</span>
           </label>
-          <textarea id="message" name="message" rows={4} className={fieldBase} placeholder="Tell us a little about what you're looking for. This is completely confidential." />
+          <textarea
+            id="contact-message"
+            name="message"
+            rows={5}
+            required
+            className={fieldBase}
+            placeholder="Ask us anything — about the program, scheduling, insurance, or getting started. This is completely confidential."
+          />
         </div>
       </div>
 
       {/* Honeypot (hidden from humans) */}
       <div className="hidden" aria-hidden>
-        <label htmlFor="company">Company</label>
-        <input id="company" name="company" tabIndex={-1} autoComplete="off" />
+        <label htmlFor="contact-company">Company</label>
+        <input
+          id="contact-company"
+          name="company"
+          tabIndex={-1}
+          autoComplete="off"
+        />
       </div>
 
       <button
         type="submit"
         disabled={status === 'sending'}
-        className="btn-gold mt-6 w-full disabled:cursor-not-allowed disabled:opacity-70"
+        className="btn-primary mt-6 w-full disabled:cursor-not-allowed disabled:opacity-70"
       >
-        {status === 'sending' ? 'Sending…' : 'Verify My Insurance'}
+        {status === 'sending' ? 'Sending…' : 'Send Message'}
       </button>
 
       <p className="mt-4 flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-center text-sm text-muted">

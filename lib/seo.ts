@@ -16,7 +16,7 @@
 import type { Metadata } from 'next';
 import { site } from './site';
 
-/** Normalises `''`, `'our-story'` and `'/our-story'` to `'/our-story/'`. */
+/** Normalises `''`, `'about'` and `'/about'` to `'/about/'`. */
 export function canonicalPath(path = ''): string {
   const trimmed = path.replace(/^\/+|\/+$/g, '');
   return trimmed ? `/${trimmed}/` : '/';
@@ -34,7 +34,7 @@ export function pageMetadata({
   /** Page title WITHOUT the site-name suffix — the layout template adds it. */
   title: string;
   description: string;
-  /** Route path, e.g. `'our-story'` or `''` for the homepage. */
+  /** Route path, e.g. `'about'` or `''` for the homepage. */
   path?: string;
   image?: string;
   type?: 'website' | 'article';

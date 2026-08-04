@@ -139,7 +139,7 @@ export default function Header() {
                     href={item.href}
                     aria-haspopup="true"
                     aria-expanded={deskTreatOpen}
-                    className={`flex items-center gap-1 rounded-full px-3.5 py-2 text-sm font-semibold transition-colors ${
+                    className={`flex items-center gap-1 whitespace-nowrap rounded-full px-3.5 py-2 text-sm font-semibold transition-colors ${
                       isActive(item.href)
                         ? 'text-forest-900'
                         : 'text-forest-700 hover:text-forest-900'
@@ -174,7 +174,7 @@ export default function Header() {
                 <Link
                   key={item.label}
                   href={item.href}
-                  className={`rounded-full px-3.5 py-2 text-sm font-semibold transition-colors ${
+                  className={`whitespace-nowrap rounded-full px-3.5 py-2 text-sm font-semibold transition-colors ${
                     isActive(item.href)
                       ? 'text-forest-900'
                       : 'text-forest-700 hover:text-forest-900'
