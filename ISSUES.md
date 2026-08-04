@@ -179,8 +179,10 @@ competing facility's number on a healthcare site.
 
 ## Verification
 
-Every fix was confirmed against a local production build (`next build` + `next start`), not just
-by inspection:
+Every fix was confirmed twice — first against a local production build (`next build` +
+`next start`), then **re-run against the deployed production alias**
+`greater-texas-behavioral.vercel.app` after merging to `main` (deployment `6db655e`). Everything
+below passed in both environments:
 
 - `next build` clean — 20 routes; `next lint` clean; `tsc --noEmit` clean.
 - **Routes:** `/`, `/about/`, `/what-we-treat/`, `/verify-insurance/`, `/contact/`, `/blog/`,
@@ -197,8 +199,16 @@ by inspection:
   exactly one Clarion POST — never a duplicate — and no form ever claims success without
   confirmation.
 
+Additionally confirmed on production: all five security headers present (CSP,
+`X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy`, `Permissions-Policy`) alongside
+Vercel's HSTS; `robots.txt` disallows `/api/` and points at our own sitemap; `/api/lead/` returns
+405 on GET and 422 on an empty POST; and `855-416-5648` returns **0 occurrences** on all 7 routes
+while `877-590-3665` renders 10–16 times each.
+
 Reusable check scripts live in `_scrape/` (git-ignored): `lead-verify.mjs`, `csp-check.mjs`,
-`responsive-check.mjs`, `header-check.mjs`.
+`responsive-check.mjs`, `header-check.mjs`, `img-csp.mjs`. Their `BASE` currently points at the
+production alias; switch it to `http://127.0.0.1:3111` to run against a local `next start`.
+The lead-delivery script **mocks** the Clarion endpoint, so running it never creates real leads.
 
 ### Defects found and fixed while doing this work
 
