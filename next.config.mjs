@@ -24,6 +24,13 @@
  *
  * Matched as path params rather than the six known literals so any tag or
  * category published on production between now and cutover is covered too.
+ *
+ * `:slug*` (zero-or-more segments), NOT `:slug`. The single-segment form was the
+ * first fix and it left six live URLs still 404ing, because WordPress hangs a
+ * feed off every archive: `/category/blog/feed/`, `/tag/detox/feed/` and
+ * `/author/qhd-dev/feed/` all return 200 on production and are two segments deep.
+ * Verified 2026-08-11. The wildcard also covers nested categories and any depth
+ * added before cutover.
  */
 const ARCHIVE_PREFIXES = ['category', 'tag', 'author'];
 
@@ -134,16 +141,23 @@ const nextConfig = {
       // redirects. The canonical production slug is `/insurance-verification/`,
       // which is already handled above.
       { source: '/insurance', destination: '/verify-insurance/', permanent: true },
-      // Audit CR-15 — indexed WordPress archives -> the blog index.
+      // Audit CR-15 — indexed WordPress archives (and their per-archive feeds)
+      // -> the blog index. See ARCHIVE_PREFIXES above for why this is `:slug*`.
       ...ARCHIVE_PREFIXES.map((prefix) => ({
-        source: `/${prefix}/:slug`,
+        source: `/${prefix}/:slug*`,
         destination: '/blog/',
         permanent: true,
       })),
-      // Audit CR-17 — production `/feed/` (WordPress RSS) returns 200. We ship
-      // no feed, so subscribed aggregators would break silently at cutover.
-      // Sent to the blog index rather than building an RSS route for 6 posts.
-      { source: '/feed', destination: '/blog/', permanent: true },
+      // Audit CR-17 — WordPress RSS. `/feed/` returns 200 on production and so
+      // do its format variants: `/feed/atom/` is 200 and `/feed/rss/` is a live
+      // 301. We ship no feed, so subscribed aggregators would break silently at
+      // cutover. `:path*` catches every variant; sent to the blog index rather
+      // than building an RSS route for 6 posts.
+      { source: '/feed/:path*', destination: '/blog/', permanent: true },
+      // `/comments/feed/` is a separate WordPress endpoint (site-wide comment
+      // RSS), also 200 on production, and is NOT under /feed — it needs its own
+      // entry or it 404s.
+      { source: '/comments/:path*', destination: '/blog/', permanent: true },
       // Root-level WordPress posts now namespaced under /blog
       ...MIGRATED_POSTS.map((slug) => ({
         source: `/${slug}`,

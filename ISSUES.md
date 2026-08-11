@@ -420,6 +420,25 @@ of the five turned out to be imprecise** — see V0116 and V0135.
 - **Consider:** a build-time guard in `lib/staff.ts` that flags bios containing "intensive
   outpatient" or "Clinic", so portal edits can't silently reintroduce this. Cheap insurance given
   the content is owned by another system.
+  - [x] **Guard built** — `BIO_RED_FLAGS` in `lib/staff.ts`. Warns, never throws: a content problem
+        in an external system must not blank a page. Uses `\bclinics?\b` with word boundaries, which
+        is what avoids re-creating the "clinical" false positive recorded in 19a.
+  - [x] **Loop closed 2026-08-11 — `tests/staff-bio-drift.mjs`.** The guard alone did **not**
+        satisfy this row's stated purpose ("so portal edits can't silently reintroduce this"):
+        `console.warn` on Vercel lands in function logs nobody reads, so it documented the problem
+        instead of catching it. The new check reads the **same upstream feed** (the defect is in the
+        portal, not in our render) and is wired into `npm test`. Design notes:
+        - **Known-issue allowlist.** A permanently-red test trains people to ignore red tests. The
+          two live CR-02 findings are listed in `KNOWN` with their issue references: they print
+          loudly every run but do not fail the suite. **Anything not on that list fails hard.**
+          Delete the `KNOWN` entries when the portal is fixed and the check becomes strict.
+        - **Pattern-sync guard.** The check asserts each of its regexes appears verbatim in
+          `lib/staff.ts`, so the app guard and the test cannot drift apart.
+        - **Skips, never fails, on an unreachable feed** — mirroring `fetchStaff`'s rule that a
+          directory outage must not take a page down, so this never becomes a flaky CI gate.
+        - Also reports `photoUrl: null` per person, so CR-19b stays visible.
+        - **All three paths verified:** known-only → exit 0; unlisted drift → exit 1; a regex that
+          diverges from `lib/staff.ts` → exit 1.
 
 ## CR-03 — Placeholder testimonials presented as real reviews — `P0` — Business
 
@@ -727,6 +746,34 @@ URLs that all return HTTP 200 and are mapped nowhere** — every one 404s on the
       and to remove or rename the `qhd-dev` author archive.
 - [x] Verify: each of the 6 URLs returns 308 → `/blog/` → 200 against a local `next start`, and
       re-pull the production sitemap at cutover to catch any new tags.
+
+### 15b — the first fix was single-segment and left 6 live URLs still 404ing — ✅ FIXED 2026-08-11
+
+Found by reviewing the completed work rather than trusting it. The original patterns used `:slug`,
+which matches **exactly one** path segment — but WordPress hangs a feed off every archive, and those
+are two segments deep. Probed production directly:
+
+| URL | Production | Before this fix | Now |
+|---|---|---|---|
+| `/feed/` | 200 | 308 → `/blog/` ✅ | ✅ |
+| `/feed/atom/` | **200** | **404** | ✅ 1 hop → `/blog/` |
+| `/feed/rss/` | **301** | **404** | ✅ 1 hop → `/blog/` |
+| `/comments/feed/` | **200** | **404** | ✅ 1 hop → `/blog/` |
+| `/category/blog/feed/` | **200** | **404** | ✅ 1 hop → `/blog/` |
+| `/tag/detox/feed/` | **200** | **404** | ✅ 1 hop → `/blog/` |
+| `/author/qhd-dev/feed/` | **200** | **404** | ✅ 1 hop → `/blog/` |
+
+- **Fix applied:** `:slug` → `:slug*` (zero-or-more) on all three archive prefixes; `/feed` →
+  `/feed/:path*` to catch the format variants; and a **separate** `/comments/:path*` entry, because
+  `/comments/feed/` is not under `/feed` and no wildcard on `/feed` would ever have reached it.
+- **Why it was missed the first time:** the fix was scoped from the production **sitemap**, which
+  lists only the 6 flat archive URLs. Feeds are not in a sitemap — they had to be probed for
+  directly. Any future redirect work should probe, not just read the sitemap.
+- **Verified:** all 16 known production URLs (6 archives + 4 feed variants + 3 tags + `/insurance`,
+  `/insurance-verification/`, `/our-story/`) resolve in **exactly 1 hop** to a 200. `tsc`, `lint`,
+  `build` clean; all 7 test scripts pass.
+- **Revised count:** the cutover redirect map is **19 URLs**, not the 13 recorded earlier and not
+  the 4 V0135 claims.
 
 ## CR-16 — `/insurance` missing from the redirect map — `HIGH` — Dev
 

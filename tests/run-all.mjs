@@ -12,6 +12,9 @@ import { BASE } from './lib/base.mjs';
 
 const SCRIPTS = [
   'sanitize-html.test.mjs',
+  // Reads the upstream staff feed, not this site — no server needed, so it runs
+  // early alongside the other serverless check.
+  'staff-bio-drift.mjs',
   'lead-verify.mjs',
   'responsive-check.mjs',
   'header-check.mjs',
