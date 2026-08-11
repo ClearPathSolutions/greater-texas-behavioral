@@ -2,12 +2,15 @@
   "name": "greater-texas-behavioral",
   "version": "1.0.0",
   "private": true,
-  "description": "Greater Texas Behavioral — Virtual IOP for addiction & mental health across Texas",
+  "description": "Greater Texas Behavioral \u2014 Virtual IOP for addiction & mental health across Texas",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "node tests/run-all.mjs",
+    "test:unit": "node tests/sanitize-html.test.mjs",
+    "test:leads": "node tests/lead-verify.mjs"
   },
   "dependencies": {
     "next": "^14.2.35",

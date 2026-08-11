@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { LogoLight } from './Logo';
-import { footerLinks, legalLinks, site } from '@/lib/site';
+import { footerLinks, legalLinks, site, parentOrg } from '@/lib/site';
 import { IconPhone, IconMail, IconMapPin, IconArrowRight } from './ui/Icon';
 
 export default function Footer() {
@@ -47,6 +47,18 @@ export default function Footer() {
           <p className="mt-4 inline-flex items-center gap-2 rounded-full bg-white/5 px-3 py-1.5 text-xs font-medium text-sage-200">
             <IconMapPin className="h-4 w-4" />
             Serving all of Texas · 100% online
+          </p>
+          {/* Audit CR-18 — the reciprocal half of V0091. The parent site links
+              to no facility domain, and this site had no user-visible link back
+              to the parent at all. */}
+          <p className="mt-4 text-sm text-cream-100/60">
+            Part of{' '}
+            <a
+              href={parentOrg.url}
+              className="font-semibold text-cream-100/85 underline decoration-cream-100/30 underline-offset-2 transition-colors hover:text-cream-50"
+            >
+              {parentOrg.name}
+            </a>
           </p>
         </div>
 

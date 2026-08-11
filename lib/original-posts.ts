@@ -13,8 +13,15 @@
  *
  * NOTE FOR THE OWNER: please review the clinical framing before relying on it —
  * these were originally written for an in-person detox/residential facility.
+ *
+ * The phone number is interpolated from `site.phone`, never typed literally.
+ * It was hard-coded in five bodies until 2026-08-11, which is exactly how a
+ * number change leaves stale digits behind in prose — and V0043 was already a
+ * wrong-phone-number incident on this site. `body_html` is a template literal,
+ * so `${site.phone}` interpolates at module load with no runtime cost.
  */
 import type { ClarionPost } from './clarion-blog';
+import { site } from './site';
 
 export const originalPosts: ClarionPost[] = [
   {
@@ -56,7 +63,7 @@ export const originalPosts: ClarionPost[] = [
 <p>Our team walks with you through the entire process. We look at your mental health needs, your substance history, and the moments where you feel most vulnerable. Together we build a plan that includes therapy, coordination of medication support when needed, and real relapse-prevention skills. The goal is long-term stability, not a quick patch.</p>
 <h2>You Don&rsquo;t Have to Do This Alone</h2>
 <p>The holidays can be heavy. Many people feel overwhelmed this time of year, even if they don&rsquo;t say it out loud. If you&rsquo;re struggling, you&rsquo;re not failing &mdash; you&rsquo;re human. Asking for help is not giving up; it&rsquo;s choosing safety and relief.</p>
-<p>Greater Texas Behavioral offers a licensed Virtual OP and dual diagnosis care across Texas, and we can help you find safe detox when it&rsquo;s needed. Our admissions team is here to help &mdash; because crisis doesn&rsquo;t wait for the right moment. If you or someone you love feels unsafe or on the edge of relapse, reach out today. Call our admissions team at (877) 590-3665. You deserve support, and healing can start right now.</p>
+<p>Greater Texas Behavioral offers a licensed Virtual OP and dual diagnosis care across Texas, and we can help you find safe detox when it&rsquo;s needed. Our admissions team is here to help &mdash; because crisis doesn&rsquo;t wait for the right moment. If you or someone you love feels unsafe or on the edge of relapse, reach out today. Call our admissions team at ${site.phone}. You deserve support, and healing can start right now.</p>
 `,
   },
 
@@ -119,7 +126,7 @@ export const originalPosts: ClarionPost[] = [
 <p>Our licensed Texas clinicians deliver evidence-based therapy &mdash; including cognitive behavioral therapy (CBT) and relapse-prevention planning &mdash; on a schedule that fits around work, school, and family.</p>
 <h2>Take the First Step Toward Recovery</h2>
 <p>Detox is a critical step in overcoming addiction. By safely managing withdrawal and preparing the body and mind for treatment, it lays the foundation for meaningful, lasting recovery.</p>
-<p>If you or your loved one is struggling with alcohol, benzodiazepines, stimulants, opioids, or other substances, we&rsquo;re here to help. Greater Texas Behavioral can guide you through the process &mdash; from connecting you to safe detox to structured virtual treatment for the long term. Call us at (877) 590-3665 to get started.</p>
+<p>If you or your loved one is struggling with alcohol, benzodiazepines, stimulants, opioids, or other substances, we&rsquo;re here to help. Greater Texas Behavioral can guide you through the process &mdash; from connecting you to safe detox to structured virtual treatment for the long term. Call us at ${site.phone} to get started.</p>
 `,
   },
 
@@ -161,7 +168,7 @@ export const originalPosts: ClarionPost[] = [
 <p>Because our program is fully virtual, you get consistent, accountable clinical support &mdash; therapist-led groups and individual sessions &mdash; without leaving work, school, or family. When medication support is appropriate, we help coordinate it as part of your plan.</p>
 <h2>Moving Toward a Purposeful February</h2>
 <p>Recovery shouldn&rsquo;t be a 31-day trial; it should be a lasting transformation. Greater Texas Behavioral provides a real continuum of care &mdash; from helping you connect to detox when needed, to structured Virtual OP and dual diagnosis treatment across Texas.</p>
-<p>If this January has shown you that your relationship with alcohol is more complex than a New Year&rsquo;s resolution can fix, we&rsquo;re here to help you build a foundation that lasts. Call us at (877) 590-3665 to get started.</p>
+<p>If this January has shown you that your relationship with alcohol is more complex than a New Year&rsquo;s resolution can fix, we&rsquo;re here to help you build a foundation that lasts. Call us at ${site.phone} to get started.</p>
 `,
   },
 
@@ -195,7 +202,7 @@ export const originalPosts: ClarionPost[] = [
 <p>Successful recovery includes a plan after formal treatment. Our team helps you transition into continuing care, support groups, and local resources to maintain progress.</p>
 <h2>The Benefits of Virtual Treatment in Texas</h2>
 <p>Virtual care offers real advantages. You can stay close to family and keep up with work or school while accessing high-quality clinical care from licensed Texas professionals &mdash; no relocation, no waiting for a bed, and no long commutes. For many people, that accessibility is the difference between getting help now and putting it off.</p>
-<p>Greater Texas Behavioral accepts most major insurance plans and assists with benefit verification. Our admissions team works to make treatment accessible and confidential for individuals and families across Texas. Call us at (877) 590-3665 to get started.</p>
+<p>Greater Texas Behavioral accepts most major insurance plans and assists with benefit verification. Our admissions team works to make treatment accessible and confidential for individuals and families across Texas. Call us at ${site.phone} to get started.</p>
 `,
   },
 
@@ -258,7 +265,7 @@ export const originalPosts: ClarionPost[] = [
 <li>Help coordinate safe detox with trusted medical providers when it&rsquo;s needed</li>
 <li>Continue your care through structured virtual treatment once you&rsquo;re stabilized</li>
 </ul>
-<p>Help is available, and the right care can often be arranged quickly when it&rsquo;s medically necessary. Confidential support is just a phone call away &mdash; call (877) 590-3665.</p>
+<p>Help is available, and the right care can often be arranged quickly when it&rsquo;s medically necessary. Confidential support is just a phone call away &mdash; call ${site.phone}.</p>
 `,
   },
 ];

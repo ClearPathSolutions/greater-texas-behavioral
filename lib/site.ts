@@ -28,6 +28,38 @@ export const site = {
     country: 'United States',
   },
   copyrightHolder: 'Greater Texas Behavioral',
+  /**
+   * Legal / DBA entity name (facility registry FR-2, resolved 2026-08-11).
+   *
+   * The registry's company field, the master bios doc, the live portal bio and
+   * the folder the official brand assets were delivered in all say "Greater
+   * Texas Behavioral **Clinic**". The marketing name deliberately stays
+   * "Greater Texas Behavioral" — a shorter trading name is normal, and "Clinic"
+   * implies a physical place, which is the exact signal `/contact` withholds
+   * because GTB is 100% telehealth (`address` below is region-only, and the
+   * registry itself records `Address: Virtual`).
+   *
+   * THIS DIVERGENCE IS INTENTIONAL — do not "correct" `name` to match. It is
+   * recorded here so the next reader does not treat it as drift, and so the
+   * privacy policy's outstanding item 1 (legal entity) has a single source.
+   * Still needs counsel sign-off, along with a mailing address if they require
+   * one for privacy-rights requests.
+   */
+  legalName: 'Greater Texas Behavioral Clinic',
+} as const;
+
+/**
+ * Parent organisation (audit CR-18 / V0091).
+ *
+ * The parent passes no authority to this site and this site had no user-visible
+ * link back — the only reference to `quadranthealthgroup.com` anywhere in the
+ * repo was the staff-feed API origin in `lib/staff.ts`. The reciprocal half
+ * (getting GTB named and linked on the parent's /locations page) is V0090 and
+ * is not fixable from here.
+ */
+export const parentOrg = {
+  name: 'Quadrant Health Group',
+  url: 'https://quadranthealthgroup.com',
 } as const;
 
 /**

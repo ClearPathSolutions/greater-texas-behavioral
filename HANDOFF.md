@@ -38,11 +38,26 @@ npx tsc --noEmit          # must stay clean
 npx next lint             # must stay clean
 npx next build            # must stay clean
 npx next start -p 3111    # verify against http://127.0.0.1:3111
+npm test                  # tracked verification suite (CR-05), needs the server above
 ```
 
-Verify against a local production build or live production. **The Vercel preview is behind
-Deployment Protection** and 302s every request to `vercel.com/sso-api` — you cannot check it over
-HTTP.
+Verify against a local production build or live production.
+
+**CORRECTED 2026-08-11.** This section previously said the Vercel preview is behind Deployment
+Protection and "you cannot check it over HTTP." That is true of **branch previews** only. The
+**production alias** `greater-texas-behavioral.vercel.app` is **public and returns 200** — its
+`robots.txt`, rendered pages and metadata are all checkable with plain `curl`. As written the
+warning removed a verification channel that works, including the only way to check CR-02's live
+staff-bio text without a local build. `ISSUES.md:1442-1444` had it right.
+
+⚠️ Two build-time gotchas that will waste your time otherwise:
+
+- **`/robots.txt` and `/sitemap.xml` are static**, so `VERCEL_ENV` and the sitemap dates are baked
+  at `next build`. Setting an env var on `next start` changes nothing.
+- **Kill any old server before re-testing.** `pkill -f "next start"` does not match the real
+  process name (`next-server`). A stale server keeps port 3111, the new one dies with
+  `EADDRINUSE`, and you get a screen of bogus MIME/400 failures from mismatched chunk hashes.
+  Use `kill $(lsof -ti:3111)`.
 
 ---
 

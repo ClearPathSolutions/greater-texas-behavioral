@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import { Inter, Plus_Jakarta_Sans } from 'next/font/google';
 import Script from 'next/script';
 import './globals.css';
-import { site, clarion } from '@/lib/site';
+import { site, clarion, parentOrg } from '@/lib/site';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
@@ -71,11 +71,18 @@ export default function RootLayout({
     '@context': 'https://schema.org',
     '@type': 'MedicalBusiness',
     name: site.name,
+    legalName: site.legalName,
     description: site.description,
     url: site.url,
     telephone: site.phone,
     email: site.email,
     areaServed: { '@type': 'State', name: 'Texas' },
+    // Audit CR-18 — the machine-readable half of the parent relationship.
+    parentOrganization: {
+      '@type': 'Organization',
+      name: parentOrg.name,
+      url: parentOrg.url,
+    },
     medicalSpecialty: ['Psychiatric', 'Addiction Medicine'],
     availableService: [
       { '@type': 'MedicalTherapy', name: 'Virtual Outpatient Program (OP)' },

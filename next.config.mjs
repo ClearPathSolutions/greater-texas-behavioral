@@ -98,6 +98,26 @@ const nextConfig = {
   trailingSlash: true,
   images: {
     formats: ['image/avif', 'image/webp'],
+    /**
+     * Staff headshots from the Quadrant support portal (audit CR-20).
+     *
+     * Safe to optimize here, unlike blog covers: this host is single, known and
+     * fixed — `lib/staff.ts` derives it from `STAFF_FEED_ORIGIN` and defaults to
+     * this origin, so a CMS editor cannot introduce an unlisted hostname. Blog
+     * cover hosts ARE editor-controlled and unbounded, which is why
+     * `components/BlogCover.tsx` deliberately keeps them off `next/image` (an
+     * unlisted host throws at request time and would 500 the blog).
+     *
+     * If STAFF_FEED_ORIGIN is ever pointed at another environment, add it here
+     * too or the avatars will throw.
+     */
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'support.quadranthealthgroup.com',
+        pathname: '/**',
+      },
+    ],
   },
   async redirects() {
     return [

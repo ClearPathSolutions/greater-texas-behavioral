@@ -20,6 +20,124 @@ Spreadsheet columns: `Issue ID | Facility | Issue | Location | Fix | Status | Ve
 
 ---
 
+# Execution pass — 2026-08-11 (branch `audit/backlog-2026-08`)
+
+Worked the HANDOFF.md waves. **18 tasks closed in code and verified; 73 checkboxes remain**, all of
+them either non-code (portal, WordPress, parent site, counsel, business) or blocked on a decision.
+
+## Closed and verified in code
+
+| ID | What changed |
+|---|---|
+| CR-03 | Fabricated testimonials deleted (Option B). `components/Testimonials.tsx` removed; the homepage slot now renders real portal clinicians via `StaffGrid`. |
+| CR-04 | `matchMedia('(min-width: 1024px)')` listener closes the menu at the breakpoint. Repro is now a tracked test. |
+| CR-05 | 5 scripts moved to a tracked `tests/`, `BASE` parameterised (defaults to local), `npm test` aggregate added, CR-04 repro added, plus a new 39-case sanitizer unit test. |
+| CR-06 | `next` + `eslint-config-next` → 14.2.35. |
+| CR-07 | New `lib/sanitize-html.ts`, allowlist-based, wired into `app/blog/[slug]`. 39/39 tests pass. |
+| CR-08 | "all major" → "most major PPO insurance plans"; both `35+ more` chips → "and many more"; "In-network & out-of-network with" → "We verify benefits with". |
+| CR-10 | "The best in virtual treatment" → "Why our Virtual OP works". |
+| CR-11 | 7 unreferenced assets deleted (3.57 MB). `public/` 11 MB → 7.6 MB. |
+| CR-12 | `clarion.blogEmbedSrc` removed with a pointer comment. |
+| CR-13 | Sitemap static routes now carry hand-maintained `updated` dates. |
+| CR-15 | `/category/:slug`, `/tag/:slug`, `/author/:slug` → `/blog/`. |
+| CR-16 | `/insurance` → `/verify-insurance/`. |
+| CR-17 | `/feed` → `/blog/`. |
+| CR-18 | Footer "Part of Quadrant Health Group" link + `parentOrganization` in the JSON-LD. |
+| CR-20 | `images.remotePatterns` for the portal host; both call sites on `next/image`; both eslint disables gone. |
+| FR-2 | `site.legalName = 'Greater Texas Behavioral Clinic'` recorded, with a comment stating the marketing-name divergence is intentional. The "drop Clinic" half of CR-02/CR-19a is **dropped**; the IOP→OP half stands. |
+
+### Verification run
+
+`tsc --noEmit`, `next lint`, `next build` clean — 21 routes, 87.3 kB shared JS. All 9 routes 200.
+`canonical == og:url` and exactly one `<h1>` on all 8 static routes. 5 security headers, no cookies.
+`/api/lead/` GET 405, empty POST 422.
+
+**All 7 new redirects are single-hop 308 from the slash form**, which is the form production links
+(production is slash-canonical). The slashless form takes 2 hops because `trailingSlash: true`
+normalises it first — that is inherent to the setting and applies equally to the pre-existing
+redirects verified on 2026-08-04, so it is not a regression.
+
+`npm test` — **all 6 scripts pass**: 8/8 lead-delivery scenarios (exactly one Clarion POST each,
+never a duplicate; no false success), responsive 360/768/1440 + menu + CR-04, header fit at
+1024–1440, zero CSP/runtime errors on 9 routes, remote blog cover decodes.
+
+The CR-04 test was confirmed to actually catch the bug: with the fix reverted it reports
+`overflow="hidden" aria-expanded=true` and fails. It uses a real `mouse.wheel`, not
+`window.scrollTo` — programmatic scrolling moves `scrollY` even while `body{overflow:hidden}`
+blocks the user, so `scrollTo` reports success on the very bug being tested.
+
+## New findings from this pass
+
+### CR-21 is BLOCKED, and the reason is bigger than the row said — `P2` — brand owner
+
+CR-21 described an aspect-ratio mismatch (2.5:1 shipped vs 1.09:1 official) and instructed swapping
+`LogoLight`'s hand-set wordmark for `greater-tx-behavioral-white.png`. **I did not do the swap.**
+Rendering the assets — rather than reading their metadata — shows the row understated the problem:
+
+- **The glyph inside the Texas outline is different.** Shipping (`logo-horizontal.png`,
+  `logo-mark.png`) = a **medical cross**. Official (all 5 files) = **two speech bubbles**. These are
+  different marks, not two crops of one lockup.
+- Swapping only the footer would put speech bubbles in the footer and a cross in the header **on
+  every page**. That is worse than either state alone, so the swap is gated on CR-21's own first
+  checkbox: *"Confirm with the brand owner which lockup is current."*
+- **Additional defect the row missed:** `logo-mark.png` is not a mark. It is the **full horizontal
+  lockup padded into a 512×512 square**, and `LogoLight` renders it at 36 px inside a 44 px badge
+  *next to* the hand-set words — so the footer currently shows the wordmark **twice**, once
+  illegibly. Fixing this properly needs the same brand answer.
+
+A side-by-side comparison sheet was generated for the brand owner at
+`~/Downloads/Greater Texas Behavioral Clinic/BRAND-DISCREPANCY-2026-08-11.png`.
+
+- [ ] Brand owner: is the current mark the **medical cross** or the **two speech bubbles**?
+- [ ] Then update header, footer badge and `logo-mark.png` together, from the official source.
+
+### Gaps filed and fixed — no audit row covered these
+
+1. **The Vercel alias was publicly indexable and cross-canonicalled to the WordPress domain.**
+   `app/robots.ts` emitted `Allow: /` unconditionally while every page canonicalled to
+   `greatertexasbehavioral.com`, which until cutover serves different content and 404s four of those
+   URLs. Now gated on `VERCEL_ENV === 'production'`. **Note it is baked at build time** — a static
+   route — so `VERCEL_ENV=production next start` does nothing; the build is what matters. Verified
+   both directions.
+2. **The insurance carrier list was inherited verbatim from Seaside.** Seven of fifteen entries were
+   unsupportable for a Texas-only provider: Anthem (not in Texas), MVP (NY), HealthPartners (MN),
+   Horizon (NJ), Medical Mutual (OH), and Beacon + ValueOptions — the same defunct entity twice
+   (ValueOptions → Beacon 2014 → Carelon 2022). Pruned to the eight that plainly operate in Texas.
+   **Nothing was added** — naming a carrier is a payer-relationship claim.
+   - [ ] Admissions: confirm the real contracted payer list. Superior HealthPlan, Molina of Texas,
+         Carelon Behavioral Health and Magellan are the likely Texas additions.
+3. **`(877) 590-3665` was hard-coded in 5 blog bodies.** Now `${site.phone}`. V0043 was a
+   wrong-phone-number incident, so stale digits in prose is a live recurrence path.
+4. **README.md documented three paths that do not exist** (`app/our-story/`, `app/api/contact/`,
+   `lib/blog.ts`) and omitted `/team`, `/contact`, `/privacy-policy`, `lib/seo.ts`, `lib/staff.ts`,
+   `lib/useLeadDelivery.ts` and both integrations. Rewritten, with a "things that look wrong but are
+   deliberate" section so the landmines survive outside HANDOFF.md.
+
+### HANDOFF.md correction
+
+Its Commands section claimed the Vercel preview cannot be checked over HTTP. That is true of
+**branch** previews; the **production alias is public and returns 200**. As written it removed a
+working verification channel — including the only way to check CR-02's live bio text without a local
+build. Corrected in place; `ISSUES.md:1442-1444` was already right.
+
+## Still blocked — not startable in code
+
+- **FR-1 (SUD vs MH scope)** — unresolved, so **no SUD content was touched**. Per this file's own
+  reading the likeliest answer is an unfilled registry cell, and the "SUD in scope" outcome needs
+  zero site changes; that is the state the site is in. Do not start content work until clinical or
+  compliance answers.
+- **CR-19c (clinical leadership)** — the absence is corroborated in all three sources. Nothing was
+  added to `/team`: asserting shared Quadrant-level oversight without confirmation would invent a
+  clinical claim.
+- **CR-01 (Vercel token)** — `lib/.env` deliberately left in place. Rotation happens in the Vercel
+  dashboard and only you can do it; deleting the file first would destroy the value without
+  revoking the token. Delete it after rotating.
+- **CR-07 trust boundary** — who can publish to Clarion? If anyone beyond the owner, replace the
+  hand-rolled sanitizer with a parser-based library.
+- All Wave 4 items (portal, WordPress, parent site, counsel, business) are unchanged.
+
+---
+
 # Open tasks — code-review pass 2026-08-11
 
 Source: full read of `app/`, `components/`, `lib/` and all configs, verified against a local
@@ -36,17 +154,17 @@ no audit row covers. See "Pass 3 — audit workbook reconciliation" below.
 |----|----------|-------|--------|---------|
 | CR-01 | **P0** | Ben | ☐ Open | Live Vercel API token in plaintext at `lib/.env` — rotate |
 | CR-02 | **P0** | Portal editor | ☐ Open | Staff bio says "intensive outpatient program" + "Clinic" — contradicts Virtual OP + telehealth-only |
-| CR-03 | **P0** | Business | ☐ Open | Placeholder testimonials are presented as real reviews |
-| CR-04 | **P1** | Dev | ☐ Open | Mobile menu + viewport resize permanently locks page scroll (repro confirmed) |
-| CR-05 | **P1** | Dev | ☐ Open | Lead-delivery tests live in git-ignored `_scrape/` — untracked, unrunnable in CI |
-| CR-06 | **P1** | Dev | ☐ Open | Bump `next` 14.2.15 → 14.2.35 (patch line, clears most advisories) |
-| CR-07 | **P1** | Dev | ☐ Open | Clarion `body_html` rendered unsanitized under `script-src 'unsafe-inline'` |
-| CR-08 | P2 | Dev | ☐ Open | "We work with **all** major insurance carriers" contradicts "most major PPO" sitewide |
+| CR-03 | **P0** | Business | ✅ **FIXED** (Option B) | Placeholder testimonials are presented as real reviews |
+| CR-04 | **P1** | Dev | ✅ **FIXED** | Mobile menu + viewport resize permanently locks page scroll (repro confirmed) |
+| CR-05 | **P1** | Dev | ✅ **FIXED** | Lead-delivery tests live in git-ignored `_scrape/` — untracked, unrunnable in CI |
+| CR-06 | **P1** | Dev | ✅ **FIXED** | Bump `next` 14.2.15 → 14.2.35 (patch line, clears most advisories) |
+| CR-07 | **P1** | Dev | ✅ **FIXED** | Clarion `body_html` rendered unsanitized under `script-src 'unsafe-inline'` |
+| CR-08 | P2 | Dev | ✅ **FIXED** | "We work with **all** major insurance carriers" contradicts "most major PPO" sitewide |
 | CR-09 | P2 | Business | ☐ Open | "Many clients pay little to nothing" — unsubstantiated financial claim |
-| CR-10 | P2 | Dev | ☐ Open | "The best in virtual treatment" — bare superlative on a healthcare page |
-| CR-11 | P3 | Dev | ☐ Open | 3.6 MB of unreferenced assets ship in the deploy, incl. Seaside leftovers |
-| CR-12 | P3 | Dev | ☐ Open | Dead config: `clarion.blogEmbedSrc` never referenced |
-| CR-13 | P3 | Dev | ☐ Open | `sitemap.xml` stamps `lastModified: now` on every build — false change signal |
+| CR-10 | P2 | Dev | ✅ **FIXED** | "The best in virtual treatment" — bare superlative on a healthcare page |
+| CR-11 | P3 | Dev | ✅ **FIXED** | 3.6 MB of unreferenced assets ship in the deploy, incl. Seaside leftovers |
+| CR-12 | P3 | Dev | ✅ **FIXED** | Dead config: `clarion.blogEmbedSrc` never referenced |
+| CR-13 | P3 | Dev | ✅ **FIXED** | `sitemap.xml` stamps `lastModified: now` on every build — false change signal |
 | CR-14 | P3 | Business | ☐ Open | Blog is ~6 months stale (newest post 2026-02-23) |
 
 ### Carried over — still open from the 2026-08-04 pass
@@ -68,12 +186,12 @@ Confirmed still outstanding on 2026-08-11. Detail lives in the sections further 
 | ID | Priority | Owner | Status | Summary |
 |----|----------|-------|--------|---------|
 | V0134 | **HIGH** | Ben (WordPress) | ☐ Open | Florida/Seaside content live on the Texas domain — 2 posts, still HTTP 200 today |
-| CR-15 | **HIGH** | Dev | ☐ Open | 6 indexed taxonomy/author URLs missing from the cutover redirect map — will 404 |
-| CR-16 | **HIGH** | Dev | ☐ Open | `/insurance` (301 alias on production) missing from the redirect map — will 404 |
+| CR-15 | **HIGH** | Dev | ✅ **FIXED** | 6 indexed taxonomy/author URLs missing from the cutover redirect map — will 404 |
+| CR-16 | **HIGH** | Dev | ✅ **FIXED** | `/insurance` (301 alias on production) missing from the redirect map — will 404 |
 | V0116 | HIGH | Dev | ◐ Folded | Preview-vs-production slug change for GTB — actioned as CR-16 |
 | V0094 | P2 | Business | ☐ Decide | Portfolio treatment-hub standard is `/treatment`; GTB uses `/what-we-treat` (uncounted 5th variant) |
 | V0099 | P2 | Business | ☐ Decide | Portfolio FAQ standard is `/faq`; GTB has no FAQ page (1 of 7 sites) |
-| CR-17 | P3 | Dev | ☐ Open | Production `/feed/` returns 200; the build has no RSS feed — aggregators break at cutover |
+| CR-17 | P3 | Dev | ✅ **FIXED** | Production `/feed/` returns 200; the build has no RSS feed — aggregators break at cutover |
 | V0124 | **CRITICAL** (portfolio) | Ben | ☑ Clear, re-run | Cutover content gap — GTB verified unaffected 2026-08-11; must be re-run at cutover |
 | V0135 | MEDIUM | Dev | ☑ Satisfied | 4-pair redirect map — already in `next.config.mjs`; but the row undercounts (see CR-15/16) |
 | V0101 | — | — | 🔒 Closed | Blog URL pattern — GTB build already on the `/blog/slug` standard |
@@ -86,7 +204,7 @@ Confirmed still outstanding on 2026-08-11. Detail lives in the sections further 
 |----|----------|-------|--------|---------|
 | V0090 | **HIGH** | Ben / parent | ☐ Open | GTB absent from the Quadrant parent site entirely — `/locations/` names it **0 times**, its page 404s |
 | V0091 | P2 | Ben / parent | ☐ Open | Parent passes no authority to GTB — 0 outbound facility links on `/locations/` |
-| CR-18 | P2 | Dev | ☐ Open | Reciprocal half of V0091: this site has **no user-visible link to the parent** at all |
+| CR-18 | P2 | Dev | ✅ **FIXED** | Reciprocal half of V0091: this site has **no user-visible link to the parent** at all |
 | VIS-2 | P3 | Parent site | ☐ Open | Parent `/locations` "missing facilities" row names GTB — corroborates V0090 |
 | VIS-3 | P3 | Parent site | ☐ Open | Parent `/about/meet-the-team` should group Texas facilities incl. GTB |
 | V0046 | — | — | 🔒 Withdrawn | GTB "missing H1" — false, withdrawn. Carries a methodology warning worth keeping |
@@ -100,7 +218,7 @@ portal — **no bios need adding**:
 | CR-19a | **P0** | Doc owner | ☐ Open | The IOP / "Clinic" error is in the **master doc**, not just the portal — upstream half of CR-02 |
 | CR-19c | **P1** | Business | ☐ Decide | No Clinical/Medical Director published — only 1 therapist + 2 case managers |
 | CR-19b | P2 | Portal editor | ☐ Open | All 3 staff have `photoUrl: null` — **the photos exist and are unuploaded**, none are missing |
-| CR-20 | P2 | Dev | ☐ Open | Staff photos bypass `next/image` and no `remotePatterns` exists — originals are **2.9 MB** for three 96px avatars |
+| CR-20 | P2 | Dev | ✅ **FIXED** | Staff photos bypass `next/image` and no `remotePatterns` exists — originals are **2.9 MB** for three 96px avatars |
 | CR-21 | P2 | Dev / brand | ☐ Open | Official logo set exists in `~/Downloads/Greater Texas Behavioral Clinic/`; footer wordmark is a **CSS reconstruction** and the header lockup matches no official file |
 | CR-19d | P3 | Portal editor | ☐ Open | Portal flattens the authors' paragraph breaks; `bioParagraphs()` heuristic covers it |
 
@@ -111,7 +229,7 @@ Read from an owner-supplied screenshot; the sheet itself is access-restricted (4
 | ID | Priority | Owner | Status | Summary |
 |----|----------|-------|--------|---------|
 | FR-1 | **P0 — confirm first** | Clinical / compliance | ☐ Open | Registry marks GTB **`MH` only, `SUD` blank** — but the site is saturated with addiction/detox content (`detox` ×71, `addiction` ×45) and declares `Addiction Medicine` in its JSON-LD |
-| FR-2 | **P1** | Business / counsel | ☐ Decide | Registry company name is "Greater Texas Behavioral **Clinic**" — third source using "Clinic"; **amends CR-02 and CR-19a** |
+| FR-2 | **P1** | Business / counsel | ✅ **RECORDED** | Registry company name is "Greater Texas Behavioral **Clinic**" — third source using "Clinic"; **amends CR-02 and CR-19a** |
 | FR-3 | P2 | Business | ☐ Open | No Google Business Profile — **closes CO-7**, and blocks CR-03 Option A |
 
 ### Workbook coverage — what the 5 tabs actually contain for GTB
@@ -226,7 +344,7 @@ Pick one:
       Business Profile** (`GMB Review Link = -`), so there is no existing review pipeline to draw
       from — which is also why no verbatim quotes could be carried over from the old site. Reviews
       would have to be collected from scratch. **Option B is now the realistic path.**
-- [ ] **Option B:** delete the section and put something truthful in the slot — the clinical
+- [x] **Option B:** delete the section and put something truthful in the slot — the clinical
       approach, what a week in the program looks like, or the licensure/credentials of the team
       (which `/team` now has real data for).
 - [ ] **Option C (stopgap only, if launch can't wait):** keep the layout but remove every claim of
@@ -251,7 +369,7 @@ Pick one:
 - **Cause:** `open` is reset on route change (`[pathname]`) and by Escape, but never by a viewport
   change, and both the panel and its toggle are hidden at `lg`.
 
-- [ ] Add a `matchMedia('(min-width: 1024px)')` listener in `Header.tsx` that calls
+- [x] Add a `matchMedia('(min-width: 1024px)')` listener in `Header.tsx` that calls
       `setOpen(false)` when it matches, so the state follows the breakpoint that hides the UI.
       Keep the existing cleanup that restores `document.body.style.overflow`.
 - [ ] Verify: the repro above ends with `body.style.overflow === ''` and a wheel scroll moving
@@ -270,14 +388,14 @@ Pick one:
 - **Context:** `playwright` is already a devDependency, so there is no new tooling cost. The repo
   currently has **zero** tracked tests.
 
-- [ ] Move the five scripts into a tracked `tests/` directory and drop the `_scrape` ignore for
+- [x] Move the five scripts into a tracked `tests/` directory and drop the `_scrape` ignore for
       them.
-- [ ] Parameterise `BASE` via env (default `http://127.0.0.1:3111`) instead of the hard-coded
+- [x] Parameterise `BASE` via env (default `http://127.0.0.1:3111`) instead of the hard-coded
       production alias, so a local `next start` is the default target. Keep the Clarion endpoint
       **mocked** — the current script mocks it, which is why running it never creates real leads.
       Preserve that property and say so in a header comment.
-- [ ] Add npm scripts, e.g. `"test:e2e": "node tests/lead-verify.mjs"` plus a `test` aggregate.
-- [ ] Add the CR-04 resize repro as a case in `responsive-check.mjs`.
+- [x] Add npm scripts, e.g. `"test:e2e": "node tests/lead-verify.mjs"` plus a `test` aggregate.
+- [x] Add the CR-04 resize repro as a case in `responsive-check.mjs`.
 - [ ] Verify: a fresh clone + `npm ci` + `npm run build` + `npm start` + `npm test` passes with no
       files from `_scrape/`.
 
@@ -303,7 +421,7 @@ Pick one:
   near-miss, not an incident.
 - **Do NOT run `npm audit fix --force`** — it resolves to `next@16.3.0`, a two-major breaking jump.
 
-- [ ] `npm i next@14.2.35 eslint-config-next@14.2.35`
+- [x] `npm i next@14.2.35 eslint-config-next@14.2.35`
 - [ ] Verify: `npx tsc --noEmit`, `npx next lint`, `npx next build` all clean; re-run the route /
       redirect / header / metadata checks in Baseline below; re-run `npm audit --omit=dev` and
       record what remains.
@@ -343,9 +461,9 @@ Pick one:
 - **"All" is unsubstantiable** and is the kind of absolute that draws advertising complaints. The
   adjacent `35+ more` chip (`:136`) is also a specific number nothing supports.
 
-- [ ] Change the heading to "We work with most major insurance carriers" (or "…most major PPO
+- [x] Change the heading to "We work with most major insurance carriers" (or "…most major PPO
       plans" to match `site.description` exactly).
-- [ ] Either substantiate `35+ more` against the real payer list or soften it to "and many more".
+- [x] Either substantiate `35+ more` against the real payer list or soften it to "and many more".
       Same chip appears in `components/InsuranceStrip.tsx:54` — fix both.
 - [ ] Verify: `grep -rn "all major" app components lib` returns nothing.
 
@@ -368,7 +486,7 @@ Pick one:
 - A bare superlative with no basis, on a clinical page. Inconsistent with the restraint everywhere
   else in the copy ("a leading online OP", "evidence-based", "structured").
 
-- [ ] Replace with something factual — e.g. "Why our Virtual OP works" or "What sets our program
+- [x] Replace with something factual — e.g. "Why our Virtual OP works" or "What sets our program
       apart".
 
 ## CR-11 — 3.6 MB of unreferenced assets ship in the deploy — `P3` — Dev
@@ -388,7 +506,7 @@ Not referenced anywhere in `app/`, `components/` or `lib/`:
 `public/` is 11 MB total, so this is roughly a third of it, served from the deploy for no reason.
 The two Seaside blog images are also the last inherited Florida assets in the tree.
 
-- [ ] Delete the seven files.
+- [x] Delete the seven files.
 - [ ] Verify: `next build` clean, then re-run the unreferenced-asset scan — for each file in
       `public/`, `grep -rqF "$(basename f)" app components lib`.
 - **Separate, do not conflate:** 15 images in `public/` exceed 400 KB at source. Served bytes are
@@ -402,7 +520,7 @@ The two Seaside blog images are also the last inherited Florida assets in the tr
   server-side fetch in `lib/clarion-blog.ts` (commit `faadc68`, to bypass CORS). Leaving it in
   `site.ts` invites someone to wire it back up and reintroduce the CORS failure.
 
-- [ ] Remove the key. If it is worth remembering why, replace it with a one-line comment pointing
+- [x] Remove the key. If it is worth remembering why, replace it with a one-line comment pointing
       at `lib/clarion-blog.ts` — matching how `lib/site.ts` already records the removed
       `admissionsPhone`.
 
@@ -414,7 +532,7 @@ The two Seaside blog images are also the last inherited Florida assets in the tr
   handled correctly (they use `post.published_at`); the static routes are the issue. Low impact,
   but it dilutes the crawl signal the V0102 trailing-slash work was specifically protecting.
 
-- [ ] Give the static routes a real date — a per-route constant updated when the page changes, or
+- [x] Give the static routes a real date — a per-route constant updated when the page changes, or
       the file's git mtime at build.
 - [ ] Verify: two consecutive builds with no content change produce identical `lastModified`
       values for the static routes.
@@ -499,7 +617,7 @@ URLs that all return HTTP 200 and are mapped nowhere** — every one 404s on the
   (`/holiday-pressure-and-addiction…/`), while the new build serves a real blog index there. That
   is an improvement at cutover, not a defect — recorded so nobody "fixes" it back.
 
-- [ ] Add a catch-all redirect group to `next.config.mjs`: `/category/:slug`, `/tag/:slug`,
+- [x] Add a catch-all redirect group to `next.config.mjs`: `/category/:slug`, `/tag/:slug`,
       `/author/:slug` → `/blog/`. Use path params rather than the six literals, so tags added on
       production before cutover are covered too.
 - [ ] Ask whoever runs the WordPress site to exclude the `kadence_element` URLs from the sitemap
@@ -526,7 +644,7 @@ Audit row **V0116** states *"Greater Texas: production serves `/insurance` while
 - This is also the gap flagged in V0044's verification notes: *"the insurance slug CHANGED between
   production and preview… That needs a redirect at cutover and is not yet logged anywhere."*
 
-- [ ] Add `{ source: '/insurance', destination: '/verify-insurance/', permanent: true }` to
+- [x] Add `{ source: '/insurance', destination: '/verify-insurance/', permanent: true }` to
       `next.config.mjs`.
 - [ ] Verify: `/insurance` → 308 → `/verify-insurance/` → 200, single hop.
 
@@ -537,7 +655,7 @@ Audit row **V0116** states *"Greater Texas: production serves `/insurance` while
   subscribed to it breaks silently.
 - Low impact for a 5-post blog, but it is free to fix and impossible to notice once broken.
 
-- [ ] Decide: add an RSS route (a `app/feed.xml/route.ts` generating from `getAllBlogPosts()`), or
+- [x] Decide: add an RSS route (a `app/feed.xml/route.ts` generating from `getAllBlogPosts()`), or
       accept the loss and 301 `/feed` → `/blog/`.
 - [ ] Verify whichever is chosen returns 200 or a single-hop 308.
 
@@ -643,7 +761,7 @@ Also filed under the parent, verdict **CONFIRMED**. It has a **repo-side half** 
   in the footer, not on `/about`, not on `/team`. So the reciprocal link the row asks for does not
   exist on the GTB end either, and that part is fixable in this repo today.
 
-- [ ] **CR-18 (Dev, this repo):** add a parent-organisation link — footer is the conventional slot,
+- [x] **CR-18 (Dev, this repo):** add a parent-organisation link — footer is the conventional slot,
       e.g. "Part of Quadrant Health Group" linking to `https://quadranthealthgroup.com`. Consider
       also adding `parentOrganization` to the `MedicalBusiness` JSON-LD in `app/layout.tsx`, which
       is the machine-readable version of the same relationship.
@@ -835,7 +953,7 @@ Surfaced by CR-19b. Independent of it: this bites the moment any photo is upload
 
 - [ ] Preferred: have the portal resize on upload. That fixes every facility at once and needs no
       code change.
-- [ ] Belt and braces, in this repo: add the portal host to `images.remotePatterns` and switch
+- [x] Belt and braces, in this repo: add the portal host to `images.remotePatterns` and switch
       `StaffGrid.tsx` and `app/team/page.tsx` to `next/image` with explicit `width`/`height`,
       removing the two `no-img-element` disables. Keep a plain-`<img>` fallback path only if a
       non-portal host ever becomes possible.
