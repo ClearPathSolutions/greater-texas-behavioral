@@ -27,6 +27,7 @@ const ROUTES: Array<{ path: string; priority: number; updated: string }> = [
   { path: 'what-we-treat', priority: 0.8, updated: '2026-08-11' },
   { path: 'verify-insurance', priority: 0.8, updated: '2026-08-11' },
   { path: 'contact', priority: 0.7, updated: '2026-08-04' },
+  { path: 'faq', priority: 0.7, updated: '2026-08-11' },
   { path: 'blog', priority: 0.8, updated: '2026-08-04' },
   // Low priority but deliberately indexable: the live site already serves this
   // URL, and a healthcare site should have a discoverable privacy policy.

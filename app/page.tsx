@@ -75,7 +75,10 @@ const steps = [
   {
     icon: IconShieldCheck,
     title: 'Insurance Verification',
-    body: 'We review your PPO insurance benefits and explain your coverage. Many clients have minimal out-of-pocket costs.',
+    // Audit CR-09: was "Many clients have minimal out-of-pocket costs." —
+    // a cost claim made before any benefits check. Aligned with the
+    // coverage-dependent wording used on /verify-insurance.
+    body: 'We review your PPO insurance benefits and explain your coverage, including any out-of-pocket costs, before treatment begins.',
   },
   {
     icon: IconClipboard,

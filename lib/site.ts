@@ -104,13 +104,23 @@ export const nav: NavItem[] = [
   },
   { label: 'About', href: '/about' },
   { label: 'Team', href: '/team' },
+  // Added 2026-08-11 with the /faq page (audit V0099). "FAQ" is 3 characters,
+  // which is why a 6th item fits where a longer one would not — verified with
+  // `node tests/header-check.mjs`: one trigger row and no overflow at 1024,
+  // 1100, 1152, 1280 and 1440px.
+  { label: 'FAQ', href: '/faq' },
   { label: 'Blog', href: '/blog' },
   { label: 'Contact', href: '/contact' },
-  // NOTE: "Verify Your Insurance" is intentionally NOT listed here. It is
-  // already a prominent gold CTA button in both the desktop header and the
-  // mobile menu panel, so listing it again duplicated the link — and the extra
-  // item pushed the desktop nav past its available width at exactly the `lg`
-  // breakpoint (1024px), wrapping two labels onto two lines.
+  // ⚠️ THIS NAV IS AT ITS WIDTH LIMIT AT 1024px. Adding "Contact" as a 5th item
+  // once wrapped "What We Treat" and "Verify Your Insurance" onto two lines, and
+  // the fix was `whitespace-nowrap` plus removing a redundant item. Run
+  // `node tests/header-check.mjs` after ANY change here — a long label will
+  // break the `lg` breakpoint even though it looks fine on a wide monitor.
+  //
+  // NOTE: "Verify Your Insurance" is intentionally NOT listed. It is already a
+  // prominent gold CTA button in both the desktop header and the mobile menu
+  // panel, so listing it again duplicated the link — and the extra item is what
+  // pushed the nav past its available width in the first place.
 ];
 
 // Footer "Get Help" quick links
@@ -119,6 +129,7 @@ export const footerLinks: NavChild[] = [
   { label: 'Our Team', href: '/team' },
   { label: 'What We Treat', href: '/what-we-treat' },
   { label: 'Verify Your Insurance', href: '/verify-insurance' },
+  { label: 'FAQ', href: '/faq' },
   { label: 'Blog', href: '/blog' },
   { label: 'Contact', href: '/contact' },
 ];

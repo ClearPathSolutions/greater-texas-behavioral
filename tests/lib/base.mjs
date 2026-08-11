@@ -25,6 +25,7 @@ export const ROUTES = [
   '/what-we-treat/',
   '/verify-insurance/',
   '/contact/',
+  '/faq/',
   '/blog/',
   '/privacy-policy/',
 ];

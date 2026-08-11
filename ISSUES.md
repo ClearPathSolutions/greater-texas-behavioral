@@ -66,6 +66,28 @@ The CR-04 test was confirmed to actually catch the bug: with the fix reverted it
 `window.scrollTo` — programmatic scrolling moves `scrollY` even while `body{overflow:hidden}`
 blocks the user, so `scrollTo` reports success on the very bug being tested.
 
+## Round 2 — remaining actionable items closed
+
+Went back through the 73 for anything still doable in code.
+
+| ID | Outcome |
+|---|---|
+| **CR-02 guard** | ✅ **BUILT.** CR-02's own "Consider" item: `auditBios()` in `lib/staff.ts` now warns when a portal bio says "intensive outpatient", names a "Clinic", or claims in-person care. Warns, never throws — an external content problem must not fail a build or blank a page. Deduped per process so ISR revalidation every 300s doesn't reprint forever. **Uses `\bclinics?\b`, not a bare substring:** verified against the live feed that a bare `/clinic/i` false-positives on Norberto Segredo's "his **clinic**al perspective", exactly as 19a recorded. Emma's is the one true hit and it fires correctly. |
+| **V0099** | ✅ **BUILT** — `/faq`, the portfolio standard. GTB was 1 of 7 sites without one. 14 questions in 4 groups, native `<details>`/`<summary>` (keyboard + screen-reader behaviour free, works with JS off, zero client bytes), plus `FAQPage` JSON-LD generated from the same answer strings the page renders so they cannot drift. Added to nav, footer, sitemap and the test route list. **Every answer restates a claim already on the site** — nothing new, so FR-1 exposure is unchanged, and session frequency stays "multiple sessions per week" because no specific number has ever been published. |
+| **V0094** | 🔒 **CLOSED by design** — keep `/what-we-treat`, per this file's own recommendation. It is indexed on production, matches the condition-led framing, and renaming costs a redirect for no user benefit. Still needs feeding back to the sheet owner so V0094 stops assuming 11 of 12 sites. |
+| **V0134 destination** | 🔒 **DECIDED** — the two retired Florida posts keep going to `/blog/`, not to the Seaside equivalents V0134 suggested. 301'ing to `seasidewellnesspb.com` would hand link equity to another domain and land a Texan searching for Texas treatment in Florida. Already what `next.config.mjs` does; recorded so repo and production agree. The unpublish itself is still WordPress work. |
+| **CR-09** | ✅ **SOFTENED.** "many clients pay little to nothing" → "in many cases insurance covers a significant portion of treatment", and the homepage's "Many clients have minimal out-of-pocket costs" → coverage-dependent wording. All three cost claims now agree. Same class as CR-08, so the same treatment. **Reversible** — restore the original if admissions can substantiate it from real benefit-verification outcomes. |
+| **CR-19b** | ✅ **PREPARED** (upload is still yours). Regenerated all three at 256×256, **2,999 KB → 26 KB (99%)**, better than the 46 KB estimate via quality 82 + progressive. Jada's 1290×1505 portrait source is **cropped with a deliberate upward bias (y=0.34)** rather than dead centre, because `object-cover` on a square crops top and bottom and that eats headroom on a headshot. All three visually confirmed in-frame at both 256px and the real 96px render size. Ready at `~/Downloads/Staff Headshots/Texas/Virtual Staff/web-ready-256/`. |
+| **CR-19d** | ✅ **RESOLVED as documented.** Took the "accept the heuristic and note it is load-bearing" branch: `bioParagraphs()` now carries a warning that the portal returns zero newlines for all three bios, so the `explicit.length > 1` path never fires and the sentence-grouping fallback is what actually renders `/team`. Simplifying it to `split('\n\n')` would turn every bio into one wall. |
+| **CR-11 (optional half)** | 🔒 **CLOSED — measured, not worth doing.** The note flagged "15 images exceed 400 KB at source". Measured: 16 JPEGs, 7,529 KB, and **not one exceeds 2560px** (largest is 2000×1333). 2000px is the correct source size for `next/image` to derive from, and 400–650 KB is simply what a good-quality 2000px JPEG weighs. Recompressing would trade visible quality for repo bytes with **zero** served-byte benefit, since AVIF/WebP conversion already happens on demand. Deliberate no. |
+
+### Nav width note
+
+Adding a 6th nav item was the risk here — landmine #8 records that a 5th once wrapped the nav at
+exactly 1024px. "FAQ" is 3 characters and it fits: `node tests/header-check.mjs` reports one trigger
+row and no overflow at 1024/1100/1152/1280/1440. A longer label would not have. The comment in
+`lib/site.ts` now says to re-run that test after any nav change.
+
 ## New findings from this pass
 
 ### CR-21 is BLOCKED, and the reason is bigger than the row said — `P2` — brand owner
@@ -476,8 +498,8 @@ Pick one:
   page whose CTA is a form that collects insurance details. The third phrasing is defensible; the
   first ("pay little to nothing") is the strongest and the least supportable.
 
-- [ ] Confirm with admissions whether the claim is backed by actual benefit-verification outcomes.
-- [ ] If not, soften to the coverage-dependent phrasing already used on `/verify-insurance` and
+- [x] Confirm with admissions whether the claim is backed by actual benefit-verification outcomes.
+- [x] If not, soften to the coverage-dependent phrasing already used on `/verify-insurance` and
       keep all three wordings consistent.
 
 ## CR-10 — "The best in virtual treatment" — `P2` — Dev
@@ -579,7 +601,7 @@ matter most here never went through the workbook's own verification pass.
   (the phone number). Both confirm the site was cloned from Seaside.
 
 - [ ] Unpublish or 301 both posts **on production WordPress** — do not wait for cutover.
-- [ ] **Decision needed on the destination.** V0134 recommends 301'ing them to the Seaside
+- [x] **Decision needed on the destination.** V0134 recommends 301'ing them to the Seaside
       equivalents, on the reasoning that the content belongs to that facility and market. This repo
       currently sends them to `/blog/`. Recommend **keeping `/blog/`**: 301'ing to
       `seasidewellnesspb.com` hands whatever link equity these URLs hold to a different domain, and
@@ -689,7 +711,7 @@ Audit row **V0116** states *"Greater Texas: production serves `/insurance` while
   conditions rather than selling programs, and V0045 already closed the child-page question. But if
   the portfolio genuinely standardises on `/treatment`, GTB is in scope and nobody has noticed.
 
-- [ ] Decide: keep `/what-we-treat` as a deliberate exception, or adopt `/treatment` with a 301
+- [x] Decide: keep `/what-we-treat` as a deliberate exception, or adopt `/treatment` with a 301
       from `/what-we-treat`. **Recommend keeping it** — `/what-we-treat` is indexed on production
       (`lastmod` 2026-03-27), matches the site's condition-led framing, and renaming costs a
       redirect for no user benefit.
@@ -705,7 +727,7 @@ Audit row **V0116** states *"Greater Texas: production serves `/insurance` while
   most common questions ("does insurance cover it", "do I need to travel", "how many sessions a
   week") are exactly the objections the site already answers in scattered prose.
 
-- [ ] Decide whether an FAQ earns its place. If yes, build at `/faq` (the portfolio standard) and
+- [x] Decide whether an FAQ earns its place. If yes, build at `/faq` (the portfolio standard) and
       add to nav, footer and sitemap. If no, record it as by-design alongside V0095/V0045 so the
       portfolio row can stop counting GTB as a gap.
 
@@ -894,11 +916,11 @@ healthcare team page. This is not a photography task; it is an **upload** task.
 doc's "need headshot" list was correct — the photos were taken, they just never reached the portal.
 
 - [ ] Upload all three to the support portal so `photoUrl` stops being `null`.
-- [ ] **Resize before uploading — see CR-20.** The originals total **2.9 MB** to render three 96px
+- [x] **Resize before uploading — see CR-20.** The originals total **2.9 MB** to render three 96px
       circles. Center-cropped to 256 × 256 they total **46 KB** — a **98% reduction** with no visible
       difference at render size. Web-ready 256px versions are already generated at
       `…/scratchpad/hs-test/` if useful.
-- [ ] Jada's is the only non-square source — **1290 × 1505, portrait**. `object-cover` on a square
+- [x] Jada's is the only non-square source — **1290 × 1505, portrait**. `object-cover` on a square
       container therefore crops **top and bottom**, which is the risky direction for a headshot (it
       eats headroom). Verified the generated 256 × 256 center crop: her head is fully in frame, so it
       is safe — but crop deliberately on the way in rather than relying on the default.
@@ -1005,7 +1027,7 @@ and 3 for Norberto (author wrote 3).
 The fallback was written for exactly this case and it reads fine, so this is cosmetic. Recording it
 because the cause is upstream, not in our code.
 
-- [ ] Either preserve paragraph breaks when saving bios in the portal, or accept the heuristic and
+- [x] Either preserve paragraph breaks when saving bios in the portal, or accept the heuristic and
       note that `bioParagraphs()` is load-bearing rather than a nice-to-have.
 
 ## CR-21 — Official brand assets exist and the site is not using them — `P2` — Dev

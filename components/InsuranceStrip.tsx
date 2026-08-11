@@ -15,11 +15,19 @@ export default function InsuranceStrip() {
           <Reveal>
             <span className="eyebrow">Coverage made simple</span>
             <h2 className="h-section mt-4">We accept most major insurance</h2>
+            {/* Audit CR-09: was "many clients pay little to nothing" — the
+                strongest and least supportable of the site's three cost claims,
+                made before any benefits check, on the page whose CTA collects
+                insurance details. Softened to the coverage-dependent phrasing
+                already used on /verify-insurance so all three agree.
+                REVERSIBLE: if admissions can substantiate the original from real
+                benefit-verification outcomes, restore it. */}
             <p className="lead mt-5">
               Greater Texas Behavioral works with most major PPO insurance plans
               and will verify your coverage quickly and confidentially. Our
               admissions team works directly with your provider to help minimize
-              out-of-pocket costs — many clients pay little to nothing.
+              out-of-pocket costs — in many cases insurance covers a significant
+              portion of treatment.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Link href="/verify-insurance" className="btn-primary">
