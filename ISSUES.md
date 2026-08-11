@@ -394,7 +394,7 @@ Pick one:
 - [x] Add a `matchMedia('(min-width: 1024px)')` listener in `Header.tsx` that calls
       `setOpen(false)` when it matches, so the state follows the breakpoint that hides the UI.
       Keep the existing cleanup that restores `document.body.style.overflow`.
-- [ ] Verify: the repro above ends with `body.style.overflow === ''` and a wheel scroll moving
+- [x] Verify: the repro above ends with `body.style.overflow === ''` and a wheel scroll moving
       `scrollY`. Worth keeping as a tracked test — see CR-05.
 
 ## CR-05 — Lead-delivery tests are untracked — `P1` — Dev
@@ -418,7 +418,7 @@ Pick one:
       Preserve that property and say so in a header comment.
 - [x] Add npm scripts, e.g. `"test:e2e": "node tests/lead-verify.mjs"` plus a `test` aggregate.
 - [x] Add the CR-04 resize repro as a case in `responsive-check.mjs`.
-- [ ] Verify: a fresh clone + `npm ci` + `npm run build` + `npm start` + `npm test` passes with no
+- [x] Verify: a fresh clone + `npm ci` + `npm run build` + `npm start` + `npm test` passes with no
       files from `_scrape/`.
 
 ## CR-06 — Bump `next` 14.2.15 → 14.2.35 — `P1` — Dev
@@ -444,7 +444,7 @@ Pick one:
 - **Do NOT run `npm audit fix --force`** — it resolves to `next@16.3.0`, a two-major breaking jump.
 
 - [x] `npm i next@14.2.35 eslint-config-next@14.2.35`
-- [ ] Verify: `npx tsc --noEmit`, `npx next lint`, `npx next build` all clean; re-run the route /
+- [x] Verify: `npx tsc --noEmit`, `npx next lint`, `npx next build` all clean; re-run the route /
       redirect / header / metadata checks in Baseline below; re-run `npm audit --omit=dev` and
       record what remains.
 - [ ] Separately, decide whether to track the 15 → 16 upgrade as its own scheduled task.
@@ -487,7 +487,7 @@ Pick one:
       plans" to match `site.description` exactly).
 - [x] Either substantiate `35+ more` against the real payer list or soften it to "and many more".
       Same chip appears in `components/InsuranceStrip.tsx:54` — fix both.
-- [ ] Verify: `grep -rn "all major" app components lib` returns nothing.
+- [x] Verify: `grep -rn "all major" app components lib` returns nothing.
 
 ## CR-09 — "Many clients pay little to nothing" — `P2` — Business
 
@@ -529,7 +529,7 @@ Not referenced anywhere in `app/`, `components/` or `lib/`:
 The two Seaside blog images are also the last inherited Florida assets in the tree.
 
 - [x] Delete the seven files.
-- [ ] Verify: `next build` clean, then re-run the unreferenced-asset scan — for each file in
+- [x] Verify: `next build` clean, then re-run the unreferenced-asset scan — for each file in
       `public/`, `grep -rqF "$(basename f)" app components lib`.
 - **Separate, do not conflate:** 15 images in `public/` exceed 400 KB at source. Served bytes are
   fine because `next/image` converts to AVIF/WebP on demand, so this is repo/deploy weight only —
@@ -556,7 +556,7 @@ The two Seaside blog images are also the last inherited Florida assets in the tr
 
 - [x] Give the static routes a real date — a per-route constant updated when the page changes, or
       the file's git mtime at build.
-- [ ] Verify: two consecutive builds with no content change produce identical `lastModified`
+- [x] Verify: two consecutive builds with no content change produce identical `lastModified`
       values for the static routes.
 
 ## CR-14 — Blog is ~6 months stale — `P3` — Business
@@ -644,7 +644,7 @@ URLs that all return HTTP 200 and are mapped nowhere** — every one 404s on the
       production before cutover are covered too.
 - [ ] Ask whoever runs the WordPress site to exclude the `kadence_element` URLs from the sitemap
       and to remove or rename the `qhd-dev` author archive.
-- [ ] Verify: each of the 6 URLs returns 308 → `/blog/` → 200 against a local `next start`, and
+- [x] Verify: each of the 6 URLs returns 308 → `/blog/` → 200 against a local `next start`, and
       re-pull the production sitemap at cutover to catch any new tags.
 
 ## CR-16 — `/insurance` missing from the redirect map — `HIGH` — Dev
@@ -668,7 +668,7 @@ Audit row **V0116** states *"Greater Texas: production serves `/insurance` while
 
 - [x] Add `{ source: '/insurance', destination: '/verify-insurance/', permanent: true }` to
       `next.config.mjs`.
-- [ ] Verify: `/insurance` → 308 → `/verify-insurance/` → 200, single hop.
+- [x] Verify: `/insurance` → 308 → `/verify-insurance/` → 200, single hop.
 
 ## CR-17 — Production `/feed/` has no equivalent in the build — `P3` — Dev
 
@@ -679,7 +679,7 @@ Audit row **V0116** states *"Greater Texas: production serves `/insurance` while
 
 - [x] Decide: add an RSS route (a `app/feed.xml/route.ts` generating from `getAllBlogPosts()`), or
       accept the loss and 301 `/feed` → `/blog/`.
-- [ ] Verify whichever is chosen returns 200 or a single-hop 308.
+- [x] Verify whichever is chosen returns 200 or a single-hop 308.
 
 ## V0124 — Cutover content gap — `CRITICAL` portfolio-wide — GTB clear, must be re-run
 
@@ -789,7 +789,7 @@ Also filed under the parent, verdict **CONFIRMED**. It has a **repo-side half** 
       is the machine-readable version of the same relationship.
 - [ ] **Parent side (Ben):** add the outbound link to `greatertexasbehavioral.com` from the
       locations page. Depends on V0090 — GTB has to be listed before it can be linked.
-- [ ] Verify: footer link renders and resolves 200; JSON-LD validates.
+- [x] Verify: footer link renders and resolves 200; JSON-LD validates.
 
 ## VIS-2 / VIS-3 — Parent-site visual rows naming GTB — `P3` — parent site
 
@@ -979,7 +979,7 @@ Surfaced by CR-19b. Independent of it: this bites the moment any photo is upload
       `StaffGrid.tsx` and `app/team/page.tsx` to `next/image` with explicit `width`/`height`,
       removing the two `no-img-element` disables. Keep a plain-`<img>` fallback path only if a
       non-portal host ever becomes possible.
-- [ ] Verify: staff avatars served via `/_next/image?url=…` in AVIF/WebP, and total avatar bytes on
+- [x] Verify: staff avatars served via `/_next/image?url=…` in AVIF/WebP, and total avatar bytes on
       `/about/` under ~60 KB.
 
 ### 19c — No clinical leadership is published — `P1` — decision
