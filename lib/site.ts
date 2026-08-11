@@ -28,6 +28,38 @@ export const site = {
     country: 'United States',
   },
   copyrightHolder: 'Greater Texas Behavioral',
+  /**
+   * Legal / DBA entity name (facility registry FR-2, resolved 2026-08-11).
+   *
+   * The registry's company field, the master bios doc, the live portal bio and
+   * the folder the official brand assets were delivered in all say "Greater
+   * Texas Behavioral **Clinic**". The marketing name deliberately stays
+   * "Greater Texas Behavioral" — a shorter trading name is normal, and "Clinic"
+   * implies a physical place, which is the exact signal `/contact` withholds
+   * because GTB is 100% telehealth (`address` below is region-only, and the
+   * registry itself records `Address: Virtual`).
+   *
+   * THIS DIVERGENCE IS INTENTIONAL — do not "correct" `name` to match. It is
+   * recorded here so the next reader does not treat it as drift, and so the
+   * privacy policy's outstanding item 1 (legal entity) has a single source.
+   * Still needs counsel sign-off, along with a mailing address if they require
+   * one for privacy-rights requests.
+   */
+  legalName: 'Greater Texas Behavioral Clinic',
+} as const;
+
+/**
+ * Parent organisation (audit CR-18 / V0091).
+ *
+ * The parent passes no authority to this site and this site had no user-visible
+ * link back — the only reference to `quadranthealthgroup.com` anywhere in the
+ * repo was the staff-feed API origin in `lib/staff.ts`. The reciprocal half
+ * (getting GTB named and linked on the parent's /locations page) is V0090 and
+ * is not fixable from here.
+ */
+export const parentOrg = {
+  name: 'Quadrant Health Group',
+  url: 'https://quadranthealthgroup.com',
 } as const;
 
 /**
@@ -43,7 +75,11 @@ export const clarion = {
   api: 'https://api.clarionlabs.ai',
   widgetSrc: 'https://www.clarionlabs.ai/widget.v1.js',
   formsCaptureSrc: 'https://www.clarionlabs.ai/forms-capture.v1.js',
-  blogEmbedSrc: 'https://www.clarionlabs.ai/blog-embed.v1.js',
+  // Audit CR-12: `blogEmbedSrc` (blog-embed.v1.js) was removed on 2026-08-11.
+  // It belonged to the client-side blog embed, which was replaced by the
+  // server-side fetch in lib/clarion-blog.ts (commit faadc68) because the
+  // browser fetch is CORS-blocked. Do not re-add it — wiring it back up
+  // reintroduces that failure. See lib/clarion-blog.ts.
 } as const;
 
 export type NavChild = { label: string; href: string; description?: string };
@@ -68,13 +104,23 @@ export const nav: NavItem[] = [
   },
   { label: 'About', href: '/about' },
   { label: 'Team', href: '/team' },
+  // Added 2026-08-11 with the /faq page (audit V0099). "FAQ" is 3 characters,
+  // which is why a 6th item fits where a longer one would not — verified with
+  // `node tests/header-check.mjs`: one trigger row and no overflow at 1024,
+  // 1100, 1152, 1280 and 1440px.
+  { label: 'FAQ', href: '/faq' },
   { label: 'Blog', href: '/blog' },
   { label: 'Contact', href: '/contact' },
-  // NOTE: "Verify Your Insurance" is intentionally NOT listed here. It is
-  // already a prominent gold CTA button in both the desktop header and the
-  // mobile menu panel, so listing it again duplicated the link — and the extra
-  // item pushed the desktop nav past its available width at exactly the `lg`
-  // breakpoint (1024px), wrapping two labels onto two lines.
+  // ⚠️ THIS NAV IS AT ITS WIDTH LIMIT AT 1024px. Adding "Contact" as a 5th item
+  // once wrapped "What We Treat" and "Verify Your Insurance" onto two lines, and
+  // the fix was `whitespace-nowrap` plus removing a redundant item. Run
+  // `node tests/header-check.mjs` after ANY change here — a long label will
+  // break the `lg` breakpoint even though it looks fine on a wide monitor.
+  //
+  // NOTE: "Verify Your Insurance" is intentionally NOT listed. It is already a
+  // prominent gold CTA button in both the desktop header and the mobile menu
+  // panel, so listing it again duplicated the link — and the extra item is what
+  // pushed the nav past its available width in the first place.
 ];
 
 // Footer "Get Help" quick links
@@ -83,6 +129,7 @@ export const footerLinks: NavChild[] = [
   { label: 'Our Team', href: '/team' },
   { label: 'What We Treat', href: '/what-we-treat' },
   { label: 'Verify Your Insurance', href: '/verify-insurance' },
+  { label: 'FAQ', href: '/faq' },
   { label: 'Blog', href: '/blog' },
   { label: 'Contact', href: '/contact' },
 ];
@@ -92,21 +139,41 @@ export const legalLinks: NavChild[] = [
   { label: 'Privacy Policy', href: '/privacy-policy' },
 ];
 
-// Insurance carriers referenced on the source site's insurance visual.
+/**
+ * Insurance carriers, rendered on the homepage (`InsuranceStrip`) and on
+ * `/verify-insurance`.
+ *
+ * PRUNED 2026-08-11. This list was inherited verbatim from the Seaside Wellness
+ * (Florida) site this build was cloned from — the same clone artifact as V0043's
+ * phone number and V0134's Florida blog posts — and seven of the fifteen entries
+ * could not be supported for a Texas-only provider:
+ *
+ *   Anthem            — does not write in Texas; the BCBS licensee here is
+ *                       BCBSTX, an HCSC company (generic "Blue Cross Blue
+ *                       Shield" is kept, since out-of-state BCBS plans do cover
+ *                       Texas members through BlueCard).
+ *   MVP Health Care   — New York / Vermont
+ *   HealthPartners    — Minnesota / Wisconsin
+ *   Horizon           — New Jersey (Horizon BCBSNJ)
+ *   Medical Mutual    — Ohio
+ *   Beacon            — defunct brand: Beacon Health Options became Carelon
+ *   ValueOptions      — defunct brand: merged INTO Beacon in 2014, so the list
+ *                       named the same dead entity twice
+ *
+ * ⚠️ The eight that remain are the ones that plainly operate in Texas — they are
+ * NOT a verified payer list. Nothing was added, deliberately: naming a carrier
+ * here is a payer-relationship claim, and inventing one is the defect this prune
+ * was fixing. **Admissions should confirm the real contracted list before
+ * launch** and add back anything genuine (Superior HealthPlan, Molina of Texas,
+ * Carelon Behavioral Health and Magellan are the likely Texas candidates).
+ */
 export const insuranceCarriers: string[] = [
   'UnitedHealthcare',
   'Aetna',
   'Humana',
-  'Anthem',
   'Blue Cross Blue Shield',
   'Cigna',
   'Ambetter',
   'TRICARE',
-  'MVP Health Care',
-  'HealthPartners',
-  'Beacon',
-  'ValueOptions',
-  'Horizon',
   'VA / Veterans Affairs',
-  'Medical Mutual',
 ];

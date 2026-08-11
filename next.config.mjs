@@ -17,6 +17,23 @@
  * Destinations include the trailing slash so nothing takes a double hop.
  */
 
+/**
+ * WordPress taxonomy/author archives that are indexed on production (audit
+ * CR-15). All six return 200 today and appear in production's sitemap, and none
+ * had a mapping — every one would have 404'd at cutover.
+ *
+ * Matched as path params rather than the six known literals so any tag or
+ * category published on production between now and cutover is covered too.
+ *
+ * `:slug*` (zero-or-more segments), NOT `:slug`. The single-segment form was the
+ * first fix and it left six live URLs still 404ing, because WordPress hangs a
+ * feed off every archive: `/category/blog/feed/`, `/tag/detox/feed/` and
+ * `/author/qhd-dev/feed/` all return 200 on production and are two segments deep.
+ * Verified 2026-08-11. The wildcard also covers nested categories and any depth
+ * added before cutover.
+ */
+const ARCHIVE_PREFIXES = ['category', 'tag', 'author'];
+
 /** Blog posts that lived at the WordPress root and now live under /blog. */
 const MIGRATED_POSTS = [
   'holiday-pressure-and-addiction-when-its-time-to-reach-out-for-help',
@@ -88,6 +105,26 @@ const nextConfig = {
   trailingSlash: true,
   images: {
     formats: ['image/avif', 'image/webp'],
+    /**
+     * Staff headshots from the Quadrant support portal (audit CR-20).
+     *
+     * Safe to optimize here, unlike blog covers: this host is single, known and
+     * fixed — `lib/staff.ts` derives it from `STAFF_FEED_ORIGIN` and defaults to
+     * this origin, so a CMS editor cannot introduce an unlisted hostname. Blog
+     * cover hosts ARE editor-controlled and unbounded, which is why
+     * `components/BlogCover.tsx` deliberately keeps them off `next/image` (an
+     * unlisted host throws at request time and would 500 the blog).
+     *
+     * If STAFF_FEED_ORIGIN is ever pointed at another environment, add it here
+     * too or the avatars will throw.
+     */
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'support.quadranthealthgroup.com',
+        pathname: '/**',
+      },
+    ],
   },
   async redirects() {
     return [
@@ -97,6 +134,30 @@ const nextConfig = {
         destination: '/verify-insurance/',
         permanent: true,
       },
+      // Audit CR-16 — `/insurance` is a live 301 alias on production
+      // (`/insurance` -> `/insurance-verification/`), so it is a real inbound
+      // path someone has linked, and it was mapped nowhere. Note audit row
+      // V0116 claims production *serves* `/insurance`; it does not — it
+      // redirects. The canonical production slug is `/insurance-verification/`,
+      // which is already handled above.
+      { source: '/insurance', destination: '/verify-insurance/', permanent: true },
+      // Audit CR-15 — indexed WordPress archives (and their per-archive feeds)
+      // -> the blog index. See ARCHIVE_PREFIXES above for why this is `:slug*`.
+      ...ARCHIVE_PREFIXES.map((prefix) => ({
+        source: `/${prefix}/:slug*`,
+        destination: '/blog/',
+        permanent: true,
+      })),
+      // Audit CR-17 — WordPress RSS. `/feed/` returns 200 on production and so
+      // do its format variants: `/feed/atom/` is 200 and `/feed/rss/` is a live
+      // 301. We ship no feed, so subscribed aggregators would break silently at
+      // cutover. `:path*` catches every variant; sent to the blog index rather
+      // than building an RSS route for 6 posts.
+      { source: '/feed/:path*', destination: '/blog/', permanent: true },
+      // `/comments/feed/` is a separate WordPress endpoint (site-wide comment
+      // RSS), also 200 on production, and is NOT under /feed — it needs its own
+      // entry or it 404s.
+      { source: '/comments/:path*', destination: '/blog/', permanent: true },
       // Root-level WordPress posts now namespaced under /blog
       ...MIGRATED_POSTS.map((slug) => ({
         source: `/${slug}`,

@@ -10,6 +10,7 @@ import {
 import { IconArrowLeft } from '@/components/ui/Icon';
 import { pageMetadata } from '@/lib/seo';
 import { site } from '@/lib/site';
+import { sanitizeHtml } from '@/lib/sanitize-html';
 import BlogCover from '@/components/BlogCover';
 
 export const revalidate = 300;
@@ -90,8 +91,13 @@ export default async function BlogPostPage({
             )}
             <div
               className="prose-tx"
-              // Content authored by the site owner in Clarion (trusted CMS source).
-              dangerouslySetInnerHTML={{ __html: post.body_html || '' }}
+              /* Audit CR-07. Clarion is the owner's own CMS and treated as
+                 trusted, but the CSP still carries `script-src 'unsafe-inline'`,
+                 so an `<img onerror=…>` in a post body would execute on the same
+                 origin as the intake form. `sanitizeHtml` is allowlist-based and
+                 runs server-side, so it costs nothing in the client bundle.
+                 See lib/sanitize-html.ts for what it does and does not promise. */
+              dangerouslySetInnerHTML={{ __html: sanitizeHtml(post.body_html) }}
             />
 
             <div className="mt-12 border-t border-cream-300 pt-8">

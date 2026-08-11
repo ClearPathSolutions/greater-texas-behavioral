@@ -46,6 +46,24 @@ export default function Header() {
     };
   }, [open]);
 
+  // Close the menu when the viewport crosses into `lg` (audit CR-04).
+  //
+  // Both the panel and its toggle are `lg:hidden`, so at >=1024px an `open`
+  // menu leaves `body.style.overflow: hidden` with no UI capable of clearing
+  // it — the page becomes unscrollable until a reload. `open` was reset on
+  // route change and on Escape, but never on a viewport change, so an ordinary
+  // iPad portrait->landscape rotation (which crosses 1024px) hit it.
+  useEffect(() => {
+    const mq = window.matchMedia('(min-width: 1024px)');
+    const onChange = (e: MediaQueryListEvent | MediaQueryList) => {
+      if (e.matches) setOpen(false);
+    };
+    // Sync immediately in case we mounted already past the breakpoint.
+    onChange(mq);
+    mq.addEventListener('change', onChange);
+    return () => mq.removeEventListener('change', onChange);
+  }, []);
+
   // Focus management for the mobile menu (open = focus first item, close = restore).
   // Skips the initial render so we never steal focus on page load; defers focus
   // to after paint so the just-revealed panel is focusable.

@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import Reveal from '@/components/ui/Reveal';
 import { IconArrowRight } from '@/components/ui/Icon';
@@ -58,13 +59,12 @@ export default async function StaffGrid({
                     gradient disc with a ring — so the fallback reads as
                     intentional, not as a broken image. */}
                 {person.photoUrl ? (
-                  /* eslint-disable-next-line @next/next/no-img-element */
-                  <img
+                  <Image
                     src={person.photoUrl}
                     alt={person.name}
                     width={96}
                     height={96}
-                    loading="lazy"
+                    sizes="96px"
                     className="h-24 w-24 shrink-0 rounded-full object-cover ring-4 ring-cream-50 shadow-soft"
                   />
                 ) : (

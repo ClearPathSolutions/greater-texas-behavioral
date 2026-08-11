@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import type { Metadata } from 'next';
 import PageHero from '@/components/PageHero';
@@ -47,13 +48,12 @@ export default async function TeamPage() {
                     {/* Identity column */}
                     <div className="flex flex-col items-center text-center sm:items-start sm:text-left">
                       {person.photoUrl ? (
-                        /* eslint-disable-next-line @next/next/no-img-element */
-                        <img
+                        <Image
                           src={person.photoUrl}
                           alt={person.name}
-                          width={128}
-                          height={128}
-                          loading="lazy"
+                          width={112}
+                          height={112}
+                          sizes="112px"
                           className="h-28 w-28 shrink-0 rounded-full object-cover ring-4 ring-cream-50 shadow-soft"
                         />
                       ) : (

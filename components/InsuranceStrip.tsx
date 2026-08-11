@@ -15,11 +15,19 @@ export default function InsuranceStrip() {
           <Reveal>
             <span className="eyebrow">Coverage made simple</span>
             <h2 className="h-section mt-4">We accept most major insurance</h2>
+            {/* Audit CR-09: was "many clients pay little to nothing" — the
+                strongest and least supportable of the site's three cost claims,
+                made before any benefits check, on the page whose CTA collects
+                insurance details. Softened to the coverage-dependent phrasing
+                already used on /verify-insurance so all three agree.
+                REVERSIBLE: if admissions can substantiate the original from real
+                benefit-verification outcomes, restore it. */}
             <p className="lead mt-5">
               Greater Texas Behavioral works with most major PPO insurance plans
               and will verify your coverage quickly and confidentially. Our
               admissions team works directly with your provider to help minimize
-              out-of-pocket costs — many clients pay little to nothing.
+              out-of-pocket costs — in many cases insurance covers a significant
+              portion of treatment.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Link href="/verify-insurance" className="btn-primary">
@@ -38,8 +46,13 @@ export default function InsuranceStrip() {
 
           <Reveal delay={120}>
             <div className="card p-6 sm:p-8">
+              {/* Was "In-network & out-of-network with" — that asserted a
+                  specific network status for every carrier listed, which is a
+                  stronger and less supportable claim than the "all major"
+                  heading audit CR-08 flagged. "We verify benefits with" is what
+                  the admissions team actually does. */}
               <p className="text-sm font-semibold uppercase tracking-wider text-forest-600">
-                In-network &amp; out-of-network with
+                We verify benefits with
               </p>
               <ul className="mt-5 flex flex-wrap gap-2.5">
                 {insuranceCarriers.map((carrier) => (
@@ -50,8 +63,10 @@ export default function InsuranceStrip() {
                     {carrier}
                   </li>
                 ))}
+                {/* Audit CR-08: was "35+ more" — a specific number nothing
+                    substantiates. Same chip on /verify-insurance. */}
                 <li className="rounded-full bg-forest-800 px-3.5 py-2 text-sm font-semibold text-cream-50">
-                  35+ more
+                  and many more
                 </li>
               </ul>
               <div className="mt-6 flex items-center gap-2 rounded-xl bg-cream-100 px-4 py-3 text-sm text-forest-800">
