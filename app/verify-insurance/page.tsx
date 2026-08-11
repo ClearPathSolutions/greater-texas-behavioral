@@ -114,8 +114,12 @@ export default function VerifyInsurancePage() {
         <div className="container-x">
           <Reveal className="mx-auto max-w-2xl text-center">
             <span className="eyebrow justify-center">Accepted providers</span>
+            {/* Audit CR-08: was "all major insurance carriers". "All" is
+                unsubstantiable and contradicted the rest of the site — the hero
+                badge, InsuranceStrip and this page's own lead paragraph all say
+                "most major PPO". */}
             <h2 className="h-section mt-4">
-              We work with all major insurance carriers
+              We work with most major PPO insurance plans
             </h2>
             <p className="lead mt-5">
               Greater Texas Behavioral partners with leading providers to review
@@ -133,8 +137,9 @@ export default function VerifyInsurancePage() {
                   {c}
                 </li>
               ))}
+              {/* Audit CR-08: was "35+ more" — unsubstantiated. */}
               <li className="rounded-full bg-forest-800 px-4 py-2 text-sm font-semibold text-cream-50">
-                35+ more
+                and many more
               </li>
             </ul>
             <p className="mt-6 flex items-center justify-center gap-2 text-center text-muted">

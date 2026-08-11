@@ -162,7 +162,9 @@ export default function WhatWeTreatPage() {
       <section className="section bg-cream-100">
         <div className="container-x">
           <Reveal className="mx-auto max-w-2xl text-center">
-            <span className="eyebrow justify-center">The best in virtual treatment</span>
+            {/* Audit CR-10: was "The best in virtual treatment" — a bare
+                superlative with no basis, on a clinical page. */}
+            <span className="eyebrow justify-center">Why our Virtual OP works</span>
             <h2 className="h-section mt-4">
               Why choose Greater Texas Behavioral?
             </h2>

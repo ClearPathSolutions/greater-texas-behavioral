@@ -17,6 +17,16 @@
  * Destinations include the trailing slash so nothing takes a double hop.
  */
 
+/**
+ * WordPress taxonomy/author archives that are indexed on production (audit
+ * CR-15). All six return 200 today and appear in production's sitemap, and none
+ * had a mapping — every one would have 404'd at cutover.
+ *
+ * Matched as path params rather than the six known literals so any tag or
+ * category published on production between now and cutover is covered too.
+ */
+const ARCHIVE_PREFIXES = ['category', 'tag', 'author'];
+
 /** Blog posts that lived at the WordPress root and now live under /blog. */
 const MIGRATED_POSTS = [
   'holiday-pressure-and-addiction-when-its-time-to-reach-out-for-help',
@@ -97,6 +107,23 @@ const nextConfig = {
         destination: '/verify-insurance/',
         permanent: true,
       },
+      // Audit CR-16 — `/insurance` is a live 301 alias on production
+      // (`/insurance` -> `/insurance-verification/`), so it is a real inbound
+      // path someone has linked, and it was mapped nowhere. Note audit row
+      // V0116 claims production *serves* `/insurance`; it does not — it
+      // redirects. The canonical production slug is `/insurance-verification/`,
+      // which is already handled above.
+      { source: '/insurance', destination: '/verify-insurance/', permanent: true },
+      // Audit CR-15 — indexed WordPress archives -> the blog index.
+      ...ARCHIVE_PREFIXES.map((prefix) => ({
+        source: `/${prefix}/:slug`,
+        destination: '/blog/',
+        permanent: true,
+      })),
+      // Audit CR-17 — production `/feed/` (WordPress RSS) returns 200. We ship
+      // no feed, so subscribed aggregators would break silently at cutover.
+      // Sent to the blog index rather than building an RSS route for 6 posts.
+      { source: '/feed', destination: '/blog/', permanent: true },
       // Root-level WordPress posts now namespaced under /blog
       ...MIGRATED_POSTS.map((slug) => ({
         source: `/${slug}`,

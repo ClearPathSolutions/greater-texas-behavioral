@@ -2,7 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { site } from '@/lib/site';
 import Reveal from '@/components/ui/Reveal';
-import Testimonials from '@/components/Testimonials';
+import StaffGrid from '@/components/StaffGrid';
 import InsuranceStrip from '@/components/InsuranceStrip';
 import CTABand from '@/components/CTABand';
 import {
@@ -439,8 +439,27 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ================= TESTIMONIALS ================= */}
-      <Testimonials />
+      {/* ================= THE TEAM ================= */}
+      {/* Audit CR-03, Option B. This slot held <Testimonials /> — three
+          fabricated first-person quotes under the eyebrow "Real recovery", each
+          with five gold stars and a city attribution, which a visitor had no way
+          to read as anything other than genuine client reviews. That is an FTC
+          16 C.F.R. Part 255 exposure on a healthcare site.
+
+          FR-3 established GTB has no Google Business Profile, so there was never
+          a review pipeline behind the old site's reviews widget and no real
+          quotes to swap in — Option A was unavailable, not merely slower.
+
+          Real clinicians from the support portal replace it: the same trust the
+          testimonials were manufacturing, sourced from data that is actually
+          true. Renders nothing if the feed is unavailable (see StaffGrid). */}
+      <StaffGrid
+        facility="greater-texas-behavioral"
+        eyebrow="The people behind your care"
+        title="Care delivered by licensed Texas clinicians"
+        body="Every session is led by a credentialed member of our clinical team — the same people you'll work with from your first assessment through aftercare planning."
+        moreHref="/team"
+      />
 
       {/* ================= INSURANCE ================= */}
       <InsuranceStrip />

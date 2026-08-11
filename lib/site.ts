@@ -43,7 +43,11 @@ export const clarion = {
   api: 'https://api.clarionlabs.ai',
   widgetSrc: 'https://www.clarionlabs.ai/widget.v1.js',
   formsCaptureSrc: 'https://www.clarionlabs.ai/forms-capture.v1.js',
-  blogEmbedSrc: 'https://www.clarionlabs.ai/blog-embed.v1.js',
+  // Audit CR-12: `blogEmbedSrc` (blog-embed.v1.js) was removed on 2026-08-11.
+  // It belonged to the client-side blog embed, which was replaced by the
+  // server-side fetch in lib/clarion-blog.ts (commit faadc68) because the
+  // browser fetch is CORS-blocked. Do not re-add it — wiring it back up
+  // reintroduces that failure. See lib/clarion-blog.ts.
 } as const;
 
 export type NavChild = { label: string; href: string; description?: string };
@@ -92,21 +96,41 @@ export const legalLinks: NavChild[] = [
   { label: 'Privacy Policy', href: '/privacy-policy' },
 ];
 
-// Insurance carriers referenced on the source site's insurance visual.
+/**
+ * Insurance carriers, rendered on the homepage (`InsuranceStrip`) and on
+ * `/verify-insurance`.
+ *
+ * PRUNED 2026-08-11. This list was inherited verbatim from the Seaside Wellness
+ * (Florida) site this build was cloned from — the same clone artifact as V0043's
+ * phone number and V0134's Florida blog posts — and seven of the fifteen entries
+ * could not be supported for a Texas-only provider:
+ *
+ *   Anthem            — does not write in Texas; the BCBS licensee here is
+ *                       BCBSTX, an HCSC company (generic "Blue Cross Blue
+ *                       Shield" is kept, since out-of-state BCBS plans do cover
+ *                       Texas members through BlueCard).
+ *   MVP Health Care   — New York / Vermont
+ *   HealthPartners    — Minnesota / Wisconsin
+ *   Horizon           — New Jersey (Horizon BCBSNJ)
+ *   Medical Mutual    — Ohio
+ *   Beacon            — defunct brand: Beacon Health Options became Carelon
+ *   ValueOptions      — defunct brand: merged INTO Beacon in 2014, so the list
+ *                       named the same dead entity twice
+ *
+ * ⚠️ The eight that remain are the ones that plainly operate in Texas — they are
+ * NOT a verified payer list. Nothing was added, deliberately: naming a carrier
+ * here is a payer-relationship claim, and inventing one is the defect this prune
+ * was fixing. **Admissions should confirm the real contracted list before
+ * launch** and add back anything genuine (Superior HealthPlan, Molina of Texas,
+ * Carelon Behavioral Health and Magellan are the likely Texas candidates).
+ */
 export const insuranceCarriers: string[] = [
   'UnitedHealthcare',
   'Aetna',
   'Humana',
-  'Anthem',
   'Blue Cross Blue Shield',
   'Cigna',
   'Ambetter',
   'TRICARE',
-  'MVP Health Care',
-  'HealthPartners',
-  'Beacon',
-  'ValueOptions',
-  'Horizon',
   'VA / Veterans Affairs',
-  'Medical Mutual',
 ];
