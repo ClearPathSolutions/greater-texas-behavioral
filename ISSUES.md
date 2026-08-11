@@ -88,6 +88,87 @@ exactly 1024px. "FAQ" is 3 characters and it fits: `node tests/header-check.mjs`
 row and no overflow at 1024/1100/1152/1280/1440. A longer label would not have. The comment in
 `lib/site.ts` now says to re-run that test after any nav change.
 
+## Round 3 — headshot-folder sweep + parent team page, 2026-08-11
+
+Prompted by a pointer that headshots might live in another Downloads folder. Swept the whole tree
+and then cross-checked the parent's published team page. **No code changes; four backlog corrections.**
+
+### Folder sweep result — nothing was missed
+
+- `~/Downloads/Greater Texas Behavioral Clinic/` holds **logos only** — no headshots.
+- `~/Downloads/Staff Headshots/` is organised by state: Iowa 5, New Jersey 19, Florida 8, Kentucky 2,
+  Quadrant 17 (+56 in subfolders), Texas 9, California 5 (+ subfolders).
+- **GTB's are the 3 in `Texas/Virtual Staff/` already handled under CR-19b.** The 9 files directly in
+  `Texas/` all resolve elsewhere by their own filenames — `DDC-Sarah-Bentley-CM`,
+  `FWW - Krystal Moore`, `FWW- Jacci Westbrook`, `FWW-Corney Best-Clinical Director`,
+  `Antoine Gross-Clinical Director`, `Deborah Wade - Nursing Director`, `Josh L`,
+  `Olivia Hadjerioua`, and ` Haley Hayes` (the one with no bio anywhere).
+
+### VIS-3 — 🔒 CLOSED, the row is WRONG for GTB
+
+VIS-3 said the parent's `/about/meet-the-team` "should group Texas facilities incl. Greater Texas
+Behavioral", implying GTB is absent. **It is not absent.** Verified live on the page:
+
+> `… Krystal Moore Case Manager, Fort Worth Wellness Center · **Virtual Outpatient Program – Texas /
+> Greater Texas Behavioral** · Emma Fyffe, LPC Primary Therapist · Jada Spencer Case Manager ·
+> Norberto Segredo Case Manager · West Palm Beach – Florida …`
+
+All three GTB staff are there, under their own correctly-labelled heading, and "Greater Texas" also
+appears in the page's facility filter list. The grouping VIS-3 asks for **already exists**. No action.
+Contrast **V0090, which still stands** — that is the `/locations/` page, where "Greater Texas" appears
+0 times and `/locations/greater-texas-behavioral/` 404s. The two rows are about different pages.
+
+### CR-02 / CR-19a — corroborated by a FIFTH source, and the parent is more accurate than the portal
+
+The parent's own team page labels GTB **"Virtual Outpatient Program – Texas"**. So the published
+parent site already says Virtual OP while the support portal bio still says "intensive outpatient
+program". The portal is the outlier, not the site. Strengthens the IOP→OP fix — it is not a
+preference, it is the only string out of step across five sources.
+
+### CR-19c — the "shared Quadrant oversight" option is NOT available as written
+
+This is the sharpest evidence yet, and it closes an escape hatch the row left open. Every clinical
+title on the parent's team page is **facility-attached**:
+
+| Role | Attached to |
+|---|---|
+| Antoine Gross — Clinical Director | Dallas Detox Center |
+| Cortney Best, M.C.J., LCDC — Clinical Director | Fort Worth Wellness Center |
+| Michelle Szwed, LPC, LCADC, ACS — Clinical Director | **West Windsor – New Jersey**, Wellness Recovery Center NJ |
+| **Dr. Olivia M. Gibson-Delaney, M.D — Medical Director** | **West Windsor – New Jersey** — NOT corporate |
+| Ila Holgerson — Director of Clinical Operations | **West Windsor – New Jersey** — NOT corporate |
+| Michael McArthur / Erin Crawford / Deborah Wade — Nursing | Laguna View / Seaside / Ocean Coast |
+
+And **CORPORATE LEADERSHIP is entirely non-clinical**: Nicholas Petrillo (CEO), Michael Zornberg
+(COO), Sal Rabie (CFO), Colin McBride (CRO), plus founders Joey Cameron and Louis Iacona.
+
+**So there is no published Quadrant-level clinical or medical authority to point at**, and GTB is the
+only facility group on the parent's own team page with no clinical lead — one LPC therapist and two
+case managers. CR-19c offered "if clinical oversight is shared at the Quadrant level, say so on
+`/team` in one sentence". That option cannot be exercised honestly today, because there is nothing
+published to reference. This is now confirmed from **four** independent sources: the facility
+registry, the master bios doc, the headshot folder, and the parent's public team page.
+
+- [ ] **New lead worth checking:** `Staff Headshots/Quadrant/Dr. Pamela Tambini.png` is a
+      physician-titled headshot on file who does **not** appear anywhere on the published parent team
+      page — either former staff or never published. If she is GTB's supervising physician, that is
+      the answer to CR-19c and it simply needs publishing.
+- [ ] Otherwise this stays a business/licensure question, not a content one.
+
+### CR-19b — de-risked: the photos are already public
+
+The parent's team page serves headshots inside the GTB block — `EMMA-1-1024x1024.jpg` and
+`IMG_2769-878x1024.jpeg`. That second file is **878×1024 = 0.857**, an exact ratio match for Jada's
+1290×1505 source, so it is hers. **Emma's and Jada's headshots are therefore already published
+publicly by the parent organisation**, which means the portal upload is a gap in the portal, not a
+consent or approval question. Nothing is waiting on permission.
+
+### V0091 — holds on BOTH parent pages, not just `/locations/`
+
+Re-checked the team page for outbound links: `greatertexasbehavioral.com` **0**, and 0 for every other
+facility domain (`seasidewellnesspb.com`, `lagunaviewdetox.com`, Dallas, Fort Worth). So the parent
+passes no authority to any facility from either page. The repo-side half is already done (CR-18).
+
 ## New findings from this pass
 
 ### CR-21 is BLOCKED, and the reason is bigger than the row said — `P2` — brand owner
