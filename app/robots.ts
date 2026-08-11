@@ -15,26 +15,53 @@ import { site } from '@/lib/site';
  * `/verify-insurance/`). Publishing a crawlable duplicate that cross-canonicals
  * to mismatched URLs is a self-inflicted indexing problem.
  *
- * `VERCEL_ENV` is `production` only for the production deployment; previews and
- * local builds are `preview`/`development`/undefined. After cutover this becomes
- * a no-op for the real domain and keeps protecting every preview.
+ * ⚠️ CORRECTED 2026-08-11 — `VERCEL_ENV` ALONE WAS THE WRONG TEST.
+ * The first version gated on `VERCEL_ENV === 'production'`. That reads as "is
+ * this the real site" but actually means "is this the production deployment of
+ * this Vercel project" — and until cutover those are different things. The
+ * production deployment today IS `greater-texas-behavioral.vercel.app`, so
+ * deploying would have emitted `Allow: /` on exactly the host this guard exists
+ * to keep out of the index. Confirmed by building with `VERCEL_ENV=production`
+ * before the first deploy: it emitted `Allow: /`.
+ *
+ * The test is therefore "is this deployment actually serving the canonical
+ * domain", compared against `site.url` so the two can never disagree:
+ *
+ *   VERCEL_PROJECT_PRODUCTION_URL   the project's production domain. Becomes
+ *                                   `greatertexasbehavioral.com` the moment that
+ *                                   custom domain is attached, so indexing turns
+ *                                   itself on at cutover with nothing to remember.
+ *   SITE_INDEXABLE=true             manual override, in case that variable is
+ *                                   unavailable or the domain is served some other
+ *                                   way. Set it in Vercel only when the canonical
+ *                                   domain is genuinely live on this deployment.
+ *
+ * Both still require `VERCEL_ENV === 'production'`, so previews stay blocked
+ * regardless.
  *
  * ⚠️ THIS IS EVALUATED AT BUILD TIME, not per request — `/robots.txt` is a static
- * route, so the branch taken is frozen into the output. Vercel sets `VERCEL_ENV`
- * during the build, so production deployments come out correct. But it means:
+ * route, so the branch taken is frozen into the output. Vercel sets these during
+ * the build, so production deployments come out correct. But it means:
  *
- *   VERCEL_ENV=production next start     ← does NOTHING, the file is already built
- *   VERCEL_ENV=production next build     ← this is what actually matters
+ *   SITE_INDEXABLE=true next start     ← does NOTHING, the file is already built
+ *   SITE_INDEXABLE=true next build     ← this is what actually matters
  *
- * Verified both ways: a build with `VERCEL_ENV=production` emits `Allow: /` plus
- * the sitemap; a build without it emits `Disallow: /`. The default direction is
- * deliberately fail-safe — an unexpected build environment blocks crawlers rather
- * than accidentally indexing a staging copy.
+ * A redeploy is required for a change here to take effect.
+ *
+ * The default direction is deliberately fail-safe: anything unexpected blocks
+ * crawlers rather than accidentally indexing a staging copy. The cost of being
+ * wrong in that direction is a delayed index; the cost of the other direction is
+ * a duplicate-content problem that outlives the mistake.
  */
-const isProduction = process.env.VERCEL_ENV === 'production';
+const CANONICAL_HOST = new URL(site.url).host;
+
+const isProductionDeployment = process.env.VERCEL_ENV === 'production';
+const servesCanonicalDomain =
+  process.env.VERCEL_PROJECT_PRODUCTION_URL === CANONICAL_HOST ||
+  process.env.SITE_INDEXABLE === 'true';
 
 export default function robots(): MetadataRoute.Robots {
-  if (!isProduction) {
+  if (!isProductionDeployment || !servesCanonicalDomain) {
     return { rules: { userAgent: '*', disallow: '/' } };
   }
 
