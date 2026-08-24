@@ -1,6 +1,11 @@
 'use client';
 
 import { useCallback, useState } from 'react';
+import {
+  attributionPayload,
+  ctmSessionId,
+  droppedClickIds,
+} from '@/lib/attribution';
 
 /**
  * Shared lead-delivery hook — the single place that decides whether a form may
@@ -27,6 +32,24 @@ import { useCallback, useState } from 'react';
  *    fall back to our own `/api/lead/` route. `delivered: false` (e.g. the
  *    email relay is unconfigured) counts as a FAILURE on purpose, so the UI
  *    surfaces the phone number instead of a false confirmation.
+ *
+ * ATTRIBUTION — the two paths need different treatment, which is why it is
+ * handled here rather than in either form.
+ *
+ * On the CLARION path, `forms-capture.v1.js` builds the whole payload itself:
+ * `page_url`, `landing_page_url`, `referrer`, `utm`, `gclid` and — flat and
+ * top-level, which is what CTM requires — `ctm_visitor_sid`. Its `submit()` API
+ * accepts only `{form_key, data}`, so none of that can be overridden from here,
+ * and it does not need to be: `lib/attribution.ts` fixes the one field that was
+ * broken (the campaign) by restoring it into the URL the vendor reads. All we
+ * add is the click ids the vendor drops on the floor entirely.
+ *
+ * On the FALLBACK path nothing collects attribution at all, because the vendor
+ * script is precisely what is missing. That path therefore sends the full
+ * attribution block explicitly. This matters more than it looks: the fallback
+ * fires when a tracker blocker ate the vendor script, which correlates strongly
+ * with paid traffic, so treating it as an afterthought loses attribution on
+ * exactly the leads whose source is most expensive to have bought.
  */
 
 /** How long to wait for the afterInteractive Clarion script before falling back. */
@@ -65,7 +88,19 @@ async function submitToClarion(
   const clarion = await waitForClarion();
   if (!clarion) return false;
   try {
-    const res = await clarion.submit({ form_key: formKey, data });
+    // `wbraid`/`gbraid` are Google's gclid substitutes under iOS and consent
+    // mode, and `forms-capture.v1.js` never reads them — it only looks for
+    // `gclid`. They go inside `data` because that is the only part of the
+    // payload we control; Clarion's attribution parser will not use them from
+    // there, but the values reach the lead record instead of vanishing, and
+    // CTM's own routing rules (which DO key on both) see them in the URL.
+    // A deliberate non-choice: we do NOT copy them into `gclid` to make that
+    // field populate. A wbraid is not a gclid, and forging one trades a visibly
+    // missing value for a silently wrong one.
+    const res = await clarion.submit({
+      form_key: formKey,
+      data: { ...data, ...droppedClickIds() },
+    });
     // A non-2xx here is the "origin not allowlisted in Clarion" case.
     return Boolean(res?.ok);
   } catch {
@@ -84,7 +119,14 @@ async function submitToFallback(
     const res = await fetch('/api/lead/', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ...data, form_key: formKey }),
+      // Attribution is spread LAST so a form field can never shadow it — the
+      // fields are attacker-influenced (anyone can rename an input), and
+      // `ctm_visitor_sid` in particular has to stay the value we computed.
+      body: JSON.stringify({
+        ...data,
+        form_key: formKey,
+        ...attributionPayload(),
+      }),
     });
     if (!res.ok) return false;
     const json = (await res.json()) as { delivered?: boolean };
@@ -108,6 +150,18 @@ export function useLeadDelivery(formKey: string) {
         string,
         string
       >;
+
+      // Loud in development only. Every way this integration breaks returns a
+      // clean 200 and a real, callable lead — the only thing missing is the
+      // link to the ad click — so there is no runtime signal to notice. A
+      // console line at the moment of submission is the cheapest place to catch
+      // "t.js got blocked" before it becomes a month of unattributed spend.
+      if (process.env.NODE_ENV !== 'production' && !ctmSessionId()) {
+        console.warn(
+          '[lead] no CTM session id at submit time — t.js blocked or not loaded. ' +
+            'This lead will attach to no visit in CallTrackingMetrics.',
+        );
+      }
 
       setStatus('sending');
       const captured = await submitToClarion(formKey, data);

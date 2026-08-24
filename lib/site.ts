@@ -64,9 +64,11 @@ export const parentOrg = {
 
 /**
  * Clarion Labs webchat / lead capture.
- * The cpx_ key is a PUBLIC site key (safe to ship). The server route reads
- * process.env.CLARION_SITE_KEY first and falls back to this so the integration
- * works with zero env config; override via env if the key is ever rotated.
+ * The cpx_ key is a PUBLIC site key (safe to ship). `CLARION_SITE_KEY` overrides
+ * it if it is ever rotated, but note WHERE that override applies: the only
+ * reader is `lib/clarion-blog.ts` (the server-side blog fetch). The browser
+ * scripts and the lead route both take the shipped value from this file, so
+ * setting the env var alone does NOT rotate the key for form capture.
  * NOTE: every production origin (apex + www + the .vercel.app alias, and any
  * custom domain) must be allowlisted in Clarion → Website Integrations.
  */
@@ -116,8 +118,38 @@ export const analytics = {
    * Supplied as `//264810.tctm.co/t.js`; pinned to https here because a
    * protocol-relative URL inherits the page protocol and `upgrade-insecure-requests`
    * would rewrite it anyway.
+   *
+   * ⚠️ LOADED EAGERLY AND PARSE-BLOCKING by the root layout — deliberately NOT
+   * `afterInteractive` like GTM below. t.js performs the dynamic number swap, so
+   * any deferral leaves a window in which a visitor can read and dial the
+   * un-swapped number. On a site whose primary CTA is a phone number that is a
+   * lost call, which costs more than the render-blocking milliseconds. GTM is a
+   * different case and correctly stays deferred: nothing it does is visible.
+   *
+   * ⚠️ EXACTLY ONE COPY. A second t.js double-counts sessions and makes the
+   * number swap unpredictable. The usual cause is a CTM tag added inside the GTM
+   * container ON TOP of the one in the template — so if call attribution starts
+   * behaving oddly, check the container before changing anything here.
+   * `tests/csp-check.mjs` asserts the tag count for this reason.
    */
   callTrackingSrc: 'https://264810.tctm.co/t.js',
+  /**
+   * CTM account id. Confirmed, not assumed: `greatertexasbehavioral.com` appears
+   * by name in the routing rules inside this account's own t.js. A wrong account
+   * files every lead against no visit and returns a clean 200 while doing it.
+   *
+   * Also used server-side: `__ctmid` encodes the account in characters 8-16, hex
+   * (`6a88a9cc00040a6a4743909d` -> `00040a6a` -> 264810), which lets
+   * app/api/lead/route.ts spot a cookie issued by a different CTM account —
+   * perfectly shaped, and still attributing to nothing.
+   */
+  ctmAccountId: 264810,
+  /**
+   * The value t.js sets as `__ctm.config.host` and builds all its own requests
+   * from (an XHR to /x.json, an appended /ctm-form-api.js, /p.js, an image
+   * pixel). This is what the CSP has to allow on `script-src` and `connect-src`.
+   */
+  ctmHost: '264810.tctm.co',
 } as const;
 
 export type NavChild = { label: string; href: string; description?: string };

@@ -8,7 +8,13 @@
  *
  * SAFETY: the Clarion submit endpoint is MOCKED, so running this never creates
  * a real lead. `/api/lead/` is mocked too, so results don't depend on whether
- * Resend is configured. Preserve both properties.
+ * Resend is configured. CallTrackingMetrics is BLOCKED and `window.__ctm` is
+ * stubbed — otherwise each of the eight scenarios would open a real visitor
+ * session in the live CTM account, and delivery assertions would start
+ * depending on a third party being reachable. Preserve all three properties.
+ *
+ * Attribution correctness is NOT tested here; it has its own script,
+ * `attribution-verify.mjs`. This one is only about whether the lead arrives.
  */
 import { chromium } from 'playwright';
 import { BASE, assertReachable } from './lib/base.mjs';
@@ -17,6 +23,9 @@ await assertReachable();
 
 const CLARION_SUBMIT = /api\.clarionlabs\.ai\/forms\/public\/submit/;
 const CLARION_SCRIPT = /clarionlabs\.ai\/.*\.js/;
+const CTM_HOST = /tctm\.co/;
+/** Shaped like a real CTM sid: 24 hex, chars 8-16 encoding account 264810. */
+const STUB_CTM_SID = '6a88a9cc00040a6a4743909d';
 
 /** The two intake forms, with the fields each one requires. */
 const FORMS = {
@@ -52,6 +61,13 @@ async function scenario({ form, label, nav, clarionStatus, blockScript, fallback
 
   const clarionPosts = [];
   const fallbackPosts = [];
+
+  // Keep QA traffic out of the live CTM account, and keep these scenarios
+  // independent of CTM being up. See the SAFETY note above.
+  await page.route(CTM_HOST, (r) => r.abort());
+  await page.addInitScript((sid) => {
+    window.__ctm = { config: { aid: 264810, sid, host: '264810.tctm.co' } };
+  }, STUB_CTM_SID);
 
   if (blockScript) await page.route(CLARION_SCRIPT, (r) => r.abort());
 

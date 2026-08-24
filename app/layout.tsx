@@ -3,6 +3,8 @@ import { Inter, Plus_Jakarta_Sans } from 'next/font/google';
 import Script from 'next/script';
 import './globals.css';
 import { site, clarion, parentOrg, analytics } from '@/lib/site';
+import { CAMPAIGN_BOOTSTRAP } from '@/lib/attribution';
+import AttributionTracker from '@/components/AttributionTracker';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
@@ -113,6 +115,47 @@ export default function RootLayout({
             __html: `document.documentElement.classList.add('js')`,
           }}
         />
+
+        {/* ── Attribution. THE ORDER OF THE NEXT TWO TAGS IS LOAD-BEARING ──
+            The bootstrap restores a saved campaign into the query string, and it
+            must run BEFORE t.js so CTM attributes a returning visitor to the
+            click that first brought them here instead of logging a fresh direct
+            visit. Both must also precede forms-capture.v1.js below, which reads
+            utm/gclid out of location.search at submit time. See
+            lib/attribution.ts for why the URL is the only route to those fields.
+
+            It sits AFTER the `js`-class script above on purpose: that one has to
+            run before anything parse-blocking, or content paints visible and is
+            then hidden by the reveal styles — the flash its own comment guards
+            against. */}
+        <script dangerouslySetInnerHTML={{ __html: CAMPAIGN_BOOTSTRAP }} />
+
+        {/* CallTrackingMetrics — a plain parse-blocking tag, NOT next/script.
+            Two reasons, both deliberate:
+
+            1. EAGER. t.js performs the dynamic number insertion described below,
+               so deferring it leaves a window where a visitor reads and dials
+               the un-swapped number. GTM further down correctly stays
+               `afterInteractive` — nothing it does is user-visible — but the
+               same reasoning does not transfer to a script that rewrites the
+               primary CTA.
+            2. ORDER. `strategy="beforeInteractive"` would hoist this into
+               <head>, ahead of the bootstrap above, defeating the ordering just
+               described.
+
+            ⚠️ DYNAMIC NUMBER INSERTION: t.js rewrites phone numbers in the DOM
+            at runtime, so the number a visitor sees is not always `site.phone`.
+            That is the product working as intended, but it means the rendered
+            number is not a reliable assertion — `tests/header-check.mjs` checks
+            the server-rendered HTML, which CTM does not touch. If someone
+            reports "the site shows a number we don't recognise", check the CTM
+            number pool before assuming a V0043-style regression.
+
+            ⚠️ EXACTLY ONE COPY must exist. See the note on `callTrackingSrc` in
+            lib/site.ts; `tests/csp-check.mjs` asserts the count. */}
+        {/* eslint-disable-next-line @next/next/no-sync-scripts */}
+        <script src={analytics.callTrackingSrc} />
+
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}
@@ -123,6 +166,9 @@ export default function RootLayout({
         >
           Skip to content
         </a>
+        {/* Restores the campaign after an App Router navigation, which rewrites
+            the URL without re-running the inline bootstrap above. */}
+        <AttributionTracker />
         <Header />
         <main id="main" className="flex-1">
           {children}
@@ -163,18 +209,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 })(window,document,'script','dataLayer','${analytics.gtmId}');`}
         </Script>
 
-        {/* CallTrackingMetrics. Supplied as `//264810.tctm.co/t.js`; pinned to
-            https in lib/site.ts.
-
-            ⚠️ This script performs DYNAMIC NUMBER INSERTION — it rewrites phone
-            numbers in the DOM at runtime, so the number a visitor sees and dials
-            will not always be `site.phone`. That is the product working as
-            intended, but it means the rendered number is no longer a reliable
-            assertion: `tests/header-check.mjs` checks the server-rendered HTML,
-            which CTM does not touch. If someone reports "the site shows a number
-            we don't recognise", check the CTM pool before assuming a V0043-style
-            regression. */}
-        <Script src={analytics.callTrackingSrc} strategy="afterInteractive" async />
+        {/* NOTE: CallTrackingMetrics is NOT loaded here. It was, as an
+            `afterInteractive` <Script>, and it has moved to the top of <body> as
+            an eager tag — see the block up there for why. Do not re-add it in
+            this position: two copies double-count sessions and make the number
+            swap unpredictable. */}
       </body>
     </html>
   );

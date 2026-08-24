@@ -61,8 +61,10 @@ const RETIRED_POSTS = [
  * both talk only to https://api.clarionlabs.ai, use no iframes and open no
  * sockets.
  *
- * `script-src 'unsafe-inline'` is still required: the root layout ships two
- * small inline bootstrap scripts and Next.js inlines its own hydration data.
+ * `script-src 'unsafe-inline'` is still required: the root layout ships four
+ * small inline scripts (the `js` class, the campaign-attribution bootstrap, the
+ * JSON-LD block and GTM's initialiser) and Next.js inlines its own hydration
+ * data.
  * Tightening this to a nonce needs `middleware.ts` to generate a per-request
  * nonce — worth doing, but it changes every route to dynamic rendering, so it
  * is intentionally left as a follow-up rather than bundled into this pass.
@@ -116,6 +118,11 @@ const CSP = [
   // carries a member ID and free-text health context, so this is what stops that
   // payload reaching anywhere unintended. Each host below is here for a reason —
   // do not widen it to `https:` for convenience.
+  //
+  // `*.tctm.co` is load-bearing for lead attribution, not just for the number
+  // swap: t.js tracks events with an XHR to `<account>.tctm.co/x.json`. Remove it
+  // and the script still loads and still swaps numbers while silently recording
+  // nothing — which is the exact failure mode `lib/attribution.ts` exists to fix.
   "connect-src 'self' https://api.clarionlabs.ai https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com https://*.tctm.co https://api.calltrackingmetrics.com https://*.clarity.ms",
   // GTM's <noscript> fallback is an iframe on googletagmanager.com. Was 'none'.
   "frame-src https://www.googletagmanager.com",

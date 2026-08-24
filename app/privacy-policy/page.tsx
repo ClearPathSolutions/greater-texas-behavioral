@@ -48,6 +48,22 @@
  *           Google, Microsoft and CallTrackingMetrics are covered by BAAs, or
  *           restrict tags on /verify-insurance, /contact and /what-we-treat.
  *      See ISSUES.md CR-22.
+ *
+ *   8. CAMPAIGN PERSISTENCE — 2026-08-24, added with lib/attribution.ts. §2 now
+ *      discloses that campaign parameters persist in local storage for 30 days
+ *      and are re-added to the URL between pages. Two consequences worth a
+ *      human's judgement, neither of which existed when (7) was written:
+ *        a. Campaign parameters now appear in the URL on internal pages, so any
+ *           tag in the GTM container that captures page URLs — Clarity's session
+ *           recordings included — will capture them alongside the path. On this
+ *           site a path can imply what someone is seeking treatment for, which
+ *           is the combination (7c) is about. It is not a new disclosure of the
+ *           path itself (every tag already receives that), but it does widen
+ *           what is attached to it.
+ *        b. `Referrer-Policy: strict-origin-when-cross-origin` means these
+ *           parameters are NOT sent to external sites as a referrer. That
+ *           mitigation is load-bearing — do not relax that header without
+ *           revisiting this.
  * ---------------------------------------------------------------------------
  */
 import type { Metadata } from 'next';
@@ -65,7 +81,7 @@ export const metadata: Metadata = pageMetadata({
   path: 'privacy-policy',
 });
 
-const LAST_UPDATED = 'August 11, 2026';
+const LAST_UPDATED = 'August 24, 2026';
 
 export default function PrivacyPolicyPage() {
   return (
@@ -117,15 +133,22 @@ export default function PrivacyPolicyPage() {
 
               <h2>2. Information collected automatically</h2>
               <p>
-                When you submit the form or use the chat widget, our lead-capture
+                When you submit a form or use the chat widget, our lead-capture
                 provider records technical context alongside your submission: the
                 page you submitted from, the page you first landed on, the
                 referring website, your browser&rsquo;s user-agent string, and
                 any campaign parameters (such as <code>utm_source</code> or{' '}
-                <code>gclid</code>) present in the link you arrived through. A
-                small amount of that attribution data is stored in your
-                browser&rsquo;s session storage and is cleared when you close the
-                tab.
+                <code>gclid</code>) present in the link you arrived through.
+              </p>
+              <p>
+                So that this stays accurate if you read a few pages before
+                getting in touch, those campaign parameters and the page you
+                first arrived on are kept in your browser&rsquo;s local storage
+                for up to <strong>30 days</strong>, and the campaign parameters
+                are re-added to the address bar as you move between pages. This
+                information stays on your device, contains nothing you typed, and
+                is used only to record which outreach channel led you here.
+                Clearing your browsing data removes it.
               </p>
               <p>
                 Our hosting provider also processes standard server request data,

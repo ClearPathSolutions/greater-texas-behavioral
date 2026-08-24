@@ -68,9 +68,13 @@ launch** or the lead fallback accepts submissions it cannot deliver. See `.env.e
 | `RESEND_API_KEY`    | Resend key — enables the `/api/lead/` email fallback                    |
 | `CONTACT_FROM`      | Verified Resend sender                                                  |
 | `CONTACT_TO`        | Where inquiries land (defaults to `site.email`)                          |
-| `CLARION_SITE_KEY`  | Optional override of the public Clarion key shipped in `lib/site.ts`     |
-| `CLARION_API`       | Optional override of the Clarion API base                               |
+| `CLARION_SITE_KEY`  | Override of the public Clarion key — **blog fetch only**, see `.env.example` |
 | `STAFF_FEED_ORIGIN` | Optional override of the Quadrant support-portal origin                 |
+
+`CLARION_API` used to be listed here. Nothing reads it — the API base comes from
+`clarion.api` in `lib/site.ts`. CallTrackingMetrics needs **no** environment
+variables: the account id and host are public identifiers, and they live in the
+`ctm` block of `lib/site.ts` alongside the Clarion site key.
 
 Indexing is gated on `VERCEL_ENV === 'production'` (`app/robots.ts`), so previews and
 the pre-cutover alias return `Disallow: /`.

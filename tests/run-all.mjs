@@ -16,6 +16,9 @@ const SCRIPTS = [
   // early alongside the other serverless check.
   'staff-bio-drift.mjs',
   'lead-verify.mjs',
+  // Runs right after lead-verify: same two forms, but asserting the attribution
+  // on the payload rather than whether it was delivered.
+  'attribution-verify.mjs',
   'responsive-check.mjs',
   'header-check.mjs',
   'csp-check.mjs',
