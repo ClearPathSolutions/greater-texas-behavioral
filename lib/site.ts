@@ -82,6 +82,44 @@ export const clarion = {
   // reintroduces that failure. See lib/clarion-blog.ts.
 } as const;
 
+/**
+ * Marketing / call-tracking tags. Added 2026-08-11 at the owner's request.
+ *
+ * ⚠️ COMPLIANCE PRECONDITION — READ BEFORE SHIPPING.
+ * Both of these set cookies and send visitor data to third parties. Three live
+ * statements on this site were true before they were added and are NOT true now:
+ *
+ *   1. `/privacy-policy` §2 describes only Clarion's attribution data, and the
+ *      page was written from the verified fact that this site set NO cookies.
+ *   2. §4 states "We do not use it for cross-context behavioural advertising or
+ *      build advertising profiles from it."
+ *   3. §9 states "We do not sell personal data or process it for targeted
+ *      advertising, so there is nothing to opt out of on those grounds" — which
+ *      is what removes the TDPSA opt-out obligation.
+ *
+ * Audit V0100 recorded this exact condition: "If marketing later adds ad-platform
+ * pixels, that statement must change and a TDPSA opt-out mechanism must be added."
+ * That has now happened. See ISSUES.md CR-22.
+ *
+ * Separately: this is a behavioural-health site. Page paths such as
+ * `/what-we-treat#substance-use` combined with an IP address are the pattern HHS
+ * OCR's guidance on online tracking technologies treats as a disclosure of health
+ * information. Confirm with counsel which tags may fire, and whether Google and
+ * CallTrackingMetrics are covered by BAAs, before enabling anything beyond
+ * first-party call attribution.
+ */
+export const analytics = {
+  /** Google Tag Manager container. Loads whatever tags are configured in the GTM UI. */
+  gtmId: 'GTM-MTGTSPCG',
+  /**
+   * CallTrackingMetrics. Account-scoped host, so it is safe to allowlist in CSP.
+   * Supplied as `//264810.tctm.co/t.js`; pinned to https here because a
+   * protocol-relative URL inherits the page protocol and `upgrade-insecure-requests`
+   * would rewrite it anyway.
+   */
+  callTrackingSrc: 'https://264810.tctm.co/t.js',
+} as const;
+
 export type NavChild = { label: string; href: string; description?: string };
 export type NavItem = { label: string; href: string; children?: NavChild[] };
 

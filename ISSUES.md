@@ -1199,6 +1199,101 @@ Two things fall out of the comparison:
 - [ ] Verify: header and footer render the approved lockup at every breakpoint; no layout shift from
       the changed aspect ratio; total logo bytes unchanged or lower.
 
+## CR-22 — GTM + CallTrackingMetrics added; the site went from 0 cookies to 12 — `P0` — Compliance
+
+**Requested and implemented 2026-08-11.** `GTM-MTGTSPCG` and
+`//264810.tctm.co/t.js` are live in `app/layout.tsx`, configured from a new
+`analytics` block in `lib/site.ts`, with CSP widened to match. Both work — verified in a real
+browser, zero CSP violations.
+
+The implementation was the easy half. Running `tests/csp-check.mjs` afterwards surfaced things the
+request did not mention, and they change this site's compliance position.
+
+### What the GTM container actually loads
+
+Nobody said Clarity was in there. It is, and it does more than analytics:
+
+| Loaded | What it is |
+|---|---|
+| `googletagmanager.com/gtm.js?id=GTM-MTGTSPCG` | the container |
+| `264810.tctm.co/t.js` + `p.js` | CallTrackingMetrics |
+| `www.clarity.ms/tag/y5yz4xse4b` → `scripts.clarity.ms/…/clarity.js` | **Microsoft Clarity — session recording + heatmaps** |
+| `c.clarity.ms/c.gif` | Clarity beacon |
+| **`c.bing.com/c.gif?ctsa=mr&CtsSyncId=…`** | **Microsoft Advertising identity sync** |
+
+### Cookies: 0 → 12 on first page load
+
+`__ctmid`, `ct264810`, `CLID`, `_clck`, `_clsk`, `SM`, `MUID`×2, `MR`×2, `SRM_B`, `ANONCHK`.
+
+`MUID` is Microsoft's **cross-site advertising identifier**, and Clarity syncs it to `c.bing.com`.
+That is not analytics — it is ad-tech, running on a substance-use treatment site. HHS OCR's guidance
+on online tracking technologies treats page path plus IP on a health site as a disclosure of health
+information, and `/verify-insurance` collects an insurance member ID and free-text health context.
+
+### Three live statements were made false, and are now fixed
+
+Audit **V0100** predicted this precisely: *"If marketing later adds ad-platform pixels, that statement
+must change and a TDPSA opt-out mechanism must be added."* It has happened.
+
+`/privacy-policy` was **written from the verified fact that the site set no cookies**. Updated
+2026-08-11 (last-updated date bumped):
+
+- **§2** — new disclosure of analytics, session recording, call measurement, the cookies they set,
+  dynamic number insertion, and how to block them.
+- **§4** — "we do not use it for cross-context behavioural advertising" narrowed to what is still
+  true: form submissions are not used for advertising.
+- **§9** — the TDPSA claim that there was "nothing to opt out of" is gone; replaced with an actual
+  opt-out route.
+
+⚠️ **This is a lawyer's document and I am not one.** The edits keep it factually accurate rather
+than settling it. Item 7 in the page's header comment lists what counsel must confirm.
+
+### Guardrail added
+
+`tests/csp-check.mjs` printed `cookies="…"` but **never asserted on it** — which is why adding GTM
+set a cookie and the suite still said PASS. It now fails on any cookie outside an annotated
+allowlist, so the next tag that starts writing to the browser surfaces here instead of silently
+making a compliance document wrong.
+
+### Decisions needed — before cutover, not after
+
+The natural window: `greatertexasbehavioral.com` is still WordPress and the Vercel alias is
+`Disallow: /`, so real traffic through these tags is near zero right now.
+
+- [ ] **Is Microsoft Clarity meant to be on this site?** Session recording on `/verify-insurance`
+      and `/contact`. Clarity masks input values by default but still records interaction. Either
+      configure masking/exclusions for those routes, or remove the tag — deleting the two
+      `clarity.ms` hosts from `script-src` in `next.config.mjs` disables it.
+- [ ] **Is the Bing/`MUID` advertising sync intended?** This is the sharpest question of the three.
+      It is a consequence of Clarity, not a separate tag.
+- [ ] **Confirm the full tag inventory in the GTM UI.** This page documents what was observed
+      loading. Anything added in GTM later changes what is true here and nothing in this repo will
+      notice — GTM is a loader, and a tag whose host is missing from CSP fails silently.
+- [ ] **Counsel review** of the privacy-policy changes, plus BAA status for Google, Microsoft and
+      CallTrackingMetrics.
+- [ ] **TDPSA opt-out**: §9 now promises we will honour an opt-out request. Make sure someone can
+      actually action one.
+- [ ] Note for future phone-number reports: CTM does **dynamic number insertion**, so the number a
+      visitor sees may not be `site.phone`. Check the CTM pool before assuming a V0043-style
+      regression.
+
+## CR-23 — Clarion webchat is failing on the live site — `P1` — Ben
+
+Found while baselining CR-22, **not caused by it**. `tests/csp-check.mjs` fails on all 10 routes
+because `https://api.clarionlabs.ai/webchat/public/installed` errors — `net::ERR_FAILED` locally,
+`net::ERR_ABORTED` against the deployed alias. Confirmed on the **live production alias running the
+previous build**, so it predates the tag work.
+
+`window.ClarionForms` still initialises, so form capture is intact — but the webchat install check
+is failing, which is the widget on a lead-generating healthcare site. This is almost certainly
+**CO-2** (production origins not allowlisted in Clarion → Website Integrations) finally showing up
+as a hard failure.
+
+- [ ] Allowlist the origins in Clarion → Website Integrations: the apex, `www`, and
+      `greater-texas-behavioral.vercel.app`. Add `http://127.0.0.1:3111` if local verification
+      should work too.
+- [ ] Verify: `npm test` reaches `✅ NO CSP OR RUNTIME REGRESSIONS` with no `requests:` line.
+
 ## Rows closed with no action needed
 
 - **V0135 — cutover redirect map.** Already satisfied: all 4 pairs (`/insurance-verification` plus

@@ -32,6 +32,22 @@
  *      or use it for cross-context behavioural advertising. If marketing later
  *      adds ad-platform pixels, that statement must change and a TDPSA opt-out
  *      mechanism must be added.
+ *
+ *   ⚠️ 7. THE CONDITION IN (6) HAS NOW TRIGGERED — 2026-08-11. Google Tag
+ *      Manager (GTM-MTGTSPCG) and CallTrackingMetrics were added to the site, and
+ *      the GTM container already carries Microsoft Clarity (session recording).
+ *      §2 now discloses them and §4/§9 have been narrowed to stay truthful, but
+ *      THREE THINGS STILL NEED A HUMAN:
+ *        a. Confirm the full tag inventory in the GTM UI. This page can only
+ *           describe what was observed loading; anything added in GTM later
+ *           changes what is true here and nothing in this repo will notice.
+ *        b. If any tag does targeted advertising, TDPSA requires a real opt-out
+ *           mechanism — a sentence in a policy is not one.
+ *        c. HHS OCR guidance on online tracking treats page paths plus IP on a
+ *           health site as a disclosure of health information. Confirm whether
+ *           Google, Microsoft and CallTrackingMetrics are covered by BAAs, or
+ *           restrict tags on /verify-insurance, /contact and /what-we-treat.
+ *      See ISSUES.md CR-22.
  * ---------------------------------------------------------------------------
  */
 import type { Metadata } from 'next';
@@ -49,7 +65,7 @@ export const metadata: Metadata = pageMetadata({
   path: 'privacy-policy',
 });
 
-const LAST_UPDATED = 'August 4, 2026';
+const LAST_UPDATED = 'August 11, 2026';
 
 export default function PrivacyPolicyPage() {
   return (
@@ -116,6 +132,34 @@ export default function PrivacyPolicyPage() {
                 including IP address, for security, abuse prevention, and
                 reliability purposes.
               </p>
+              <p>
+                <strong>
+                  Analytics, advertising and call-measurement tools.
+                </strong>{' '}
+                We use a tag-management tool to load measurement scripts on this
+                site. These currently include website analytics, a product that
+                records how visitors interact with pages (such as clicks,
+                scrolling and mouse movement, with the contents of form fields
+                masked), and a call-measurement service that attributes phone
+                calls to the marketing that produced them. To do this they{' '}
+                <strong>set cookies in your browser</strong> and receive technical
+                information including the pages you view, your approximate
+                location derived from IP address, your device and browser, and the
+                referring site or campaign.
+              </p>
+              <p>
+                The call-measurement service may also display a different phone
+                number to different visitors so that calls can be attributed to a
+                campaign. Calls to those numbers reach our admissions team as
+                normal and may be recorded or logged for quality and attribution
+                purposes.
+              </p>
+              <p>
+                You can limit this using your browser&rsquo;s cookie controls, a
+                tracking-protection or ad-blocking extension, or your
+                device&rsquo;s global privacy control. Blocking them does not
+                affect your ability to use this site, submit a form, or call us.
+              </p>
 
               <h2>3. How we use your information</h2>
               <ul>
@@ -156,8 +200,12 @@ export default function PrivacyPolicyPage() {
                   brokers, or marketing aggregators.
                 </li>
                 <li>
-                  We do not use it for cross-context behavioural advertising or
-                  build advertising profiles from it.
+                  We do not use the information you type into our forms &mdash;
+                  your name, contact details, insurance details, or anything you
+                  write in a message &mdash; for advertising, and we do not build
+                  advertising profiles from it. The measurement tools described in
+                  §2 do collect browsing data through cookies; see that section
+                  for what they receive and how to limit it.
                 </li>
                 <li>
                   We do not disclose that you contacted us to family, employers,
@@ -252,10 +300,16 @@ export default function PrivacyPolicyPage() {
                 Under the Texas Data Privacy and Security Act, Texas residents
                 may ask us to confirm whether we process their personal data,
                 obtain a copy of it, correct inaccuracies, or delete it, and may
-                appeal a decision we make about such a request. We do not sell
-                personal data or process it for targeted advertising, so there is
-                nothing to opt out of on those grounds. Depending on where you
-                live, you may have similar rights under other state laws.
+                appeal a decision we make about such a request. We do not sell the
+                personal information you submit through our forms. Texas residents
+                also have the right to opt out of processing for targeted
+                advertising and of any sharing that counts as a &ldquo;sale&rdquo;
+                under the Act; to exercise that right in relation to the
+                measurement and advertising cookies described in §2, contact us
+                using the details in §11 and we will honour it &mdash; and you can
+                block those cookies in your browser at any time. Depending on
+                where you live, you may have similar rights under other state
+                laws.
               </p>
               <p>
                 You can also, at any time:

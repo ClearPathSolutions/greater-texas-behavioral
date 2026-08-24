@@ -69,14 +69,56 @@ const RETIRED_POSTS = [
  */
 const CSP = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline' https://www.clarionlabs.ai",
+  // GTM + CallTrackingMetrics added 2026-08-11 (see `analytics` in lib/site.ts).
+  //
+  // ⚠️ GTM IS A LOADER, NOT A TAG. Whatever is configured in the GTM UI injects
+  // further scripts at runtime, and anything whose host is not listed here is
+  // silently blocked — the tag simply never fires, with no error in the GTM
+  // interface. So every new tag added in GTM needs its host added here too.
+  // Common ones and what they need:
+  //   Microsoft Clarity  -> script www.clarity.ms · connect *.clarity.ms  [ALREADY IN
+  //                         THIS CONTAINER — see the warning below]
+  //   GA4                -> script googletagmanager.com · connect *.google-analytics.com
+  //   Google Ads / gtag  -> script googletagmanager.com, googleadservices.com
+  //                         · connect google.com, googleadservices.com · img *
+  //   Meta Pixel         -> script connect.facebook.net · connect facebook.com
+  //   LinkedIn           -> script snap.licdn.com · connect px.ads.linkedin.com
+  // If a tag "works in Preview mode but not live", this list is the first place
+  // to look: GTM Preview runs same-origin and bypasses the page CSP.
+  //
+  // ⚠️ MICROSOFT CLARITY IS ALREADY CONFIGURED IN THIS GTM CONTAINER.
+  // Discovered by running tests/csp-check.mjs after adding GTM: the container
+  // immediately tried to load https://www.clarity.ms/tag/y5yz4xse4b and CSP
+  // blocked it. Clarity is SESSION RECORDING + heatmaps — it replays mouse
+  // movement, clicks and scrolling. `www.clarity.ms` is allowlisted below so the
+  // container the owner asked for actually works, but on a behavioural-health
+  // site this is the single highest-risk tag in the stack: /verify-insurance
+  // collects an insurance member ID and free-text health context. Clarity masks
+  // input VALUES by default, but it still records interaction on those pages.
+  // Decide deliberately: mask/exclude the form routes in Clarity, or remove the
+  // tag. Removing the two clarity.ms hosts from script-src disables it again.
+  //
+  // ⚠️ AND IT IS NOT JUST SESSION RECORDING. Verified in a real browser after
+  // allowlisting: Clarity loads scripts.clarity.ms, then beacons c.clarity.ms
+  // AND c.bing.com with a `CtsSyncId`, setting MUID / MR / SRM_B / ANONCHK.
+  // MUID is Microsoft's CROSS-SITE ADVERTISING IDENTIFIER. So this container
+  // syncs an ad ID to Microsoft Advertising from a substance-use treatment site,
+  // which is the exact pattern HHS OCR's tracking-technology guidance is about.
+  // Ten cookies are set on first load; before GTM there were zero.
+  // See ISSUES.md CR-22.
+  "script-src 'self' 'unsafe-inline' https://www.clarionlabs.ai https://www.googletagmanager.com https://264810.tctm.co https://*.tctm.co https://www.clarity.ms https://*.clarity.ms",
   "style-src 'self' 'unsafe-inline'",
   // Staff photos are served from the Quadrant support portal; next/image
   // also emits data:/blob: URLs for placeholders.
   "img-src 'self' data: blob: https:",
   "font-src 'self' data:",
-  "connect-src 'self' https://api.clarionlabs.ai",
-  "frame-src 'none'",
+  // `connect-src` is the one directive worth keeping tight: the insurance form
+  // carries a member ID and free-text health context, so this is what stops that
+  // payload reaching anywhere unintended. Each host below is here for a reason —
+  // do not widen it to `https:` for convenience.
+  "connect-src 'self' https://api.clarionlabs.ai https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com https://*.tctm.co https://api.calltrackingmetrics.com https://*.clarity.ms",
+  // GTM's <noscript> fallback is an iframe on googletagmanager.com. Was 'none'.
+  "frame-src https://www.googletagmanager.com",
   "frame-ancestors 'none'",
   "base-uri 'self'",
   "form-action 'self'",
