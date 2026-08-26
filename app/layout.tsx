@@ -130,31 +130,61 @@ export default function RootLayout({
             against. */}
         <script dangerouslySetInnerHTML={{ __html: CAMPAIGN_BOOTSTRAP }} />
 
-        {/* CallTrackingMetrics — a plain parse-blocking tag, NOT next/script.
-            Two reasons, both deliberate:
+        {/* CallTrackingMetrics.
+            ⚠️ MUST STAY `async`. Do not "fix" this to a synchronous tag, and do
+            not follow the rollout spec's Section 2, which says to load t.js
+            eagerly — that guidance is wrong and this comment is here because it
+            was followed once already.
 
-            1. EAGER. t.js performs the dynamic number insertion described below,
-               so deferring it leaves a window where a visitor reads and dials
-               the un-swapped number. GTM further down correctly stays
-               `afterInteractive` — nothing it does is user-visible — but the
-               same reasoning does not transfer to a script that rewrites the
-               primary CTA.
-            2. ORDER. `strategy="beforeInteractive"` would hoist this into
-               <head>, ahead of the bootstrap above, defeating the ordering just
-               described.
+            Read the account's t.js: every number-scan entry point defaults its
+            root to `document.body` and is guarded by a truthiness check, so it
+            returns WITHOUT SCANNING when body is null —
+
+                function e(t,e){ if(void 0===t&&(t=document.body), t){ ... } }
+
+            and on top of that it does an eager "early start" pass the moment it
+            executes if body already exists:
+
+                if(_.ready(R), document.body && !E) C=!0,
+                  0===e(l).length && (__ctm.log("wait early start found nothing"), ...)
+
+            A synchronous tag therefore fails in one of two ways. In <head> body
+            is null and the scan no-ops. Here at the top of <body> it is worse in
+            a subtler way: body EXISTS but is nearly empty — Header, main and
+            Footer have not been parsed — so the early-start pass runs against a
+            DOM with no phone numbers in it and takes the "found nothing" branch.
+
+            Second, independent failure on React: a sync tag rewrites numbers
+            before hydration, then React reverts the swap and replaces the server
+            HTML wholesale.
+
+            Both fail SILENTLY. No error, no console warning, `__ctm.config.sid`
+            still populates and the `__ctmid` cookie is still set — so every
+            check short of counting the tracked numbers passes while no swap has
+            happened. Every visitor sees the hardcoded number and CTM can only
+            guess which web session an inbound call belongs to, so call
+            attribution fails intermittently. The assertion that actually catches
+            this is in tests/csp-check.mjs:
+
+                Object.keys(window.__ctm_tracked_numbers).length > 0
+
+            Position: kept at the top of <body> so the download starts early.
+            `async` makes the position irrelevant for execution order, and the
+            campaign bootstrap above still runs first regardless — an inline
+            script executes at parse time, which no async script can precede.
 
             ⚠️ DYNAMIC NUMBER INSERTION: t.js rewrites phone numbers in the DOM
             at runtime, so the number a visitor sees is not always `site.phone`.
-            That is the product working as intended, but it means the rendered
-            number is not a reliable assertion — `tests/header-check.mjs` checks
-            the server-rendered HTML, which CTM does not touch. If someone
-            reports "the site shows a number we don't recognise", check the CTM
-            number pool before assuming a V0043-style regression.
+            `tests/header-check.mjs` asserts the server-rendered HTML, which CTM
+            does not touch. If someone reports "the site shows a number we don't
+            recognise", check the CTM number pool before assuming a V0043-style
+            regression.
 
-            ⚠️ EXACTLY ONE COPY must exist. See the note on `callTrackingSrc` in
-            lib/site.ts; `tests/csp-check.mjs` asserts the count. */}
-        {/* eslint-disable-next-line @next/next/no-sync-scripts */}
-        <script src={analytics.callTrackingSrc} />
+            ⚠️ EXACTLY ONE COPY. Count with
+            `script[src*="tctm.co/t.js"]` — NOT `script[src*="tctm.co"]`, which
+            returns 2 on a correct install because t.js injects its own p.js.
+            Removing that "extra" breaks CTM. */}
+        <script async src={analytics.callTrackingSrc} />
 
         <script
           type="application/ld+json"

@@ -115,22 +115,27 @@ export const analytics = {
   gtmId: 'GTM-MTGTSPCG',
   /**
    * CallTrackingMetrics. Account-scoped host, so it is safe to allowlist in CSP.
-   * Supplied as `//264810.tctm.co/t.js`; pinned to https here because a
-   * protocol-relative URL inherits the page protocol and `upgrade-insecure-requests`
-   * would rewrite it anyway.
    *
-   * ⚠️ LOADED EAGERLY AND PARSE-BLOCKING by the root layout — deliberately NOT
-   * `afterInteractive` like GTM below. t.js performs the dynamic number swap, so
-   * any deferral leaves a window in which a visitor can read and dial the
-   * un-swapped number. On a site whose primary CTA is a phone number that is a
-   * lost call, which costs more than the render-blocking milliseconds. GTM is a
-   * different case and correctly stays deferred: nothing it does is visible.
+   * Absolute `https://`, never the protocol-relative `//264810.tctm.co/...` form
+   * this was supplied as.
    *
-   * ⚠️ EXACTLY ONE COPY. A second t.js double-counts sessions and makes the
-   * number swap unpredictable. The usual cause is a CTM tag added inside the GTM
-   * container ON TOP of the one in the template — so if call attribution starts
-   * behaving oddly, check the container before changing anything here.
-   * `tests/csp-check.mjs` asserts the tag count for this reason.
+   * ⚠️ LOADED WITH `async`, AND THAT IS LOAD-BEARING — see the long note in
+   * app/layout.tsx. A synchronous tag makes CTM's number scan run against a DOM
+   * that has no phone numbers in it yet, so no swap happens; on React it also
+   * races hydration, which reverts the swap. Both fail silently with `config.sid`
+   * and the `__ctmid` cookie still populating, which is why this needs saying:
+   * the obvious health checks all pass while the product does nothing.
+   *
+   * The rollout spec's Section 2 says to load this eagerly. That is wrong. Do
+   * not act on it.
+   *
+   * ⚠️ EXACTLY ONE COPY must exist. A second t.js double-counts sessions and
+   * makes the swap unpredictable; the usual cause is a CTM tag added inside the
+   * GTM container on top of the one in the template. Count with the selector
+   * `script[src*="tctm.co/t.js"]` — NOT `script[src*="tctm.co"]`, which returns 2
+   * on a CORRECT install because t.js injects its own p.js from the same host.
+   * `tests/csp-check.mjs` asserts this, along with the tracked-number count that
+   * proves the scan actually found the page's numbers.
    */
   callTrackingSrc: 'https://264810.tctm.co/t.js',
   /**

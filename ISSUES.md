@@ -1289,10 +1289,77 @@ is failing, which is the widget on a lead-generating healthcare site. This is al
 **CO-2** (production origins not allowlisted in Clarion → Website Integrations) finally showing up
 as a hard failure.
 
-- [ ] Allowlist the origins in Clarion → Website Integrations: the apex, `www`, and
-      `greater-texas-behavioral.vercel.app`. Add `http://127.0.0.1:3111` if local verification
-      should work too.
-- [ ] Verify: `npm test` reaches `✅ NO CSP OR RUNTIME REGRESSIONS` with no `requests:` line.
+- [x] ~~Allowlist the origins in Clarion → Website Integrations~~ — **already done. Verified
+      2026-08-24 and the CO-2 diagnosis above does not hold.** A CORS preflight
+      (`OPTIONS`, no lead created) was sent for both endpoints from three origins:
+
+      | Origin | `/forms/public/submit` | `/webchat/public/installed` |
+      |---|---|---|
+      | `https://greatertexasbehavioral.com` | 204, origin echoed | 204, origin echoed |
+      | `https://greater-texas-behavioral.vercel.app` | 204, origin echoed | 204, origin echoed |
+      | `http://127.0.0.1:3111` | 204, **no** ACAO | 204, **no** ACAO |
+
+      So the apex and the alias ARE allowlisted, on the beacon endpoint too. Doing the
+      action item above would have changed nothing. The failure reproduces only from
+      localhost, which is what `tests/lib/base.mjs` targets by default — that accounts for
+      the local `net::ERR_FAILED` on all 10 routes.
+- [ ] STILL OPEN, narrowed: the `net::ERR_ABORTED` reported against the deployed alias is
+      NOT explained by the allowlist. `ERR_ABORTED` is a cancelled request rather than a
+      refused one, and the beacon is fired with `keepalive` during load, so page teardown is
+      the likely cause and it is probably benign. Confirm with
+      `BASE=https://greater-texas-behavioral.vercel.app npm test` — `csp-check.mjs` now
+      prints a distinct warning when the beacon fails against a non-localhost origin, which
+      is the case worth acting on.
+- [ ] Also worth separating: the beacon is an *install telemetry* ping. `window.ClarionForms`
+      initialising is the thing that matters for lead capture, and it does. The beacon failing
+      does not by itself mean the webchat widget is broken — check the widget's own behaviour
+      before treating this as P1.
+
+## CR-24 — CTM number swap cannot fire on this site as configured — `P1` — needs CTM account access
+
+Found 2026-08-24 while verifying the `async` change on t.js. The tag is installed correctly —
+`aid` 264810, exactly one copy, `config.sid` a valid 24-hex id, `__ctmid` cookie agreeing — and
+**the number swap still never happens.** `Object.keys(window.__ctm_tracked_numbers).length` is `0`.
+
+This is an account-configuration mismatch, not a code fault. Nothing in this repo can fix it.
+Read out of the account's own `t.js` with `__ctm_debug=1`:
+
+    [["",""],["www.greatertexasbehavioral.com",""],"GTBC Ads",
+      {"1.830.264.1545":2092408},false,false,false,false]
+
+Two independent mismatches:
+
+1. **Domain scope.** The only GTB rule matches `www.greatertexasbehavioral.com` — `www` only. It
+   will not match the apex `greatertexasbehavioral.com`, and `t.js` contains no reference to
+   `greater-texas-behavioral.vercel.app` at all (checked: zero occurrences). So on the alias and
+   on the apex, GTB falls through to generic rules — the 7 that actually matched from localhost
+   were `BSUD 2`, `BMH 1`, `BSUD OH`, `BSUD 1`, `The Ohio RC`, `Wellness Ranch KY` and `Iowa`,
+   none of which is this facility.
+
+2. **The number it looks for is not on the page.** The rule targets **830-264-1545**. The
+   catch-all `BSUD 2` rule targets **877-834-0743**. This site publishes **877-590-3665** (16
+   `tel:` links in the server-rendered homepage). CTM scans, matches nothing, and logs
+   `rules: [...] marked: []` / `scan main 7 []` / `lookup pools none found`.
+
+Consequence: every visitor sees the same hardcoded number, and CTM can only guess which web
+session an inbound call belongs to — so call attribution is unreliable, exactly the symptom the
+`async` fix was chasing. The `async` fix was still necessary and is correct; it is just not
+sufficient on its own, and it is not what is failing here.
+
+- [ ] Decide which number is authoritative for this facility: should the site publish
+      830-264-1545 (the number the "GTBC Ads" rule already expects), or should the rule be
+      retargeted to 877-590-3665? This is a business decision — 877-590-3665 is what
+      `lib/site.ts` records as "the single published number", and V0043 warns against changing
+      the published number without confirming with admissions.
+- [ ] Widen the "GTBC Ads" rule's domain match to cover the apex as well as `www`, or confirm
+      the site will canonicalise to `www` at cutover. Today `next.config.mjs` canonicalises to
+      the apex (`site.url = https://greatertexasbehavioral.com`), so as things stand the rule
+      would never match production.
+- [ ] Add `greater-texas-behavioral.vercel.app` to a rule if the swap should be verifiable
+      before DNS cutover. Without it, this cannot be confirmed in a real browser until the
+      canonical domain moves off WordPress.
+- [ ] Verify: `Object.keys(window.__ctm_tracked_numbers).length > 0` and the rendered `tel:`
+      links differ from `site.phone`. `tests/csp-check.mjs` prints both every run.
 
 ## Rows closed with no action needed
 

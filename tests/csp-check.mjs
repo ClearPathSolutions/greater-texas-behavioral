@@ -21,6 +21,23 @@
  * double-counts sessions and makes the number swap unpredictable, and nothing
  * else in this repo would notice.
  *
+ * THE CHECK THAT ACTUALLY MATTERS is `__ctm_tracked_numbers` — but it is
+ * reported, NOT asserted, and the reason is worth knowing before you "fix" it.
+ * CTM rules are domain-scoped. Account 264810's only GTB rule ("GTBC Ads")
+ * matches `www.greatertexasbehavioral.com` and targets 830-264-1545, which this
+ * site does not publish; the catch-all rule targets 877-834-0743, also absent.
+ * The page renders 877-590-3665. So the count is 0 everywhere and no change in
+ * this repo can move it — it needs a CTM account change. Gating on it would ship
+ * a permanently red suite. See ISSUES.md CR-24.
+ *
+ * On `__ctm_tracked_numbers` generally: `config.sid` and
+ * the `__ctmid` cookie populate even when the number scan found nothing at all,
+ * so asserting those proves only that a session exists — not that the product
+ * works. A non-empty `__ctm_tracked_numbers` is what proves the scan located the
+ * page's phone numbers and the swap can happen. It is also the specific thing a
+ * synchronous t.js tag breaks, silently: `async` is required, and `asyncAttr` is
+ * asserted here so a well-meaning revert fails the suite instead of shipping.
+ *
  * t.js is BLOCKED on the remaining routes. Every page that loads it opens a real
  * visitor session in the live CTM account, and there is no reason to put ten QA
  * visits into a production attribution account per run: the CSP comes from a
@@ -119,9 +136,17 @@ for (const [i, p] of allRoutes.entries()) {
     clarion: !!window.ClarionForms,
     ctmAid: window.__ctm?.config?.aid ?? null,
     ctmSid: window.__ctm?.config?.sid ?? null,
-    // `script[src$="/t.js"]`, NOT `*="tctm.co"`: t.js appends its own p.js from
-    // the same host, so a substring match reports 2 and looks like a duplicate.
-    tjsTags: document.querySelectorAll('script[src$="/t.js"]').length,
+    // `tctm.co/t.js`, NOT `*="tctm.co"`: t.js injects its own p.js from the same
+    // host, so the looser match reports 2 on a CORRECT install. Deleting that
+    // "duplicate" breaks CTM.
+    tjsTags: document.querySelectorAll('script[src*="tctm.co/t.js"]').length,
+    // Must be true. A sync tag scans a DOM with no phone numbers in it yet.
+    asyncAttr: document.querySelector('script[src*="tctm.co/t.js"]')?.async ?? null,
+    // The one that proves the scan actually found the page's numbers.
+    trackedNumbers: Object.keys(window.__ctm_tracked_numbers || {}).length,
+    // Rendered tel: links, to confirm a swap really happened.
+    telLinks: [...new Set([...document.querySelectorAll('a[href^="tel:"]')]
+      .map((a) => a.getAttribute('href')))],
     ctmid: (document.cookie.match(/__ctmid=([^;]*)/) || [])[1] ?? null,
     cookies: document.cookie,
     dataLayer: Array.isArray(window.dataLayer),
@@ -136,8 +161,16 @@ for (const [i, p] of allRoutes.entries()) {
   const realFailed = failed.filter(f => !ignorable(f) && !deliberatelyBlocked(f));
 
   // Q1 of the CTM rollout spec, asserted rather than eyeballed.
+  // `trackedNumbers` is deliberately NOT in this gate, even though it is the
+  // check that proves the swap works. CTM's rules are domain-scoped, and the
+  // only GTB rule in account 264810 ("GTBC Ads") matches
+  // www.greatertexasbehavioral.com and looks for 830-264-1545 — a number this
+  // site does not publish. So it reports 0 from localhost, from the Vercel
+  // alias, and from the apex, for reasons no code change here can fix. Gating on
+  // it would mean shipping a permanently red suite and teaching everyone to
+  // ignore it. It is printed prominently instead. See ISSUES.md CR-24.
   const ctmOk = !checkCtm || (
-    a.ctmAid === CTM_AID && a.tjsTags === 1 &&
+    a.ctmAid === CTM_AID && a.tjsTags === 1 && a.asyncAttr === true &&
     CTM_ID.test(a.ctmSid || '') && CTM_ID.test(a.ctmid || '') && a.ctmSid === a.ctmid
   );
 
@@ -149,8 +182,11 @@ for (const [i, p] of allRoutes.entries()) {
   console.log(`${ok ? 'PASS' : 'FAIL'}  ${p}`);
   console.log(`        h1=${a.h1} imgs-no-alt=${a.noAlt} h-overflow=${a.overflow} ClarionForms=${a.clarion} dataLayer=${a.dataLayer} cookies="${a.cookies}"`);
   if (checkCtm) {
-    console.log(`        CTM: aid=${a.ctmAid} t.js-tags=${a.tjsTags} sid=${a.ctmSid} __ctmid=${a.ctmid} match=${a.ctmSid === a.ctmid}`);
-    if (a.tjsTags > 1) console.log('        !! TWO COPIES OF t.js — check for a CTM tag inside the GTM container');
+    console.log(`        CTM: aid=${a.ctmAid} t.js-tags=${a.tjsTags} async=${a.asyncAttr} sid=${a.ctmSid} __ctmid=${a.ctmid} match=${a.ctmSid === a.ctmid}`);
+    console.log(`        CTM: tracked-numbers=${a.trackedNumbers} tel-links=${JSON.stringify(a.telLinks)}`);
+    if (a.tjsTags > 1) console.log('        !! TWO COPIES OF t.js — check for a CTM tag inside the GTM container (count with tctm.co/t.js, not tctm.co)');
+    else if (a.asyncAttr !== true) console.log('        !! t.js IS NOT async — the number scan runs before the numbers exist. Do not revert this.');
+    else if (a.trackedNumbers === 0) console.log('        ⚠️  SCAN FOUND NO NUMBERS — sid and cookie are set but NO SWAP HAPPENS. Not a code fault; see ISSUES.md CR-24.');
     else if (!ctmOk) console.log('        !! CTM NOT CORRECTLY INSTALLED — leads will attach to no visit');
   }
   if (rogue.length) console.log(`        UNDISCLOSED COOKIES: ${rogue.join(', ')} — add to /privacy-policy or remove the tag`);
@@ -161,12 +197,22 @@ for (const [i, p] of allRoutes.entries()) {
 }
 await browser.close();
 if (sawVendorBeaconFailure) {
+  const local = /^https?:\/\/(127\.0\.0\.1|localhost)/.test(BASE);
   console.log(
     "\n⚠️  Clarion's install beacon (/webchat/public/installed) failed. Excluded\n" +
-    '    from the result above because it is origin-dependent and not caused by\n' +
-    '    this repo — but it means this origin is NOT allowlisted in Clarion →\n' +
-    '    Website Integrations. Form submissions from here will 403 and fall back\n' +
-    '    to /api/lead/. See ISSUES.md CR-23 / CO-2.',
+    '    from the result above: it is origin-dependent and not caused by this repo.',
+  );
+  console.log(
+    local
+      ? '    EXPECTED here — BASE is localhost, which is not on Clarion\'s origin\n' +
+        '    allowlist and does not need to be. Verified 2026-08-24: the apex, www\n' +
+        '    and greater-texas-behavioral.vercel.app all pass a CORS preflight on\n' +
+        '    this endpoint AND on /forms/public/submit (204, origin echoed), so the\n' +
+        '    allowlist is correctly configured. Re-run with BASE=<production origin>\n' +
+        '    to check it there.'
+      : '    ⚠️  NOT EXPECTED — BASE is not localhost, and the production origins are\n' +
+        '    verified allowlisted. This is a real finding: investigate rather than\n' +
+        '    assuming the origin allowlist. See ISSUES.md CR-23.',
   );
 }
 console.log(`\n${bad === 0 ? '✅ NO CSP OR RUNTIME REGRESSIONS' : `❌ ${bad} page(s) with problems`}`);
