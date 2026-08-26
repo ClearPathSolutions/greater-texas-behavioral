@@ -1346,11 +1346,24 @@ session an inbound call belongs to — so call attribution is unreliable, exactl
 `async` fix was chasing. The `async` fix was still necessary and is correct; it is just not
 sufficient on its own, and it is not what is failing here.
 
-- [ ] Decide which number is authoritative for this facility: should the site publish
-      830-264-1545 (the number the "GTBC Ads" rule already expects), or should the rule be
-      retargeted to 877-590-3665? This is a business decision — 877-590-3665 is what
-      `lib/site.ts` records as "the single published number", and V0043 warns against changing
-      the published number without confirming with admissions.
+**Confirmed against production 2026-08-24, which settles which side is wrong.** The LIVE
+WordPress site publishes `tel:+18775903665` — 16 occurrences on both
+`https://www.greatertexasbehavioral.com/` and the apex, i.e. identical to this build. And on the
+deployed Vercel alias the 7 rules that matched are the same generic ones listed above, with
+`marked: []`. So:
+
+  - This build is **not** the anomaly. The site has published 877-590-3665 all along.
+  - `830-264-1545` is not on the live site either, and `www` is the only domain the rule matches,
+    so **the swap has never worked on this property** — on WordPress or on the new build. This is
+    a pre-existing fault that the CTM install merely made visible.
+
+- [ ] RECOMMENDED: retarget the "GTBC Ads" rule to **877-590-3665** rather than changing the
+      site's number. 877-590-3665 is the established published number on the live site,
+      `lib/site.ts` records it as "the single published number", and V0043 warns against
+      changing a published number without admissions confirming it. Changing the site to show
+      830-264-1545 would be the larger, riskier change and would contradict the live site.
+      Confirm with admissions what 830-264-1545 is — a stale number, or one belonging to a
+      different property.
 - [ ] Widen the "GTBC Ads" rule's domain match to cover the apex as well as `www`, or confirm
       the site will canonicalise to `www` at cutover. Today `next.config.mjs` canonicalises to
       the apex (`site.url = https://greatertexasbehavioral.com`), so as things stand the rule
