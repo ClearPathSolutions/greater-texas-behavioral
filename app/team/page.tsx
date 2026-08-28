@@ -4,8 +4,11 @@ import type { Metadata } from 'next';
 import PageHero from '@/components/PageHero';
 import CTABand from '@/components/CTABand';
 import Reveal from '@/components/ui/Reveal';
+import { IconArrowRight } from '@/components/ui/Icon';
 import { pageMetadata } from '@/lib/seo';
+import { parentOrg } from '@/lib/site';
 import { fetchStaff, initials, bioParagraphs } from '@/lib/staff';
+import { networkLeaders } from '@/lib/network-leadership';
 
 export const metadata: Metadata = pageMetadata({
   title: 'Our Team',
@@ -113,6 +116,75 @@ export default async function TeamPage() {
           )}
         </div>
       </section>
+
+      {/* Network medical leadership.
+          Read from `lib/network-leadership.ts`, NOT from the facility feed, and
+          rendered as its own section for two reasons: it must stand even when
+          the portal is unreachable and the list above is empty, and mixing
+          network oversight into a facility roster would read as "she works
+          here". Full bios live on `/team/<slug>/`; this is the listing that
+          links to them. See ISSUES.md CR-19c. */}
+      {networkLeaders.length > 0 && (
+        <section className="section bg-cream-100">
+          <div className="container-x">
+            <Reveal className="mx-auto max-w-2xl text-center">
+              <span className="eyebrow justify-center">
+                Across the {parentOrg.name} network
+              </span>
+              <h2 className="h-section mt-4">Medical leadership</h2>
+              <p className="lead mt-5">
+                Greater Texas Behavioral is part of {parentOrg.name}, and medical
+                oversight is provided at the network level.
+              </p>
+            </Reveal>
+
+            <div className="mx-auto mt-12 max-w-4xl space-y-6">
+              {networkLeaders.map((leader, i) => (
+                <Reveal key={leader.slug} delay={i * 80}>
+                  <article className="card flex flex-col items-center gap-7 p-8 text-center sm:flex-row sm:items-start sm:p-10 sm:text-left">
+                    {leader.photo ? (
+                      <Image
+                        src={leader.photo}
+                        alt={leader.name}
+                        width={112}
+                        height={112}
+                        sizes="112px"
+                        className="h-28 w-28 shrink-0 rounded-full object-cover ring-4 ring-cream-50 shadow-soft"
+                      />
+                    ) : (
+                      <span
+                        aria-hidden="true"
+                        className="flex h-28 w-28 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-forest-600 to-forest-900 font-display text-3xl font-bold tracking-wide text-cream-50 ring-4 ring-cream-50 shadow-soft"
+                      >
+                        {initials(leader.name)}
+                      </span>
+                    )}
+
+                    <div>
+                      <h3 className="font-display text-2xl font-bold text-forest-900">
+                        {leader.name}
+                      </h3>
+                      <p className="mt-1.5 text-xs font-semibold uppercase tracking-[0.14em] text-forest-600">
+                        {leader.title}
+                      </p>
+                      <p className="mt-4 text-[1.0625rem] leading-[1.8] text-ink/85">
+                        {leader.summary}
+                      </p>
+                      <Link
+                        href={`/team/${leader.slug}`}
+                        className="group mt-5 inline-flex items-center gap-2 text-sm font-semibold text-forest-700 transition-colors hover:text-forest-900"
+                      >
+                        Read {leader.name}&rsquo;s full bio
+                        <IconArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                      </Link>
+                    </div>
+                  </article>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       <CTABand
         eyebrow="Start your recovery today"
