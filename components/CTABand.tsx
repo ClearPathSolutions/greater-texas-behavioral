@@ -48,7 +48,7 @@ export default function CTABand({
             </p>
           )}
           <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <a href={site.phoneHref} className="btn-gold w-full sm:w-auto">
+            <a href={site.phoneHref} className="btn-gold w-full sm:w-auto" suppressHydrationWarning>
               <IconPhone className="h-5 w-5" />
               Call {site.phone}
             </a>

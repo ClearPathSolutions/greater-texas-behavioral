@@ -128,7 +128,7 @@ export default function PrivacyPolicyPage() {
                 what you are comfortable sharing in a web form — anything more
                 sensitive is better discussed on the phone with an admissions
                 specialist at{' '}
-                <a href={site.phoneHref}>{site.phone}</a>.
+                <a href={site.phoneHref} suppressHydrationWarning>{site.phone}</a>.
               </p>
 
               <h2>2. Information collected automatically</h2>
@@ -376,7 +376,7 @@ export default function PrivacyPolicyPage() {
               </p>
               <ul>
                 <li>
-                  Phone: <a href={site.phoneHref}>{site.phone}</a>
+                  Phone: <a href={site.phoneHref} suppressHydrationWarning>{site.phone}</a>
                 </li>
                 <li>
                   Email: <a href={`mailto:${site.email}`}>{site.email}</a>
@@ -396,7 +396,7 @@ export default function PrivacyPolicyPage() {
 
               <hr className="my-10 border-cream-300" />
 
-              <p className="text-sm text-muted">
+              <p className="text-sm text-muted" suppressHydrationWarning>
                 If you are in immediate danger, call 911. For free, confidential
                 support 24/7, call or text the 988 Suicide &amp; Crisis Lifeline,
                 or reach the SAMHSA National Helpline at 1-800-662-4357. See also{' '}

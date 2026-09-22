@@ -87,7 +87,7 @@ export default function VerifyInsurancePage() {
               <p className="text-forest-800">
                 Prefer to talk it through? Call our admissions team directly.
               </p>
-              <a href={site.phoneHref} className="btn-primary mt-4">
+              <a href={site.phoneHref} className="btn-primary mt-4" suppressHydrationWarning>
                 <IconPhone className="h-5 w-5" />
                 {site.phone}
               </a>

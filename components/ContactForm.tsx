@@ -51,7 +51,7 @@ export default function ContactForm() {
           Someone from our team will get back to you shortly. If you&apos;d
           rather not wait, our admissions line is open around the clock.
         </p>
-        <a href={site.phoneHref} className="btn-primary mt-6">
+        <a href={site.phoneHref} className="btn-primary mt-6" suppressHydrationWarning>
           <IconPhone className="h-5 w-5" />
           Call {site.phone}
         </a>
@@ -60,7 +60,7 @@ export default function ContactForm() {
   }
 
   return (
-    <form onSubmit={onSubmit} className="card p-6 sm:p-8">
+    <form onSubmit={onSubmit} className="card p-6 sm:p-8" suppressHydrationWarning>
       {status === 'error' && (
         <div
           role="alert"
@@ -78,7 +78,7 @@ export default function ContactForm() {
             us at{' '}
             <a
               href={site.phoneHref}
-              className="font-semibold text-forest-800 underline decoration-gold-300 underline-offset-2"
+              className="font-semibold text-forest-800 underline decoration-gold-300 underline-offset-2" suppressHydrationWarning
             >
               {site.phone}
             </a>

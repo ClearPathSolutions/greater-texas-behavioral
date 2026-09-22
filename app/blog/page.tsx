@@ -33,7 +33,7 @@ export default async function BlogPage() {
       />
 
       <section className="section bg-cream-50">
-        <div className="container-x">
+        <div className="container-x" suppressHydrationWarning>
           {posts.length === 0 ? (
             /* -------- Empty state -------- */
             <Reveal className="mx-auto max-w-xl text-center">
@@ -50,7 +50,7 @@ export default async function BlogPage() {
                 no obligation.
               </p>
               <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-                <a href={site.phoneHref} className="btn-primary">
+                <a href={site.phoneHref} className="btn-primary" suppressHydrationWarning>
                   <IconPhone className="h-5 w-5" />
                   Call {site.phone}
                 </a>

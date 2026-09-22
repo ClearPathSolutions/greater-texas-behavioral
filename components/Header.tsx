@@ -208,7 +208,7 @@ export default function Header() {
           <div className="hidden lg:flex items-center gap-2">
             <a
               href={site.phoneHref}
-              className="flex items-center gap-2 rounded-full px-3 py-2 text-sm font-semibold text-forest-800 transition-colors hover:bg-forest-50"
+              className="flex items-center gap-2 rounded-full px-3 py-2 text-sm font-semibold text-forest-800 transition-colors hover:bg-forest-50" suppressHydrationWarning
             >
               <IconPhone className="h-4 w-4 text-forest-600" />
               {site.phone}
@@ -223,7 +223,7 @@ export default function Header() {
             <a
               href={site.phoneHref}
               aria-label={`Call ${site.phone}`}
-              className="flex h-11 w-11 items-center justify-center rounded-full bg-forest-800 text-cream-50 shadow-soft transition-colors hover:bg-forest-900"
+              className="flex h-11 w-11 items-center justify-center rounded-full bg-forest-800 text-cream-50 shadow-soft transition-colors hover:bg-forest-900" suppressHydrationWarning
             >
               <IconPhone className="h-5 w-5" />
             </a>
@@ -333,7 +333,7 @@ export default function Header() {
               Verify Your Insurance
               <IconArrowRight className="h-5 w-5" />
             </Link>
-            <a href={site.phoneHref} className="btn-primary w-full">
+            <a href={site.phoneHref} className="btn-primary w-full" suppressHydrationWarning>
               <IconPhone className="h-5 w-5" />
               Call {site.phone}
             </a>

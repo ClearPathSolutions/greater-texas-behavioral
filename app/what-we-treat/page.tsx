@@ -198,7 +198,7 @@ export default function WhatWeTreatPage() {
               Verify Your Insurance
               <IconArrowRight className="h-5 w-5" />
             </Link>
-            <a href={site.phoneHref} className="btn-outline">
+            <a href={site.phoneHref} className="btn-outline" suppressHydrationWarning>
               Call {site.phone}
             </a>
           </Reveal>

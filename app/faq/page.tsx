@@ -254,7 +254,7 @@ export default function FaqPage() {
                 costs nothing and commits you to nothing.
               </p>
               <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row">
-                <a href={site.phoneHref} className="btn-primary">
+                <a href={site.phoneHref} className="btn-primary" suppressHydrationWarning>
                   <IconPhone className="h-5 w-5" />
                   Call {site.phone}
                 </a>

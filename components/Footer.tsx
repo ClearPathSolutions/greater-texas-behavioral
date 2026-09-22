@@ -20,7 +20,7 @@ export default function Footer() {
             </p>
           </div>
           <div className="flex flex-col gap-3 sm:flex-row">
-            <a href={site.phoneHref} className="btn-gold whitespace-nowrap">
+            <a href={site.phoneHref} className="btn-gold whitespace-nowrap" suppressHydrationWarning>
               <IconPhone className="h-5 w-5" />
               {site.phone}
             </a>
@@ -88,10 +88,10 @@ export default function Footer() {
             <li>
               <a
                 href={site.phoneHref}
-                className="group flex items-start gap-3 text-cream-100/80 hover:text-cream-50"
+                className="group flex items-start gap-3 text-cream-100/80 hover:text-cream-50" suppressHydrationWarning
               >
                 <IconPhone className="mt-0.5 h-5 w-5 text-sage-300" />
-                <span>
+                <span suppressHydrationWarning>
                   <span className="block text-xs uppercase tracking-wide text-cream-100/50">
                     Phone
                   </span>
@@ -120,7 +120,7 @@ export default function Footer() {
       {/* Crisis resources — responsible practice for a behavioral health site */}
       <div className="border-t border-white/10 bg-forest-950">
         <div className="container-x py-5">
-          <p className="text-xs leading-relaxed text-cream-100/55">
+          <p className="text-xs leading-relaxed text-cream-100/55" suppressHydrationWarning>
             <strong className="font-semibold text-cream-100/80">
               In a crisis?
             </strong>{' '}

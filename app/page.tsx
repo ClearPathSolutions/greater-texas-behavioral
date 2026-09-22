@@ -172,7 +172,7 @@ export default function HomePage() {
             </Reveal>
             <Reveal delay={240}>
               <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-                <a href={site.phoneHref} className="btn-gold w-full sm:w-auto">
+                <a href={site.phoneHref} className="btn-gold w-full sm:w-auto" suppressHydrationWarning>
                   <IconPhone className="h-5 w-5" />
                   Call {site.phone}
                 </a>
@@ -343,7 +343,7 @@ export default function HomePage() {
           </ol>
 
           <Reveal className="mt-12 flex justify-center">
-            <a href={site.phoneHref} className="btn-gold">
+            <a href={site.phoneHref} className="btn-gold" suppressHydrationWarning>
               <IconPhone className="h-5 w-5" />
               Start today — {site.phone}
             </a>

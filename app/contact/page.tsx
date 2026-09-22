@@ -172,7 +172,7 @@ export default function ContactPage() {
                     Call{' '}
                     <a
                       href={site.phoneHref}
-                      className="font-semibold text-forest-800 underline decoration-gold-300 underline-offset-2"
+                      className="font-semibold text-forest-800 underline decoration-gold-300 underline-offset-2" suppressHydrationWarning
                     >
                       {site.phone}
                     </a>{' '}
@@ -203,7 +203,7 @@ export default function ContactPage() {
               or reach the SAMHSA National Helpline at{' '}
               <a
                 href="tel:+18006624357"
-                className="font-semibold text-forest-800 underline decoration-gold-300 underline-offset-2"
+                className="font-semibold text-forest-800 underline decoration-gold-300 underline-offset-2" suppressHydrationWarning
               >
                 1-800-662-4357
               </a>
