@@ -229,6 +229,16 @@ const nextConfig = {
       { source: '/contact-location', destination: '/contact/', permanent: true },
       // Common inbound variant for the privacy page.
       { source: '/privacy', destination: '/privacy-policy/', permanent: true },
+      // Job listings live on ADP Workforce Now, not on this site. Temporary
+      // (307) on purpose: the ADP URL is owned by ADP and can change, and a
+      // permanent redirect would be cached by browsers and crawlers against
+      // the old destination.
+      {
+        source: '/careers',
+        destination:
+          'https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=e1094ba9-8b93-4f55-9dab-3102a4eaaa49&ccId=9200865814254_2&lang=en_US',
+        permanent: false,
+      },
     ];
   },
   async headers() {
