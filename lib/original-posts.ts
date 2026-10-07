@@ -20,10 +20,18 @@
  * wrong-phone-number incident on this site. `body_html` is a template literal,
  * so `${site.phone}` interpolates at module load with no runtime cost.
  */
-import type { ClarionPost } from './clarion-blog';
+import type { BlogPost } from './clarion-blog';
 import { site } from './site';
 
-export const originalPosts: ClarionPost[] = [
+/**
+ * Each post may also set the editorial-policy fields `written_by`,
+ * `reviewed_by` (both `/team/<slug>/` bio slugs) and `last_reviewed`
+ * (YYYY-MM-DD) — see `EditorialPostFields` in lib/clarion-blog.ts. None are set
+ * yet: no author or reviewer has been supplied for these posts, so they show
+ * their existing `author_name` and no reviewer line. Do not fill these in
+ * without a real, confirmed reviewer.
+ */
+export const originalPosts: BlogPost[] = [
   {
     slug: 'holiday-pressure-and-addiction-when-its-time-to-reach-out-for-help',
     title: 'Holiday Pressure and Addiction: When It’s Time to Reach Out for Help',

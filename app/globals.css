@@ -176,6 +176,61 @@
   .prose-tx strong {
     @apply text-forest-900 font-semibold;
   }
+
+  /* Article byline (editorial-policy package: templates/article-byline.css).
+     Colours follow the surrounding text, so it works on the dark post header. */
+  .article-byline {
+    margin: 1.25rem 0 0;
+    padding: 0.75rem 0;
+    border-top: 1px solid color-mix(in srgb, currentColor 15%, transparent);
+    border-bottom: 1px solid color-mix(in srgb, currentColor 15%, transparent);
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+  .article-byline p {
+    margin: 0.15rem 0;
+  }
+  .article-byline .byline-meta {
+    color: color-mix(in srgb, currentColor 65%, transparent);
+    font-size: 0.875rem;
+  }
+  .article-byline a {
+    @apply underline decoration-gold-300 underline-offset-2 hover:text-gold-300;
+  }
+
+  /* Editorial policy page. The template's own <article class="editorial-policy">
+     wrapper sits between .prose-tx and its blocks, so the prose rhythm is
+     re-applied one level down. */
+  .editorial-policy > * + * {
+    @apply mt-6;
+  }
+  .editorial-policy > h2:first-child {
+    @apply mt-0;
+  }
+  /* The terminology table scrolls sideways on narrow screens (375px) instead
+     of widening the page. */
+  .editorial-policy .table-scroll {
+    @apply max-w-full overflow-x-auto rounded-xl border border-cream-300 bg-white;
+    -webkit-overflow-scrolling: touch;
+  }
+  .editorial-policy table {
+    @apply w-full border-collapse text-[0.95rem];
+    min-width: 28rem;
+  }
+  .editorial-policy th,
+  .editorial-policy td {
+    @apply border-b border-cream-300 px-3 py-2 text-left align-top text-ink/85;
+  }
+  .editorial-policy tbody tr:last-child td {
+    @apply border-b-0;
+  }
+  .editorial-policy th {
+    @apply bg-cream-100 font-semibold text-forest-900;
+  }
+  /* Preview-only marker for a merge field that is still blank (lib/editorial.ts). */
+  .editorial-policy .editorial-unset {
+    @apply rounded bg-gold-300/60 px-1 font-semibold not-italic text-forest-950;
+  }
 }
 
 /* ------------------------------------------------------------------ */

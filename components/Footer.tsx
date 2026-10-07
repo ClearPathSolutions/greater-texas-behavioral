@@ -2,9 +2,15 @@ import Link from 'next/link';
 import { LogoLight } from './Logo';
 import { footerLinks, legalLinks, site, parentOrg } from '@/lib/site';
 import { IconPhone, IconMail, IconMapPin, IconArrowRight } from './ui/Icon';
+import { editorialPolicyServed, EDITORIAL_POLICY_PATH } from '@/lib/editorial';
 
 export default function Footer() {
   const year = new Date().getFullYear();
+  // Editorial policy sits next to Privacy Policy, but only where the page is
+  // served — production never links it until it is signed off (lib/editorial.ts).
+  const bottomLinks = editorialPolicyServed
+    ? [...legalLinks, { label: 'Editorial Policy', href: EDITORIAL_POLICY_PATH }]
+    : legalLinks;
   return (
     <footer className="bg-forest-950 text-cream-100">
       {/* Top CTA strip */}
@@ -139,7 +145,7 @@ export default function Footer() {
             © {year} {site.copyrightHolder}. All Rights Reserved.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
-            {legalLinks.map((l) => (
+            {bottomLinks.map((l) => (
               <Link
                 key={l.href}
                 href={l.href}

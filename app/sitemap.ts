@@ -2,6 +2,7 @@ import type { MetadataRoute } from 'next';
 import { site } from '@/lib/site';
 import { canonicalPath } from '@/lib/seo';
 import { getAllBlogPosts } from '@/lib/clarion-blog';
+import { editorial, editorialPolicyReady } from '@/lib/editorial';
 
 export const revalidate = 300;
 
@@ -39,6 +40,11 @@ const ROUTES: Array<{ path: string; priority: number; updated: string }> = [
   // Low priority but deliberately indexable: the live site already serves this
   // URL, and a healthcare site should have a discoverable privacy policy.
   { path: 'privacy-policy', priority: 0.3, updated: '2026-08-04' },
+  // Editorial policy: listed only once signed off and indexable (lib/editorial.ts).
+  // `updated` is the policy's own LAST_REVIEWED date.
+  ...(editorialPolicyReady
+    ? [{ path: 'editorial-policy', priority: 0.3, updated: editorial.lastReviewed }]
+    : []),
 ];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {

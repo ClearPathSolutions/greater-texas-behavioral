@@ -38,6 +38,24 @@ export type ClarionPost = ClarionListPost & {
   body_html?: string;
 };
 
+/**
+ * Per-post editorial fields (editorial-policy package, "Post fields"). Clarion
+ * has no such fields, so only locally authored posts (lib/original-posts.ts)
+ * carry them. All optional; an empty field means no line in the byline and no
+ * schema property — never a site-wide default (see lib/byline.ts).
+ */
+export type EditorialPostFields = {
+  /** Author, as a `/team/<slug>/` bio slug. Overrides `author_name` when set. */
+  written_by?: string;
+  /** Clinical reviewer, as a `/team/<slug>/` bio slug. Shown only with `last_reviewed`. */
+  reviewed_by?: string;
+  /** Date of the clinical review, YYYY-MM-DD. */
+  last_reviewed?: string;
+};
+
+/** A post as rendered: from Clarion, or local with optional editorial fields. */
+export type BlogPost = ClarionPost & EditorialPostFields;
+
 async function clarionGet<T>(path: string): Promise<T | null> {
   try {
     const res = await fetch(`${API}${path}`, {
@@ -80,7 +98,7 @@ export async function getAllBlogPosts(): Promise<ClarionListPost[]> {
   );
 }
 
-export async function getBlogPost(slug: string): Promise<ClarionPost | null> {
+export async function getBlogPost(slug: string): Promise<BlogPost | null> {
   const fromClarion = await getClarionPost(slug);
   if (fromClarion) return fromClarion;
   return originalPosts.find((p) => p.slug === slug) ?? null;

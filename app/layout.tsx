@@ -4,6 +4,7 @@ import Script from 'next/script';
 import './globals.css';
 import { site, clarion, parentOrg, analytics } from '@/lib/site';
 import { CAMPAIGN_BOOTSTRAP } from '@/lib/attribution';
+import { editorialPolicyReady, EDITORIAL_POLICY_URL, CORRECTIONS_ANCHOR } from '@/lib/editorial';
 import AttributionTracker from '@/components/AttributionTracker';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -72,6 +73,8 @@ export default function RootLayout({
   const orgJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'MedicalBusiness',
+    // Referenced by the editorial policy's WebPage node and article schema.
+    '@id': `${site.url}/#organization`,
     name: site.name,
     legalName: site.legalName,
     description: site.description,
@@ -90,6 +93,14 @@ export default function RootLayout({
       { '@type': 'MedicalTherapy', name: 'Virtual Outpatient Program (OP)' },
       { '@type': 'MedicalTherapy', name: 'Online Dual Diagnosis Treatment' },
     ],
+    // Editorial policy package: merged into this node, never a second one.
+    // Only once the policy is signed off and public (lib/editorial.ts).
+    ...(editorialPolicyReady
+      ? {
+          publishingPrinciples: EDITORIAL_POLICY_URL,
+          correctionsPolicy: `${EDITORIAL_POLICY_URL}#${CORRECTIONS_ANCHOR}`,
+        }
+      : {}),
   };
 
   return (

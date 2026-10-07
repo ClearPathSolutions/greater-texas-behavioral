@@ -12,6 +12,10 @@ import { pageMetadata } from '@/lib/seo';
 import { site } from '@/lib/site';
 import { sanitizeHtml } from '@/lib/sanitize-html';
 import BlogCover from '@/components/BlogCover';
+import ArticleByline from '@/components/ArticleByline';
+import { getByline, type Byline, type BylinePerson } from '@/lib/byline';
+import { canonicalPath } from '@/lib/seo';
+import type { BlogPost } from '@/lib/clarion-blog';
 
 export const revalidate = 300;
 
@@ -51,9 +55,11 @@ export default async function BlogPostPage({
 }) {
   const post = await getBlogPost(params.slug);
   if (!post) notFound();
+  const byline = getByline(post);
 
   return (
     <>
+      <ArticleSchema post={post} byline={byline} />
       <article>
         {/* Hero */}
         <header className="relative isolate overflow-hidden bg-forest-900">
@@ -74,9 +80,12 @@ export default async function BlogPostPage({
                     {formatClarionDate(post.published_at)}
                   </time>
                 )}
-                {post.author_name && <span>· {post.author_name}</span>}
+                {/* The author now appears in the byline under the H1. */}
               </div>
               <h1 className="h-display mt-4 text-cream-50">{post.title}</h1>
+              <div className="text-cream-100/85">
+                <ArticleByline byline={byline} />
+              </div>
             </div>
           </div>
         </header>
@@ -120,5 +129,59 @@ export default async function BlogPostPage({
         imageAlt="Texas bluebonnet field at sunset"
       />
     </>
+  );
+}
+
+/* ---------- schema (editorial-policy package: schema/clinical-article.jsonld) ---------- */
+
+const orgRef = { '@id': `${site.url}/#organization` };
+
+function personNode(person: BylinePerson) {
+  if (person.bioPath) {
+    const url = `${site.url}${person.bioPath}`;
+    return { '@type': 'Person', '@id': `${url}#person`, name: person.name, url };
+  }
+  // No bio page: name only. Both feeds credit a team ("… Editorial Team",
+  // "The … Team") rather than a person, so don't call that a Person.
+  return {
+    '@type': /\bteam\b/i.test(person.name) ? 'Organization' : 'Person',
+    name: person.name,
+  };
+}
+
+function ArticleSchema({ post, byline }: { post: BlogPost; byline: Byline }) {
+  const url = `${site.url}${canonicalPath(`blog/${post.slug}`)}`;
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{
+        __html: JSON.stringify({
+          '@context': 'https://schema.org',
+          '@graph': [
+            {
+              '@type': 'MedicalWebPage',
+              '@id': `${url}#webpage`,
+              url,
+              name: post.title,
+              // Only with a reviewer AND a date: never a default reviewer.
+              ...(byline.reviewer && byline.lastReviewed
+                ? { lastReviewed: byline.lastReviewed, reviewedBy: personNode(byline.reviewer) }
+                : {}),
+              publisher: orgRef,
+            },
+            {
+              '@type': 'BlogPosting',
+              '@id': `${url}#article`,
+              headline: post.title,
+              mainEntityOfPage: { '@id': `${url}#webpage` },
+              ...(post.published_at ? { datePublished: post.published_at } : {}),
+              ...(byline.modified ? { dateModified: byline.modified } : {}),
+              ...(byline.author ? { author: personNode(byline.author) } : {}),
+              publisher: orgRef,
+            },
+          ],
+        }),
+      }}
+    />
   );
 }

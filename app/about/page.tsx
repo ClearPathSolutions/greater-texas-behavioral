@@ -1,10 +1,12 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
+import Link from 'next/link';
 import PageHero from '@/components/PageHero';
 import CTABand from '@/components/CTABand';
 import Reveal from '@/components/ui/Reveal';
 import StaffGrid from '@/components/StaffGrid';
 import { pageMetadata } from '@/lib/seo';
+import { editorialPolicyServed, EDITORIAL_POLICY_PATH } from '@/lib/editorial';
 import {
   IconShieldCheck,
   IconHeartHand,
@@ -82,6 +84,21 @@ export default function AboutPage() {
                 effective, accountable, and compassionate care that supports
                 long-term recovery.
               </p>
+              {/* Gated like the footer link: production links it only once
+                  the policy is signed off (lib/editorial.ts). */}
+              {editorialPolicyServed && (
+                <p className="text-base">
+                  Learn how we research, write and review the health
+                  information on this site in our{' '}
+                  <Link
+                    href={EDITORIAL_POLICY_PATH}
+                    className="font-semibold text-forest-700 underline decoration-gold-300 underline-offset-2 hover:text-forest-900"
+                  >
+                    Editorial Policy
+                  </Link>
+                  .
+                </p>
+              )}
             </div>
           </Reveal>
 
