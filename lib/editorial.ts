@@ -35,7 +35,7 @@ export const editorial = {
   phone: '877-590-3665',
   phoneTel: site.phoneHref.replace(/^tel:/, ''),
   /** YYYY-MM-DD. Blank until the content team supplies it. */
-  lastReviewed: '',
+  lastReviewed: '2026-10-07',
   /** Copy of the sheet's CONTENT_SIGNOFF cell. Blank until signed off. */
   contentSignoff: '',
 };
