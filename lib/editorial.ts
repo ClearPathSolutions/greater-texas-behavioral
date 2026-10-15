@@ -37,7 +37,7 @@ export const editorial = {
   /** YYYY-MM-DD. Blank until the content team supplies it. */
   lastReviewed: '2026-10-07',
   /** Copy of the sheet's CONTENT_SIGNOFF cell. Blank until signed off. */
-  contentSignoff: '',
+  contentSignoff: '2026-10-15',
 };
 
 /** Trailing slash: the site runs `trailingSlash: true`, so this is the served, canonical URL. */
