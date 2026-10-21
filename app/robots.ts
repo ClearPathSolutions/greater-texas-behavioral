@@ -53,11 +53,16 @@ import { site } from '@/lib/site';
  * wrong in that direction is a delayed index; the cost of the other direction is
  * a duplicate-content problem that outlives the mistake.
  */
-const CANONICAL_HOST = new URL(site.url).host;
+// `www.` and the apex are the same site. At cutover the project's production
+// domain was set to `www.greatertexasbehavioral.com` (the apex 308s to it), so
+// an exact host match against the apex in `site.url` never succeeded and every
+// production build shipped `Disallow: /`. Compare with `www.` stripped.
+const stripWww = (host: string) => host.replace(/^www\./i, '').toLowerCase();
+const CANONICAL_HOST = stripWww(new URL(site.url).host);
 
 const isProductionDeployment = process.env.VERCEL_ENV === 'production';
 const servesCanonicalDomain =
-  process.env.VERCEL_PROJECT_PRODUCTION_URL === CANONICAL_HOST ||
+  stripWww(process.env.VERCEL_PROJECT_PRODUCTION_URL ?? '') === CANONICAL_HOST ||
   process.env.SITE_INDEXABLE === 'true';
 
 export default function robots(): MetadataRoute.Robots {
