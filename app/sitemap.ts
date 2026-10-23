@@ -1,6 +1,6 @@
 import type { MetadataRoute } from 'next';
 import { site } from '@/lib/site';
-import { canonicalPath } from '@/lib/seo';
+import { assertCanonicalOrigin, canonicalPath } from '@/lib/seo';
 import { getAllBlogPosts } from '@/lib/clarion-blog';
 import { editorial, editorialPolicyReady } from '@/lib/editorial';
 
@@ -48,6 +48,7 @@ const ROUTES: Array<{ path: string; priority: number; updated: string }> = [
 ];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  assertCanonicalOrigin();
   const now = new Date();
 
   const staticPages = ROUTES.map(({ path, priority, updated }) => ({

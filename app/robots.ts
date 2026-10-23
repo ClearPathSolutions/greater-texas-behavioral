@@ -1,5 +1,6 @@
 import type { MetadataRoute } from 'next';
 import { site } from '@/lib/site';
+import { assertCanonicalOrigin } from '@/lib/seo';
 
 /**
  * Only the real production domain may be indexed.
@@ -57,6 +58,7 @@ import { site } from '@/lib/site';
 // domain was set to `www.greatertexasbehavioral.com` (the apex 308s to it), so
 // an exact host match against the apex in `site.url` never succeeded and every
 // production build shipped `Disallow: /`. Compare with `www.` stripped.
+// (`site.url` is now `www.` itself; the strip keeps the apex matching too.)
 const stripWww = (host: string) => host.replace(/^www\./i, '').toLowerCase();
 const CANONICAL_HOST = stripWww(new URL(site.url).host);
 
@@ -66,6 +68,7 @@ const servesCanonicalDomain =
   process.env.SITE_INDEXABLE === 'true';
 
 export default function robots(): MetadataRoute.Robots {
+  assertCanonicalOrigin();
   if (!isProductionDeployment || !servesCanonicalDomain) {
     return { rules: { userAgent: '*', disallow: '/' } };
   }

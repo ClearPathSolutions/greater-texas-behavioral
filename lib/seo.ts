@@ -22,6 +22,20 @@ export function canonicalPath(path = ''): string {
   return trimmed ? `/${trimmed}/` : '/';
 }
 
+/**
+ * Build-time guard for `/sitemap.xml` and `/robots.txt`. Both are static, so a
+ * throw here fails `next build` instead of shipping URLs that 308 (Semrush
+ * flagged every canonical and all sitemap URLs when `site.url` was the apex
+ * while Vercel serves `www.`).
+ */
+export function assertCanonicalOrigin(): string {
+  const { protocol, host } = new URL(site.url);
+  if (protocol !== 'https:' || !host.startsWith('www.')) {
+    throw new Error(`site.url must be https://www.… (got ${site.url})`);
+  }
+  return site.url;
+}
+
 export function pageMetadata({
   title,
   description,

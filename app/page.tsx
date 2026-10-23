@@ -24,7 +24,7 @@ import type { Metadata } from 'next';
 import { pageMetadata } from '@/lib/seo';
 
 export const metadata: Metadata = pageMetadata({
-  title: `${site.name} | Virtual OP for Addiction & Mental Health in Texas`,
+  title: `Virtual Outpatient Rehab in Texas | ${site.name}`,
   description: site.description,
   path: '',
   absoluteTitle: true,

@@ -9,7 +9,11 @@ export const site = {
   tagline: 'Structured Online Addiction & Mental Health Treatment — Statewide in Texas',
   description:
     'Greater Texas Behavioral offers a fully licensed Virtual Outpatient Program (OP) for addiction and mental health treatment, delivered through secure telehealth anywhere in Texas.',
-  url: 'https://greatertexasbehavioral.com',
+  // `www.` is the primary host: Vercel 308s the apex to it (matching the sister
+  // sites), so canonicals, og:url, JSON-LD, the sitemap and robots.txt must all
+  // name it or every one of them points at a redirect. `assertCanonicalOrigin()`
+  // in lib/seo.ts fails the build if this drifts back to the apex.
+  url: 'https://www.greatertexasbehavioral.com',
   email: 'info@greatertexasbehavioral.com',
   // The single published number for Greater Texas Behavioral.
   //
