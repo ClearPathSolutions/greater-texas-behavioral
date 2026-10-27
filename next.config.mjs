@@ -190,9 +190,6 @@ const nextConfig = {
       // redirects. The canonical production slug is `/insurance-verification/`,
       // which is already handled above.
       { source: '/insurance', destination: '/verify-insurance/', permanent: true },
-      // The HIPAA notice briefly lived at its own URL (2026-10-27) before
-      // being folded into the privacy policy page.
-      { source: '/notice-of-privacy-practices', destination: '/privacy-policy/#notice-of-privacy-practices', permanent: true },
       // Audit CR-15 — indexed WordPress archives (and their per-archive feeds)
       // -> the blog index. See ARCHIVE_PREFIXES above for why this is `:slug*`.
       ...ARCHIVE_PREFIXES.map((prefix) => ({
