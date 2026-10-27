@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { LogoLight } from './Logo';
-import { footerLinks, legalLinks, site, parentOrg } from '@/lib/site';
+import { footerLinks, legalLinks, termsOfServiceLink, site, parentOrg } from '@/lib/site';
 import { IconPhone, IconMail, IconMapPin, IconArrowRight } from './ui/Icon';
 import { editorialPolicyServed, EDITORIAL_POLICY_PATH } from '@/lib/editorial';
 
@@ -8,9 +8,12 @@ export default function Footer() {
   const year = new Date().getFullYear();
   // Editorial policy sits next to Privacy Policy, but only where the page is
   // served — production never links it until it is signed off (lib/editorial.ts).
-  const bottomLinks = editorialPolicyServed
-    ? [...legalLinks, { label: 'Editorial Policy', href: EDITORIAL_POLICY_PATH }]
-    : legalLinks;
+  // Terms of Service always follows it and is never gated.
+  const bottomLinks = [
+    ...legalLinks,
+    ...(editorialPolicyServed ? [{ label: 'Editorial Policy', href: EDITORIAL_POLICY_PATH }] : []),
+    termsOfServiceLink,
+  ];
   return (
     <footer className="bg-forest-950 text-cream-100">
       {/* Top CTA strip */}

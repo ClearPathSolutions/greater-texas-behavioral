@@ -220,6 +220,9 @@ export const legalLinks: NavChild[] = [
   { label: 'SMS Terms', href: '/sms-terms' },
 ];
 
+// Always last in the footer legal row, after the (gated) Editorial Policy link.
+export const termsOfServiceLink: NavChild = { label: 'Terms of Service', href: '/terms-of-service' };
+
 /**
  * Insurance carriers, rendered on the homepage (`InsuranceStrip`) and on
  * `/verify-insurance`.

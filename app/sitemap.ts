@@ -44,6 +44,8 @@ const ROUTES: Array<{ path: string; priority: number; updated: string }> = [
   { path: 'notice-of-privacy-practices', priority: 0.3, updated: '2026-10-27' },
   // SMS terms (legal-pages standardization, 2026-10-27).
   { path: 'sms-terms', priority: 0.3, updated: '2026-10-27' },
+  // Terms of service (legal-pages standardization, 2026-10-27).
+  { path: 'terms-of-service', priority: 0.3, updated: '2026-10-27' },
   // Editorial policy: listed only once signed off and indexable (lib/editorial.ts).
   // `updated` is the policy's own LAST_REVIEWED date.
   ...(editorialPolicyReady

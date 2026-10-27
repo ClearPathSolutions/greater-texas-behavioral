@@ -1,0 +1,102 @@
+/**
+ * Terms of service (legal-pages standardization, 2026-10-27).
+ *
+ * The wording is the approved network text shared by every facility site; only
+ * facility facts differ. Do not edit it here without the source package.
+ * Virtual provider: no street address is published, so the contact block
+ * carries the legal entity line, phone and email only.
+ */
+import type { Metadata } from 'next';
+import PageHero from '@/components/PageHero';
+import Reveal from '@/components/ui/Reveal';
+import { pageMetadata } from '@/lib/seo';
+
+export const metadata: Metadata = pageMetadata({
+  title: 'Terms of Service',
+  description:
+    'The terms that govern your use of the Greater Texas Behavioral website.',
+  path: 'terms-of-service',
+});
+
+export default function TermsOfServicePage() {
+  return (
+    <>
+      <PageHero
+        eyebrow="Legal"
+        title="Terms of Service"
+        image="/images/wheat-field-hope.jpg"
+        imageAlt="Open field at sunrise"
+      />
+
+      <section className="section bg-cream-50">
+        <div className="container-narrow">
+          <Reveal>
+            <div className="prose-tx">
+              <p>Effective date: October 27, 2026</p>
+
+              <p>Welcome to the Greater Texas Behavioral website. By accessing or using this website, you acknowledge and agree to the following terms and conditions. Do not access or use this website if you are unwilling or unable to be bound by these terms.</p>
+
+              <h2>Informational Purposes Only</h2>
+              <p>The information provided on this website is intended for general informational and educational purposes only. It is not intended to serve as medical advice, behavioral health advice, legal advice, or a substitute for consultation with a qualified healthcare professional.</p>
+              <p>You should not disregard professional medical advice, delay seeking treatment, or make healthcare decisions based solely on information obtained from this website.</p>
+
+              <h2>No Provider–Patient Relationship</h2>
+              <p>Your use of this website, including submitting an inquiry through any contact form, requesting information, sending an email, or communicating with us electronically, does not establish a provider–patient relationship with Greater Texas Behavioral or any of its affiliated facilities or providers.</p>
+              <p>A provider–patient relationship is established only after appropriate admissions procedures have been completed and both you and the organization have agreed to begin treatment.</p>
+
+              <h2>Medical Emergencies</h2>
+              <p>This website is not intended for use during medical or psychiatric emergencies.</p>
+              <p>If you or someone else is experiencing a medical emergency, psychiatric emergency, or is in immediate danger, call 911 immediately or go to the nearest emergency department.</p>
+              <p>If you are experiencing thoughts of suicide or are in emotional distress, contact 988, the Suicide &amp; Crisis Lifeline, by calling or texting 988.</p>
+
+              <h2>Website Communications</h2>
+              <p>While Greater Texas Behavioral makes reasonable efforts to protect information submitted through this website, please do not submit highly sensitive medical information, Social Security numbers, financial account information, or other confidential information through website forms unless an authorized representative specifically requests it.</p>
+
+              <h2>Accuracy of Information</h2>
+              <p>We strive to ensure that the information presented on this website is accurate and current. However, healthcare regulations, treatment practices, licensing requirements, and available services may change without notice.</p>
+              <p>Greater Texas Behavioral does not warrant that all information on this website is complete, current, or free from errors.</p>
+
+              <h2>Third-Party Websites</h2>
+              <p>This website may contain links to third-party websites provided solely for your convenience. Greater Texas Behavioral does not own, control, or endorse these external websites and is not responsible for their content, privacy practices, or availability.</p>
+              <p>Accessing third-party websites is at your own risk.</p>
+
+              <h2>Intellectual Property</h2>
+              <p>Unless otherwise indicated, all content on this website—including text, graphics, logos, images, documents, videos, and other materials—is the property of Greater Texas Behavioral or its licensors and is protected by applicable copyright, trademark, and intellectual property laws.</p>
+              <p>No content may be copied, reproduced, distributed, or modified without prior written permission, except as permitted by applicable law.</p>
+
+              <h2>No Guarantee of Outcomes</h2>
+              <p>Recovery and behavioral healthcare outcomes vary from person to person. Nothing on this website should be interpreted as a guarantee or promise of any particular treatment outcome or result.</p>
+
+              <h2>Website Availability</h2>
+              <p>This website may be modified, updated, interrupted, suspended or discontinued at any time without notice or liability.</p>
+
+              <h2>Indemnity</h2>
+              <p>You agree to indemnify, defend, and hold Greater Texas Behavioral, its parents, subsidiaries, affiliates, any related companies, suppliers, licensors and partners, and the officers, directors, employees, agents and representatives of each of them (collectively, the “Greater Texas Behavioral Entities”) harmless, including costs, liabilities and legal fees, from any claim or demand made by any third party arising out of or relating to (i) your access to or use of this website, (ii) your violation of these terms, or (iii) the infringement by you of any intellectual property or other right of any person or entity. Greater Texas Behavioral reserves the right, at your expense, to assume the exclusive defense and control of any matter for which you are required to indemnify us, and you agree to cooperate with our defense of these claims. You agree not to settle any such matter without the prior written consent of Greater Texas Behavioral. Greater Texas Behavioral will use reasonable efforts to notify you of any such claim, action or proceeding upon becoming aware of it.</p>
+
+              <h2>Disclaimers and Limitation of Liability</h2>
+              <p>PLEASE READ THIS SECTION CAREFULLY SINCE IT LIMITS THE LIABILITY OF THE Greater Texas Behavioral ENTITIES TO YOU. EACH OF THE SUBSECTIONS BELOW ONLY APPLIES UP TO THE MAXIMUM EXTENT PERMITTED UNDER APPLICABLE LAW. NOTHING HEREIN IS INTENDED TO LIMIT ANY RIGHTS YOU MAY HAVE WHICH MAY NOT BE LAWFULLY LIMITED. IF YOU ARE UNSURE ABOUT THIS OR ANY OTHER SECTION OF THESE TERMS, PLEASE CONSULT WITH A LEGAL PROFESSIONAL PRIOR TO ACCESSING OR USING THIS WEBSITE. BY ACCESSING OR USING THIS WEBSITE, YOU REPRESENT THAT YOU HAVE READ, UNDERSTOOD, AND AGREE TO THESE TERMS, INCLUDING THIS SECTION.</p>
+              <p>THIS WEBSITE IS MADE AVAILABLE TO YOU ON AN “AS IS”, “WITH ALL FAULTS” AND “AS AVAILABLE” BASIS. YOUR USE OF THIS WEBSITE IS AT YOUR OWN DISCRETION AND RISK. THE Greater Texas Behavioral ENTITIES MAKE NO CLAIMS OR PROMISES ABOUT THE QUALITY, ACCURACY, OR RELIABILITY OF THIS WEBSITE, ITS SAFETY OR SECURITY, OR ITS CONTENT. ACCORDINGLY, THE Greater Texas Behavioral ENTITIES ARE NOT LIABLE TO YOU FOR ANY LOSS OR DAMAGE THAT MIGHT ARISE, FOR EXAMPLE, FROM THIS WEBSITE’S INOPERABILITY, UNAVAILABILITY OR SECURITY VULNERABILITIES.</p>
+              <p>THE Greater Texas Behavioral ENTITIES EXPRESSLY DISCLAIM ALL WARRANTIES REGARDING THIS WEBSITE, WHETHER EXPRESS OR IMPLIED, INCLUDING IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. NO ORAL OR WRITTEN INFORMATION OR ADVICE PROVIDED TO YOU THROUGH THIS WEBSITE SHALL CREATE A REPRESENTATION OR WARRANTY.</p>
+              <p>YOUR SOLE AND EXCLUSIVE RIGHT AND REMEDY IN CASE OF DISSATISFACTION WITH THIS WEBSITE SHALL BE YOUR TERMINATION AND DISCONTINUATION OF ACCESS TO, OR USE OF, THIS WEBSITE.</p>
+              <p>THE Greater Texas Behavioral ENTITIES’ MAXIMUM AGGREGATE LIABILITY TO YOU FOR LOSSES OR DAMAGES THAT YOU SUFFER IN CONNECTION WITH THIS WEBSITE OR THESE TERMS IS LIMITED TO THE GREATER OF (i) THE AMOUNT PAID, IF ANY, BY YOU TO THE Greater Texas Behavioral ENTITIES IN CONNECTION WITH THIS WEBSITE IN THE 12 MONTHS PRIOR TO THE ACTION GIVING RISE TO LIABILITY, OR (ii) $100.</p>
+              <p>THE Greater Texas Behavioral ENTITIES DISCLAIM LIABILITY FOR ANY (i) INDIRECT, SPECIAL, INCIDENTAL, PUNITIVE, EXEMPLARY, RELIANCE, OR CONSEQUENTIAL DAMAGES, (ii) LOSS OF PROFITS, (iii) BUSINESS INTERRUPTION, (iv) REPUTATIONAL HARM, OR (v) LOSS OF INFORMATION OR DATA, ARISING FROM YOUR USE OF THIS WEBSITE.</p>
+              <p>THESE TERMS GOVERN YOUR USE OF THIS WEBSITE ONLY. THEY DO NOT LIMIT ANY RIGHTS OR REMEDIES YOU HAVE IN CONNECTION WITH TREATMENT OR OTHER SERVICES YOU RECEIVE FROM Greater Texas Behavioral, WHICH ARE GOVERNED BY APPLICABLE LAW AND ANY AGREEMENTS YOU ENTER INTO AT ADMISSION.</p>
+
+              <h2>Governing Law and Venue</h2>
+              <p>The laws of the State of Texas will govern these terms, as well as any claim, cause of action or dispute that might arise between you and Greater Texas Behavioral relating to this website (a “Claim”), without regard to conflict of law provisions. FOR ANY CLAIM BROUGHT BY EITHER PARTY, YOU AGREE TO SUBMIT AND CONSENT TO THE PERSONAL AND EXCLUSIVE JURISDICTION IN, AND THE EXCLUSIVE VENUE OF, THE STATE AND FEDERAL COURTS LOCATED WITHIN THE STATE OF Texas.</p>
+
+              <h2>Changes to These Terms</h2>
+              <p>Greater Texas Behavioral reserves the right to modify these terms at any time. Any updates will be posted on this page with a revised effective date.</p>
+
+              <h2>Contact Us</h2>
+              <p>If you have questions regarding these terms, please contact:</p>
+              <p suppressHydrationWarning>Greater Texas Behavioral<br />
+              Phone: <a href="tel:+18775903665">(877) 590-3665</a><br />
+              Email: <a href="mailto:info@greatertexasbehavioral.com">info@greatertexasbehavioral.com</a></p>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+    </>
+  );
+}
