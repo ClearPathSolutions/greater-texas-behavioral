@@ -282,9 +282,9 @@ export default function PrivacyPolicyPage() {
                 the federal confidentiality regulations at 42 C.F.R. Part 2 —
                 which are stricter than HIPAA and generally require your written
                 consent before your records may be disclosed. Those protections
-                are described in our Notice of Privacy Practices, which is
-                provided at intake and is available on request using the contact
-                details in §11.
+                are described in our{' '}
+                <Link href="/notice-of-privacy-practices/">Notice of Privacy Practices</Link>,
+                which is also provided at intake.
               </p>
               <p>
                 Please note that ordinary email and web forms are not encrypted
@@ -372,7 +372,8 @@ export default function PrivacyPolicyPage() {
               <h2>11. Contact us</h2>
               <p>
                 For any privacy question, to exercise a right described above, or
-                to request our Notice of Privacy Practices:
+                to request a copy of our{' '}
+                <Link href="/notice-of-privacy-practices/">Notice of Privacy Practices</Link>:
               </p>
               <ul>
                 <li>

@@ -40,6 +40,8 @@ const ROUTES: Array<{ path: string; priority: number; updated: string }> = [
   // Low priority but deliberately indexable: the live site already serves this
   // URL, and a healthcare site should have a discoverable privacy policy.
   { path: 'privacy-policy', priority: 0.3, updated: '2026-08-04' },
+  // HIPAA Notice of Privacy Practices (LegitScript, 2026-10-27).
+  { path: 'notice-of-privacy-practices', priority: 0.3, updated: '2026-10-27' },
   // Editorial policy: listed only once signed off and indexable (lib/editorial.ts).
   // `updated` is the policy's own LAST_REVIEWED date.
   ...(editorialPolicyReady
