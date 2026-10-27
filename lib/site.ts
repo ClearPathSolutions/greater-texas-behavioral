@@ -217,6 +217,7 @@ export const footerLinks: NavChild[] = [
 export const legalLinks: NavChild[] = [
   { label: 'Privacy Policy', href: '/privacy-policy' },
   { label: 'Notice of Privacy Practices', href: '/notice-of-privacy-practices' },
+  { label: 'SMS Terms', href: '/sms-terms' },
 ];
 
 /**

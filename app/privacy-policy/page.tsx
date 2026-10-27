@@ -1,87 +1,24 @@
 /**
- * Privacy policy (audit V0100).
+ * Privacy policy (legal-pages standardization, 2026-10-27).
  *
- * Slug note: the live WordPress site serves `/privacy-policy/` at 200. Building
- * this page at the same slug means the cutover preserves that URL exactly
- * instead of 404'ing an existing compliance page.
- *
- * ---------------------------------------------------------------------------
- * BEFORE LAUNCH — items only the business can confirm. Every statement below
- * was written from what the codebase actually does (form fields in
- * VerifyForm.tsx, the Clarion + Resend integrations, the support-portal staff
- * feed). These points are NOT verifiable from code and must be checked by
- * counsel or the compliance owner:
- *
- *   1. LEGAL ENTITY + MAILING ADDRESS. Privacy-rights requests normally need a
- *      postal address. This site carries none (virtual provider, `site.address`
- *      is region-only), so the contact section uses phone + email. Add the
- *      registered entity name and address if counsel requires it.
- *   2. BUSINESS ASSOCIATE AGREEMENTS. This page says vendors are "bound by
- *      contract" — it deliberately does NOT claim a signed BAA exists with
- *      Clarion Labs, Vercel or Resend. Confirm which vendors have BAAs and
- *      tighten or soften §5 accordingly.
- *   3. HIPAA SCOPE. §6 draws the standard line between marketing-site
- *      submissions and PHI created once care begins. Confirm this matches how
- *      admissions actually handles pre-intake inquiries.
- *   4. 42 CFR PART 2. Referenced in §6 because this is an SUD provider. Confirm
- *      Part 2 applicability and that the Notice of Privacy Practices exists and
- *      is obtainable at the contact points listed in §11.
- *   5. RETENTION PERIODS. §8 is intentionally qualitative. Insert real periods
- *      once the records-retention schedule is settled.
- *   6. SELLING / TARGETED ADVERTISING. §9 asserts we do not sell personal data
- *      or use it for cross-context behavioural advertising. If marketing later
- *      adds ad-platform pixels, that statement must change and a TDPSA opt-out
- *      mechanism must be added.
- *
- *   ⚠️ 7. THE CONDITION IN (6) HAS NOW TRIGGERED — 2026-08-11. Google Tag
- *      Manager (GTM-MTGTSPCG) and CallTrackingMetrics were added to the site, and
- *      the GTM container already carries Microsoft Clarity (session recording).
- *      §2 now discloses them and §4/§9 have been narrowed to stay truthful, but
- *      THREE THINGS STILL NEED A HUMAN:
- *        a. Confirm the full tag inventory in the GTM UI. This page can only
- *           describe what was observed loading; anything added in GTM later
- *           changes what is true here and nothing in this repo will notice.
- *        b. If any tag does targeted advertising, TDPSA requires a real opt-out
- *           mechanism — a sentence in a policy is not one.
- *        c. HHS OCR guidance on online tracking treats page paths plus IP on a
- *           health site as a disclosure of health information. Confirm whether
- *           Google, Microsoft and CallTrackingMetrics are covered by BAAs, or
- *           restrict tags on /verify-insurance, /contact and /what-we-treat.
- *      See ISSUES.md CR-22.
- *
- *   8. CAMPAIGN PERSISTENCE — 2026-08-24, added with lib/attribution.ts. §2 now
- *      discloses that campaign parameters persist in local storage for 30 days
- *      and are re-added to the URL between pages. Two consequences worth a
- *      human's judgement, neither of which existed when (7) was written:
- *        a. Campaign parameters now appear in the URL on internal pages, so any
- *           tag in the GTM container that captures page URLs — Clarity's session
- *           recordings included — will capture them alongside the path. On this
- *           site a path can imply what someone is seeking treatment for, which
- *           is the combination (7c) is about. It is not a new disclosure of the
- *           path itself (every tag already receives that), but it does widen
- *           what is attached to it.
- *        b. `Referrer-Policy: strict-origin-when-cross-origin` means these
- *           parameters are NOT sent to external sites as a referrer. That
- *           mitigation is load-bearing — do not relax that header without
- *           revisiting this.
- * ---------------------------------------------------------------------------
+ * The wording is the approved network text shared by every facility site; only
+ * facility facts differ. Do not edit it here without the source package.
+ * Virtual provider: no street address is published, so the contact block
+ * carries the legal entity line, phone and email only.
  */
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import PageHero from '@/components/PageHero';
 import CTABand from '@/components/CTABand';
 import Reveal from '@/components/ui/Reveal';
-import { site } from '@/lib/site';
 import { pageMetadata } from '@/lib/seo';
 
 export const metadata: Metadata = pageMetadata({
   title: 'Privacy Policy',
   description:
-    'How Greater Texas Behavioral collects, uses, protects, and shares the information you provide through this website, including insurance and health-related details.',
+    'How Greater Texas Behavioral collects, uses, discloses, and protects the information you provide through this website and when you contact us.',
   path: 'privacy-policy',
 });
-
-const LAST_UPDATED = 'August 24, 2026';
 
 export default function PrivacyPolicyPage() {
   return (
@@ -89,7 +26,6 @@ export default function PrivacyPolicyPage() {
       <PageHero
         eyebrow="Legal"
         title="Privacy Policy"
-        subtitle="What we collect through this website, why we collect it, and the choices you have. Written to be read — not to be skimmed past."
         image="/images/wheat-field-hope.jpg"
         imageAlt="Open field at sunrise"
       />
@@ -97,313 +33,148 @@ export default function PrivacyPolicyPage() {
       <section className="section bg-cream-50">
         <div className="container-narrow">
           <Reveal>
-            <p className="text-sm font-semibold uppercase tracking-wider text-forest-600">
-              Last updated {LAST_UPDATED}
-            </p>
-
-            <div className="prose-tx mt-8">
-              <p className="lead">
-                {site.name} (&ldquo;we,&rdquo; &ldquo;us,&rdquo; or
-                &ldquo;our&rdquo;) provides a licensed Virtual Outpatient Program
-                for addiction and mental health treatment to residents of Texas.
-                This policy explains how we handle information collected through{' '}
-                {site.url.replace('https://', '')}. Because reaching out for
-                treatment is a sensitive act, we try to collect as little as
-                possible and to be specific about where it goes.
-              </p>
-
-              <h2>1. Information you give us directly</h2>
-              <p>
-                Our insurance verification form asks for your{' '}
-                <strong>name</strong> and <strong>phone number</strong> (both
-                required), and optionally your <strong>email address</strong>,{' '}
-                <strong>insurance provider</strong>,{' '}
-                <strong>insurance member ID</strong>, and any message you choose
-                to write in the &ldquo;How can we help?&rdquo; field. If you use
-                the chat widget, we receive the contents of that conversation.
-              </p>
-              <p>
-                You are never required to describe your medical history, your
-                diagnosis, or your substance use to contact us. Please share only
-                what you are comfortable sharing in a web form — anything more
-                sensitive is better discussed on the phone with an admissions
-                specialist at{' '}
-                <a href={site.phoneHref} suppressHydrationWarning>{site.phone}</a>.
-              </p>
-
-              <h2>2. Information collected automatically</h2>
-              <p>
-                When you submit a form or use the chat widget, our lead-capture
-                provider records technical context alongside your submission: the
-                page you submitted from, the page you first landed on, the
-                referring website, your browser&rsquo;s user-agent string, and
-                any campaign parameters (such as <code>utm_source</code> or{' '}
-                <code>gclid</code>) present in the link you arrived through.
-              </p>
-              <p>
-                So that this stays accurate if you read a few pages before
-                getting in touch, those campaign parameters and the page you
-                first arrived on are kept in your browser&rsquo;s local storage
-                for up to <strong>30 days</strong>, and the campaign parameters
-                are re-added to the address bar as you move between pages. This
-                information stays on your device, contains nothing you typed, and
-                is used only to record which outreach channel led you here.
-                Clearing your browsing data removes it.
-              </p>
-              <p>
-                Our hosting provider also processes standard server request data,
-                including IP address, for security, abuse prevention, and
-                reliability purposes.
-              </p>
-              <p>
-                <strong>
-                  Analytics, advertising and call-measurement tools.
-                </strong>{' '}
-                We use a tag-management tool to load measurement scripts on this
-                site. These currently include website analytics, a product that
-                records how visitors interact with pages (such as clicks,
-                scrolling and mouse movement, with the contents of form fields
-                masked), and a call-measurement service that attributes phone
-                calls to the marketing that produced them. To do this they{' '}
-                <strong>set cookies in your browser</strong> and receive technical
-                information including the pages you view, your approximate
-                location derived from IP address, your device and browser, and the
-                referring site or campaign.
-              </p>
-              <p>
-                The call-measurement service may also display a different phone
-                number to different visitors so that calls can be attributed to a
-                campaign. Calls to those numbers reach our admissions team as
-                normal and may be recorded or logged for quality and attribution
-                purposes.
-              </p>
-              <p>
-                You can limit this using your browser&rsquo;s cookie controls, a
-                tracking-protection or ad-blocking extension, or your
-                device&rsquo;s global privacy control. Blocking them does not
-                affect your ability to use this site, submit a form, or call us.
-              </p>
-
-              <h2>3. How we use your information</h2>
+            <div className="prose-tx">
+              <p>Last updated: October 27, 2026</p>
+              <p>Greater Texas Behavioral (“we,” “us,” or “our”) respects your privacy and is committed to protecting the personal, health, and other sensitive information you provide to us.</p>
+              <p>This Privacy Policy explains how we collect, use, disclose, and protect information when you visit greatertexasbehavioral.com, submit information through our website, contact our admissions team, request information about our services, verify insurance benefits, or otherwise interact with us.</p>
+              <p>By using our website or voluntarily providing information to us, you acknowledge the practices described in this Privacy Policy.</p>
+              <h2>Information We Collect</h2>
+              <p>We may collect information that you voluntarily provide to us through our website, telephone communications, forms, email, or other interactions.</p>
+              <p>This information may include:</p>
               <ul>
-                <li>
-                  To respond to you — by phone, text, or email — about the
-                  treatment you asked about.
-                </li>
-                <li>
-                  To verify your insurance benefits with your health plan on your
-                  behalf, when you ask us to.
-                </li>
-                <li>
-                  To explain coverage, expected out-of-pocket costs, and
-                  appropriate next steps for care.
-                </li>
-                <li>
-                  To operate, secure, and improve this website, and to understand
-                  which outreach channels help people find treatment.
-                </li>
-                <li>
-                  To meet our legal, regulatory, and professional obligations as
-                  a licensed treatment provider.
-                </li>
+                <li>First and last name</li>
+                <li>Email address</li>
+                <li>Telephone number</li>
+                <li>Contact preferences</li>
+                <li>Insurance provider and insurance-related information</li>
+                <li>Information submitted through contact, admissions, insurance verification, or other website forms</li>
+                <li>Information regarding treatment needs or services being requested</li>
+                <li>Information provided when communicating with our admissions, clinical, or administrative teams</li>
+                <li>Any other information you voluntarily choose to provide</li>
               </ul>
-              <p>
-                We do not use the information you submit here to make automated
-                decisions about your care, and we do not use it for any purpose
-                unrelated to helping you access treatment.
-              </p>
-
-              <h2>4. What we do not do</h2>
+              <p>Because Greater Texas Behavioral provides behavioral health and substance use disorder treatment services, information you provide when seeking treatment may include health-related or otherwise sensitive information.</p>
+              <h2>Information Collected Automatically</h2>
+              <p>When you visit our website, certain information may be collected automatically through cookies, analytics technologies, pixels, server logs, and similar technologies.</p>
+              <p>This information may include:</p>
               <ul>
-                <li>
-                  <strong>We do not sell your personal information.</strong>
-                </li>
-                <li>
-                  We do not share it with other treatment facilities, lead
-                  brokers, or marketing aggregators.
-                </li>
-                <li>
-                  We do not use the information you type into our forms &mdash;
-                  your name, contact details, insurance details, or anything you
-                  write in a message &mdash; for advertising, and we do not build
-                  advertising profiles from it. The measurement tools described in
-                  §2 do collect browsing data through cookies; see that section
-                  for what they receive and how to limit it.
-                </li>
-                <li>
-                  We do not disclose that you contacted us to family, employers,
-                  or anyone else without your authorization, except where the law
-                  requires or permits it.
-                </li>
+                <li>Internet Protocol (IP) address</li>
+                <li>Browser type</li>
+                <li>Device type</li>
+                <li>Operating system</li>
+                <li>Pages visited</li>
+                <li>Referring website or source</li>
+                <li>Date and time of your visit</li>
+                <li>General geographic information</li>
+                <li>Website interactions and usage information</li>
               </ul>
-
-              <h2>5. Service providers</h2>
-              <p>
-                We use a small number of vendors to run this website and route
-                your inquiry to our admissions team. They may process your
-                information only to provide their service to us, are bound by
-                contract, and may not use it for their own purposes:
-              </p>
+              <p>We may use this information to operate our website, understand how visitors use our website, improve performance and functionality, evaluate marketing efforts, and maintain website security.</p>
+              <h2>How We Use Your Information</h2>
+              <p>We may use information collected through our website or provided directly to us to:</p>
               <ul>
-                <li>
-                  <strong>Website hosting and delivery</strong> — serves these
-                  pages and processes server request logs.
-                </li>
-                <li>
-                  <strong>Lead capture and web chat</strong> — receives your form
-                  submission and chat messages and makes them available to our
-                  admissions team.
-                </li>
-                <li>
-                  <strong>Email delivery</strong> — used as a backup channel to
-                  deliver your inquiry to our admissions inbox if the primary
-                  system is unavailable, so that a request for help is not lost.
-                </li>
+                <li>Respond to questions and requests for information</li>
+                <li>Assist individuals seeking treatment</li>
+                <li>Provide information regarding our programs and services</li>
+                <li>Process admissions inquiries</li>
+                <li>Verify insurance benefits or coverage</li>
+                <li>Coordinate assessments, admissions, appointments, and treatment-related services</li>
+                <li>Communicate with prospective or current patients as permitted by law</li>
+                <li>Provide requested follow-up communications</li>
+                <li>Improve our website and user experience</li>
+                <li>Analyze website traffic and performance</li>
+                <li>Maintain the security and functionality of our website</li>
+                <li>Comply with applicable federal, state, and local laws and regulations</li>
+                <li>Fulfill other purposes for which you provide your information or consent</li>
               </ul>
-              <p>
-                We may also disclose information when required by law, subpoena,
-                or court order; to protect the safety of any person; or in
-                connection with a business transfer, subject to the protections
-                described here.
-              </p>
-
-              <h2>6. Health information, HIPAA, and Part 2</h2>
-              <p>
-                Information you send through this website before you become a
-                client is used for admissions and benefit-verification purposes.
-                We treat it as confidential regardless of its formal legal
-                classification.
-              </p>
-              <p>
-                Once you begin care with us, the protected health information
-                created and maintained in the course of your treatment is
-                governed by the Health Insurance Portability and Accountability
-                Act (HIPAA) and, for substance use disorder treatment records, by
-                the federal confidentiality regulations at 42 C.F.R. Part 2 —
-                which are stricter than HIPAA and generally require your written
-                consent before your records may be disclosed. Those protections
-                are described in our{' '}
-                <Link href="/notice-of-privacy-practices/">Notice of Privacy Practices</Link>,
-                which is also provided at intake.
-              </p>
-              <p>
-                Please note that ordinary email and web forms are not encrypted
-                end-to-end. Do not use them to send detailed clinical
-                information.
-              </p>
-
-              <h2>7. Security</h2>
-              <p>
-                This site is served exclusively over HTTPS, and submissions are
-                transmitted over encrypted connections. We limit the fields we
-                ask for, restrict internal access to inquiries to the admissions
-                staff who need them, and deliberately keep sensitive values —
-                such as your insurance member ID and anything you write in the
-                message field — out of our application logs.
-              </p>
-              <p>
-                No method of transmission or storage is perfectly secure, and we
-                cannot guarantee absolute security. If you believe your
-                information has been compromised, contact us immediately.
-              </p>
-
-              <h2>8. How long we keep it</h2>
-              <p>
-                If you contact us and do not begin treatment, we retain your
-                inquiry only as long as needed to follow up with you, to meet our
-                legal and regulatory obligations, and to resolve disputes. If you
-                do begin treatment, your clinical records are retained according
-                to Texas law and applicable professional record-retention
-                requirements. You may ask us to delete an inquiry that did not
-                result in treatment.
-              </p>
-
-              <h2>9. Your rights and choices</h2>
-              <p>
-                Under the Texas Data Privacy and Security Act, Texas residents
-                may ask us to confirm whether we process their personal data,
-                obtain a copy of it, correct inaccuracies, or delete it, and may
-                appeal a decision we make about such a request. We do not sell the
-                personal information you submit through our forms. Texas residents
-                also have the right to opt out of processing for targeted
-                advertising and of any sharing that counts as a &ldquo;sale&rdquo;
-                under the Act; to exercise that right in relation to the
-                measurement and advertising cookies described in §2, contact us
-                using the details in §11 and we will honour it &mdash; and you can
-                block those cookies in your browser at any time. Depending on
-                where you live, you may have similar rights under other state
-                laws.
-              </p>
-              <p>
-                You can also, at any time:
-              </p>
+              <p>We do not sell patient or prospective patient information for monetary consideration.</p>
+              <h2>Protected Health Information and HIPAA</h2>
+              <p>Certain information collected or maintained by Greater Texas Behavioral in connection with treatment, payment, or healthcare operations may constitute Protected Health Information (“PHI”) under the Health Insurance Portability and Accountability Act of 1996 (“HIPAA”) and related regulations.</p>
+              <p>Where HIPAA applies, Greater Texas Behavioral uses and discloses PHI only as permitted or required by applicable law.</p>
+              <p>Additional protections may apply to certain substance use disorder treatment records under federal or state law.</p>
+              <p>Information that constitutes PHI is handled in accordance with applicable healthcare privacy and security requirements and our <Link href="/notice-of-privacy-practices/">Notice of Privacy Practices</Link>, as applicable.</p>
+              <p>Information submitted through a general website interaction is not necessarily considered PHI solely because it relates to healthcare. Whether information constitutes PHI and which protections apply depends on the circumstances in which the information is collected, received, maintained, or transmitted.</p>
+              <h2>Disclosure of Information to Third Parties</h2>
+              <p>Greater Texas Behavioral will only disclose personal information, health information, or Protected Health Information to third parties as permitted or required by applicable law.</p>
+              <p>We may share information with third parties when reasonably necessary to:</p>
               <ul>
-                <li>
-                  Ask us to stop contacting you — by replying to any message,
-                  or by telling the person who calls you.
-                </li>
-                <li>
-                  Reply <strong>STOP</strong> to any text message to end text
-                  contact.
-                </li>
-                <li>
-                  Use the unsubscribe link in any marketing email we send.
-                </li>
+                <li>Provide treatment or services requested by an individual</li>
+                <li>Verify insurance benefits or coordinate payment</li>
+                <li>Perform healthcare operations as permitted by law</li>
+                <li>Work with service providers performing services on our behalf</li>
+                <li>Operate, maintain, secure, or improve our website and business systems</li>
+                <li>Comply with applicable laws, regulations, court orders, subpoenas, or other lawful governmental requests</li>
+                <li>Protect the rights, safety, or security of Greater Texas Behavioral, our patients, website visitors, employees, or others</li>
               </ul>
-              <p>
-                Rights over clinical records held under HIPAA and 42 C.F.R. Part
-                2 — including the right to access, amend, and restrict
-                disclosure — are described in our Notice of Privacy Practices and
-                are separate from the website rights above.
-              </p>
-              <p>
-                We will not discriminate against you, or refuse or degrade your
-                care, for exercising any of these rights.
-              </p>
-
-              <h2>10. Children&rsquo;s privacy</h2>
-              <p>
-                Our services are intended for adults. This website is not
-                directed to children under 13, and we do not knowingly collect
-                their personal information. If you believe a child has submitted
-                information to us, contact us and we will delete it.
-              </p>
-
-              <h2>11. Contact us</h2>
-              <p>
-                For any privacy question, to exercise a right described above, or
-                to request a copy of our{' '}
-                <Link href="/notice-of-privacy-practices/">Notice of Privacy Practices</Link>:
-              </p>
+              <p>Where required, appropriate agreements and safeguards are maintained with service providers that handle protected or sensitive information on our behalf.</p>
+              <p>We do not disclose Protected Health Information except as permitted or required by applicable federal and state law.</p>
+              <p>We do not disclose patient or prospective patient information to third parties for purposes prohibited by applicable law.</p>
+              <h2>Website Security and SSL/TLS Encryption</h2>
+              <p>Greater Texas Behavioral takes reasonable measures to protect information submitted through our website.</p>
+              <p>Our website uses Secure Socket Layer/Transport Layer Security (SSL/TLS) encryption technology to help protect information transmitted between your browser and our website.</p>
+              <p>We also maintain reasonable administrative, technical, and physical safeguards designed to protect personal information and Protected Health Information from unauthorized access, use, alteration, loss, or disclosure.</p>
+              <p>However, no website, electronic communication, transmission method, or data storage system can be guaranteed to be completely secure.</p>
+              <p>If you believe sensitive information has been compromised or submitted to us in error, please contact us.</p>
+              <h2>Website Forms</h2>
+              <p>Our website may contain forms that allow visitors to request information, contact our admissions team, verify insurance benefits, or inquire about treatment.</p>
+              <p>Information submitted through these forms is used to respond to your request and facilitate services you have requested.</p>
+              <p>Please do not submit information through a website form unless you are comfortable providing the requested information electronically.</p>
+              <p>Information submitted through our website is transmitted using SSL/TLS encryption where applicable.</p>
+              <h2>Insurance Verification</h2>
+              <p>If you submit insurance information for verification of benefits, we may use the information you provide to determine potential insurance coverage for treatment services.</p>
+              <p>Information may be shared with your insurance provider, authorized verification services, or other parties as reasonably necessary to perform the requested verification and as permitted by applicable law.</p>
+              <p>Verification of insurance benefits does not guarantee coverage, authorization, admission, or payment for treatment.</p>
+              <h2>Cookies and Tracking Technologies</h2>
+              <p>Our website may use cookies and similar technologies to support website functionality, understand website usage, measure performance, and improve our services.</p>
+              <p>These technologies may collect information regarding your browser, device, website interactions, traffic source, and pages visited.</p>
+              <p>We may use third-party analytics or advertising technologies where permitted by applicable law.</p>
+              <p>We do not knowingly use tracking technologies to disclose Protected Health Information to third parties for purposes prohibited by HIPAA or other applicable privacy laws.</p>
+              <p>You may be able to limit or disable cookies through your browser settings. Disabling certain cookies may affect the functionality of portions of our website.</p>
+              <h2>Third-Party Websites and Services</h2>
+              <p>Our website may contain links to websites or services operated by third parties.</p>
+              <p>Greater Texas Behavioral is not responsible for the privacy practices, security, content, or policies of independently operated third-party websites.</p>
+              <p>Visiting a third-party website is subject to that third party’s privacy practices and terms. We encourage you to review the privacy policy of any third-party website before providing personal information.</p>
+              <h2>SMS and Text Message Communications</h2>
+              <p>If you voluntarily provide your mobile telephone number and consent to receive text messages from Greater Texas Behavioral, we may send SMS communications related to your inquiry, admissions process, appointments, services, care coordination, follow-up communications, or other communications you have requested or authorized.</p>
+              <p>Message frequency may vary. Message and data rates may apply.</p>
+              <p>You may opt out of receiving SMS communications at any time by replying STOP. You may reply HELP for assistance.</p>
+              <p>Consent to receive SMS communications is not a condition of purchasing or receiving treatment or services.</p>
+              <p>Mobile information, including telephone numbers and SMS consent or opt-in data, will not be sold, rented, or shared with third parties or affiliates for their own marketing or promotional purposes. SMS consent and opt-in information will not be shared with third parties for marketing purposes.</p>
+              <p>Information may be shared with service providers that facilitate communications on our behalf when necessary to provide the requested messaging service and subject to appropriate privacy and security requirements.</p>
+              <p>The full terms of our text messaging program are in our <Link href="/sms-terms/">SMS Terms &amp; Conditions</Link>.</p>
+              <h2>Email Communications</h2>
+              <p>If you provide your email address, we may use it to respond to your inquiry or provide communications related to services you have requested.</p>
+              <p>Where applicable, marketing email communications will provide a method to unsubscribe from future marketing messages.</p>
+              <p>Treatment-related, administrative, legal, or other non-marketing communications may still be sent when permitted or required by law.</p>
+              <h2>Data Retention</h2>
+              <p>We may retain information for as long as reasonably necessary to fulfill the purposes for which it was collected and to comply with applicable healthcare, legal, regulatory, contractual, operational, and recordkeeping requirements.</p>
+              <p>Retention periods may vary depending on the nature of the information and applicable legal requirements.</p>
+              <h2>Your Privacy Choices</h2>
+              <p>Depending on the type of information involved and applicable law, you may have certain rights regarding your personal information.</p>
+              <p>These rights may include the ability to request access to or correction of certain information and, where legally available, request deletion or restriction of certain information.</p>
+              <p>Certain healthcare and business records may be retained when required by federal or state law.</p>
+              <p>You may also:</p>
               <ul>
-                <li>
-                  Phone: <a href={site.phoneHref} suppressHydrationWarning>{site.phone}</a>
-                </li>
-                <li>
-                  Email: <a href={`mailto:${site.email}`}>{site.email}</a>
-                </li>
+                <li>Opt out of SMS messages by replying STOP or by following the opt-out instructions provided</li>
+                <li>Unsubscribe from applicable marketing emails using the unsubscribe instructions provided</li>
+                <li>Adjust browser settings to limit or disable certain cookies</li>
               </ul>
-              <p>
-                We respond to privacy requests as promptly as we can, and within
-                the timeframes required by applicable law.
-              </p>
-
-              <h2>12. Changes to this policy</h2>
-              <p>
-                If we change how we handle your information, we will update this
-                page and revise the &ldquo;last updated&rdquo; date above.
-                Material changes will be made clear rather than buried.
-              </p>
-
-              <hr className="my-10 border-cream-300" />
-
-              <p className="text-sm text-muted" suppressHydrationWarning>
-                If you are in immediate danger, call 911. For free, confidential
-                support 24/7, call or text the 988 Suicide &amp; Crisis Lifeline,
-                or reach the SAMHSA National Helpline at 1-800-662-4357. See also{' '}
-                <Link href="/what-we-treat/">what we treat</Link> and{' '}
-                <Link href="/verify-insurance/">insurance verification</Link>.
-              </p>
+              <p>Rights relating specifically to Protected Health Information are described in our <Link href="/notice-of-privacy-practices/">Notice of Privacy Practices</Link>, as applicable.</p>
+              <h2>Children’s Privacy</h2>
+              <p>Our website is not directed toward children under the age of 13, and we do not knowingly collect personal information directly from children under 13 through our website without appropriate authorization.</p>
+              <p>If we become aware that personal information from a child has been collected in a manner inconsistent with applicable law, we will take reasonable steps to appropriately address or remove that information.</p>
+              <h2>Legal Requirements</h2>
+              <p>Greater Texas Behavioral complies with applicable federal, state, and local privacy and security requirements governing information collected in connection with our services.</p>
+              <p>We may use or disclose information when required to do so by law or when reasonably necessary to comply with a lawful legal process, regulatory requirement, or governmental request.</p>
+              <p>Nothing in this Privacy Policy is intended to limit rights or protections provided under applicable healthcare privacy laws.</p>
+              <h2>Changes to This Privacy Policy</h2>
+              <p>We may update this Privacy Policy periodically to reflect changes in our practices, technology, services, legal requirements, or regulatory obligations.</p>
+              <p>When changes are made, the updated Privacy Policy will be posted on this page and the “Last Updated” date will be revised.</p>
+              <p>We encourage visitors to periodically review this Privacy Policy.</p>
+              <h2>Contact Us</h2>
+              <p>If you have questions about this Privacy Policy, our privacy practices, or how information submitted through our website is handled, please contact:</p>
+              <p>Greater Texas Behavioral Clinic, doing business as Greater Texas Behavioral</p>
+              <p suppressHydrationWarning>Phone: <a href="tel:+18775903665">(877) 590-3665</a><br />
+              Email: <a href="mailto:info@greatertexasbehavioral.com">info@greatertexasbehavioral.com</a></p>
+              <p>For questions regarding your medical records, Protected Health Information, or rights under applicable healthcare privacy laws, please see our <Link href="/notice-of-privacy-practices/">Notice of Privacy Practices</Link> or contact our Privacy Officer at the details above.</p>
             </div>
           </Reveal>
         </div>
