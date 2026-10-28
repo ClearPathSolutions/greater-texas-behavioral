@@ -68,7 +68,7 @@ export default async function BlogPage() {
                   <Reveal key={post.slug} delay={(i % 3) * 90}>
                     <article className="card group flex h-full flex-col overflow-hidden">
                       <Link href={`/blog/${post.slug}`} className="block">
-                        <div className="relative h-52 overflow-hidden bg-cream-200">
+                        <div className="relative aspect-[1200/630] overflow-hidden bg-cream-200">
                           <BlogCover
                             src={post.cover_image_url}
                             alt={post.title}
