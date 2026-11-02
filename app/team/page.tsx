@@ -131,10 +131,10 @@ export default async function TeamPage() {
               <span className="eyebrow justify-center">
                 Across the {parentOrg.name} network
               </span>
-              <h2 className="h-section mt-4">Medical leadership</h2>
+              <h2 className="h-section mt-4">Network leadership</h2>
               <p className="lead mt-5">
                 Greater Texas Behavioral is part of {parentOrg.name}, and medical
-                oversight is provided at the network level.
+                oversight and family services are led at the network level.
               </p>
             </Reveal>
 

@@ -38,6 +38,7 @@ import { getNetworkLeader, networkLeaders } from '@/lib/network-leadership';
  */
 const CANONICAL_AT_PARENT: Record<string, string> = {
   'pamela-tambini': 'https://www.quadranthealthgroup.com/team/pamela-tambini/',
+  'casey-hyatt': 'https://www.quadranthealthgroup.com/team/casey-hyatt/',
 };
 
 export function generateStaticParams() {
