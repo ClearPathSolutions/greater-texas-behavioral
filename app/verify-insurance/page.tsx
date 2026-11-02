@@ -66,7 +66,7 @@ export default function VerifyInsurancePage() {
               {steps.map((s, i) => (
                 <li key={s.title} className="flex gap-4">
                   <div className="flex flex-col items-center">
-                    <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-forest-800 text-cream-50">
+                    <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-slate-800 text-cream-50">
                       <s.icon className="h-5 w-5" />
                     </span>
                     {i < steps.length - 1 && (
@@ -74,7 +74,7 @@ export default function VerifyInsurancePage() {
                     )}
                   </div>
                   <div className="pb-2">
-                    <h3 className="font-display text-lg font-bold text-forest-900">
+                    <h3 className="font-display text-lg font-bold text-slate-900">
                       {i + 1}. {s.title}
                     </h3>
                     <p className="mt-1 leading-relaxed text-muted">{s.body}</p>
@@ -84,7 +84,7 @@ export default function VerifyInsurancePage() {
             </ol>
 
             <div className="mt-8 rounded-2xl bg-cream-100 p-5">
-              <p className="text-forest-800">
+              <p className="text-slate-800">
                 Prefer to talk it through? Call our admissions team directly.
               </p>
               <a href={site.phoneHref} className="btn-primary mt-4" suppressHydrationWarning>
@@ -96,7 +96,7 @@ export default function VerifyInsurancePage() {
 
           <Reveal delay={120} className="lg:sticky lg:top-28">
             <div className="mb-5">
-              <h2 className="font-display text-2xl font-bold text-forest-900">
+              <h2 className="font-display text-2xl font-bold text-slate-900">
                 Verify your coverage today
               </h2>
               <p className="mt-2 text-muted">
@@ -132,18 +132,18 @@ export default function VerifyInsurancePage() {
               {insuranceCarriers.map((c) => (
                 <li
                   key={c}
-                  className="rounded-full border border-cream-300 bg-cream-50 px-4 py-2 text-sm font-medium text-forest-800"
+                  className="rounded-full border border-cream-300 bg-cream-50 px-4 py-2 text-sm font-medium text-slate-800"
                 >
                   {c}
                 </li>
               ))}
               {/* Audit CR-08: was "35+ more" — unsubstantiated. */}
-              <li className="rounded-full bg-forest-800 px-4 py-2 text-sm font-semibold text-cream-50">
+              <li className="rounded-full bg-slate-800 px-4 py-2 text-sm font-semibold text-cream-50">
                 and many more
               </li>
             </ul>
             <p className="mt-6 flex items-center justify-center gap-2 text-center text-muted">
-              <IconArrowRight className="h-4 w-4 text-gold-500" />
+              <IconArrowRight className="h-4 w-4 text-tan-500" />
               Don&apos;t see your plan? We likely still work with it — just ask.
             </p>
           </Reveal>

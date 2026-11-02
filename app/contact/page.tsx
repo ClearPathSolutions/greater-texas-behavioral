@@ -90,21 +90,21 @@ export default function ContactPage() {
             {methods.map((m, i) => (
               <Reveal key={m.label} delay={i * 80} className="min-w-0">
                 <article className="card flex h-full min-w-0 flex-col p-6">
-                  <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-forest-100 text-forest-700">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-slate-100 text-slate-700">
                     <m.icon className="h-6 w-6" />
                   </div>
-                  <h2 className="mt-4 text-xs font-semibold uppercase tracking-wider text-forest-600">
+                  <h2 className="mt-4 text-xs font-semibold uppercase tracking-wider text-slate-600">
                     {m.label}
                   </h2>
                   {m.href ? (
                     <a
                       href={m.href}
-                      className="mt-1 break-words font-display text-lg font-bold text-forest-900 underline decoration-gold-300 underline-offset-4 hover:text-forest-700"
+                      className="mt-1 break-words font-display text-lg font-bold text-slate-900 underline decoration-tan-300 underline-offset-4 hover:text-slate-700"
                     >
                       {m.value}
                     </a>
                   ) : (
-                    <p className="mt-1 break-words font-display text-lg font-bold text-forest-900">
+                    <p className="mt-1 break-words font-display text-lg font-bold text-slate-900">
                       {m.value}
                     </p>
                   )}
@@ -133,11 +133,11 @@ export default function ContactPage() {
 
             <ul className="mt-8 space-y-5">
               <li className="flex gap-4">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-forest-100 text-forest-700">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-slate-100 text-slate-700">
                   <IconChat className="h-5 w-5" />
                 </div>
                 <div>
-                  <h3 className="font-display text-lg font-bold text-forest-900">
+                  <h3 className="font-display text-lg font-bold text-slate-900">
                     A real conversation
                   </h3>
                   <p className="mt-1 leading-relaxed text-muted">
@@ -147,11 +147,11 @@ export default function ContactPage() {
                 </div>
               </li>
               <li className="flex gap-4">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-forest-100 text-forest-700">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-slate-100 text-slate-700">
                   <IconShieldCheck className="h-5 w-5" />
                 </div>
                 <div>
-                  <h3 className="font-display text-lg font-bold text-forest-900">
+                  <h3 className="font-display text-lg font-bold text-slate-900">
                     Confidential by default
                   </h3>
                   <p className="mt-1 leading-relaxed text-muted">
@@ -161,18 +161,18 @@ export default function ContactPage() {
                 </div>
               </li>
               <li className="flex gap-4">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-forest-100 text-forest-700">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-slate-100 text-slate-700">
                   <IconClock className="h-5 w-5" />
                 </div>
                 <div>
-                  <h3 className="font-display text-lg font-bold text-forest-900">
+                  <h3 className="font-display text-lg font-bold text-slate-900">
                     Need help right now?
                   </h3>
                   <p className="mt-1 leading-relaxed text-muted">
                     Call{' '}
                     <a
                       href={site.phoneHref}
-                      className="font-semibold text-forest-800 underline decoration-gold-300 underline-offset-2" suppressHydrationWarning
+                      className="font-semibold text-slate-800 underline decoration-tan-300 underline-offset-2" suppressHydrationWarning
                     >
                       {site.phone}
                     </a>{' '}
@@ -192,8 +192,8 @@ export default function ContactPage() {
       {/* Crisis notice — responsible practice for a behavioural health site */}
       <section className="bg-cream-50 py-10">
         <div className="container-narrow">
-          <div className="rounded-2xl border border-gold-400/60 bg-cream-100 p-6">
-            <h2 className="font-display text-lg font-bold text-forest-900">
+          <div className="rounded-2xl border border-tan-400/60 bg-cream-100 p-6">
+            <h2 className="font-display text-lg font-bold text-slate-900">
               In a crisis?
             </h2>
             <p className="mt-2 text-sm leading-relaxed text-muted">
@@ -203,7 +203,7 @@ export default function ContactPage() {
               or reach the SAMHSA National Helpline at{' '}
               <a
                 href="tel:+18006624357"
-                className="font-semibold text-forest-800 underline decoration-gold-300 underline-offset-2" suppressHydrationWarning
+                className="font-semibold text-slate-800 underline decoration-tan-300 underline-offset-2" suppressHydrationWarning
               >
                 1-800-662-4357
               </a>

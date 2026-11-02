@@ -37,10 +37,10 @@ export default async function BlogPage() {
           {posts.length === 0 ? (
             /* -------- Empty state -------- */
             <Reveal className="mx-auto max-w-xl text-center">
-              <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-forest-100 text-forest-700">
+              <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-slate-100 text-slate-700">
                 <IconChat className="h-8 w-8" />
               </div>
-              <h2 className="mt-6 font-display text-3xl font-bold text-forest-900">
+              <h2 className="mt-6 font-display text-3xl font-bold text-slate-900">
                 New articles are on the way
               </h2>
               <p className="mt-4 text-lg leading-relaxed text-muted">
@@ -86,10 +86,10 @@ export default async function BlogPage() {
                           )}
                           {post.author_name && <span>· {post.author_name}</span>}
                         </div>
-                        <h3 className="mt-3 font-display text-xl font-bold text-forest-900">
+                        <h3 className="mt-3 font-display text-xl font-bold text-slate-900">
                           <Link
                             href={`/blog/${post.slug}`}
-                            className="transition-colors hover:text-forest-700"
+                            className="transition-colors hover:text-slate-700"
                           >
                             {post.title}
                           </Link>
@@ -101,7 +101,7 @@ export default async function BlogPage() {
                         )}
                         <Link
                           href={`/blog/${post.slug}`}
-                          className="mt-4 inline-flex items-center gap-1.5 font-semibold text-forest-700 hover:text-forest-900"
+                          className="mt-4 inline-flex items-center gap-1.5 font-semibold text-slate-700 hover:text-slate-900"
                         >
                           Read more
                           <IconArrowRight className="h-4 w-4" />

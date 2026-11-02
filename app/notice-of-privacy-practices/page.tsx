@@ -44,7 +44,7 @@ export default function NoticeOfPrivacyPracticesPage() {
       <section className="section bg-cream-50">
         <div className="container-narrow">
           <Reveal>
-            <p className="text-sm font-semibold uppercase tracking-wider text-forest-600">
+            <p className="text-sm font-semibold uppercase tracking-wider text-slate-600">
               Effective {EFFECTIVE_DATE}
             </p>
 

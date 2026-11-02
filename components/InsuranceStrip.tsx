@@ -51,26 +51,26 @@ export default function InsuranceStrip() {
                   stronger and less supportable claim than the "all major"
                   heading audit CR-08 flagged. "We verify benefits with" is what
                   the admissions team actually does. */}
-              <p className="text-sm font-semibold uppercase tracking-wider text-forest-600">
+              <p className="text-sm font-semibold uppercase tracking-wider text-slate-600">
                 We verify benefits with
               </p>
               <ul className="mt-5 flex flex-wrap gap-2.5">
                 {insuranceCarriers.map((carrier) => (
                   <li
                     key={carrier}
-                    className="rounded-full border border-cream-300 bg-cream-50 px-3.5 py-2 text-sm font-medium text-forest-800"
+                    className="rounded-full border border-cream-300 bg-cream-50 px-3.5 py-2 text-sm font-medium text-slate-800"
                   >
                     {carrier}
                   </li>
                 ))}
                 {/* Audit CR-08: was "35+ more" — a specific number nothing
                     substantiates. Same chip on /verify-insurance. */}
-                <li className="rounded-full bg-forest-800 px-3.5 py-2 text-sm font-semibold text-cream-50">
+                <li className="rounded-full bg-slate-800 px-3.5 py-2 text-sm font-semibold text-cream-50">
                   and many more
                 </li>
               </ul>
-              <div className="mt-6 flex items-center gap-2 rounded-xl bg-cream-100 px-4 py-3 text-sm text-forest-800">
-                <IconArrowRight className="h-4 w-4 shrink-0 text-gold-500" />
+              <div className="mt-6 flex items-center gap-2 rounded-xl bg-cream-100 px-4 py-3 text-sm text-slate-800">
+                <IconArrowRight className="h-4 w-4 shrink-0 text-tan-500" />
                 Don&apos;t see your plan? We likely still work with it — just ask.
               </div>
             </div>

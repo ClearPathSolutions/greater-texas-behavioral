@@ -29,7 +29,7 @@ export default function PageHero({
         sizes="100vw"
         className="object-cover"
       />
-      <div className="absolute inset-0 bg-forest-950/70" />
+      <div className="absolute inset-0 bg-slate-950/70" />
       <div
         className="absolute inset-0"
         style={{
@@ -42,7 +42,7 @@ export default function PageHero({
           className={`flex max-w-3xl flex-col ${alignCls} pt-28 pb-16 sm:pt-32 sm:pb-20 lg:pt-40 lg:pb-24`}
         >
           {eyebrow && (
-            <span className="eyebrow text-gold-300 before:bg-gold-300">
+            <span className="eyebrow text-tan-300 before:bg-tan-300">
               {eyebrow}
             </span>
           )}

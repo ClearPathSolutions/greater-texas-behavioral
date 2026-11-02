@@ -226,12 +226,12 @@ export default function FaqPage() {
                     className="card group/faq overflow-hidden [&_summary::-webkit-details-marker]:hidden"
                   >
                     <summary className="flex cursor-pointer list-none items-start justify-between gap-4 p-5 sm:p-6">
-                      <h3 className="font-display text-lg font-bold text-forest-900">
+                      <h3 className="font-display text-lg font-bold text-slate-900">
                         {item.q}
                       </h3>
                       <IconChevronDown
                         aria-hidden="true"
-                        className="mt-1 h-5 w-5 shrink-0 text-forest-600 transition-transform duration-200 group-open/faq:rotate-180"
+                        className="mt-1 h-5 w-5 shrink-0 text-slate-600 transition-transform duration-200 group-open/faq:rotate-180"
                       />
                     </summary>
                     <div className="border-t border-cream-300 px-5 pb-5 pt-4 leading-relaxed text-muted sm:px-6 sm:pb-6">
@@ -245,8 +245,8 @@ export default function FaqPage() {
           ))}
 
           <Reveal className="mt-14">
-            <div className="rounded-2xl border border-gold-400/60 bg-cream-100 p-6 text-center">
-              <h2 className="font-display text-xl font-bold text-forest-900">
+            <div className="rounded-2xl border border-tan-400/60 bg-cream-100 p-6 text-center">
+              <h2 className="font-display text-xl font-bold text-slate-900">
                 Still have a question?
               </h2>
               <p className="mx-auto mt-2 max-w-lg text-muted">

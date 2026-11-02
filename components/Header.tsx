@@ -159,8 +159,8 @@ export default function Header() {
                     aria-expanded={deskTreatOpen}
                     className={`flex items-center gap-1 whitespace-nowrap rounded-full px-3.5 py-2 text-sm font-semibold transition-colors ${
                       isActive(item.href)
-                        ? 'text-forest-900'
-                        : 'text-forest-700 hover:text-forest-900'
+                        ? 'text-slate-900'
+                        : 'text-slate-700 hover:text-slate-900'
                     }`}
                   >
                     {item.label}
@@ -175,7 +175,7 @@ export default function Header() {
                           href={child.href}
                           className="block rounded-xl px-3.5 py-3 transition-colors hover:bg-cream-100"
                         >
-                          <span className="block text-sm font-semibold text-forest-900">
+                          <span className="block text-sm font-semibold text-slate-900">
                             {child.label}
                           </span>
                           {child.description && (
@@ -194,8 +194,8 @@ export default function Header() {
                   href={item.href}
                   className={`whitespace-nowrap rounded-full px-3.5 py-2 text-sm font-semibold transition-colors ${
                     isActive(item.href)
-                      ? 'text-forest-900'
-                      : 'text-forest-700 hover:text-forest-900'
+                      ? 'text-slate-900'
+                      : 'text-slate-700 hover:text-slate-900'
                   }`}
                 >
                   {item.label}
@@ -208,9 +208,9 @@ export default function Header() {
           <div className="hidden lg:flex items-center gap-2">
             <a
               href={site.phoneHref}
-              className="flex items-center gap-2 rounded-full px-3 py-2 text-sm font-semibold text-forest-800 transition-colors hover:bg-forest-50" suppressHydrationWarning
+              className="flex items-center gap-2 rounded-full px-3 py-2 text-sm font-semibold text-slate-800 transition-colors hover:bg-slate-50" suppressHydrationWarning
             >
-              <IconPhone className="h-4 w-4 text-forest-600" />
+              <IconPhone className="h-4 w-4 text-slate-600" />
               {site.phone}
             </a>
             <Link href="/verify-insurance" className="btn-gold px-5 py-2.5 text-sm">
@@ -223,7 +223,7 @@ export default function Header() {
             <a
               href={site.phoneHref}
               aria-label={`Call ${site.phone}`}
-              className="flex h-11 w-11 items-center justify-center rounded-full bg-forest-800 text-cream-50 shadow-soft transition-colors hover:bg-forest-900" suppressHydrationWarning
+              className="flex h-11 w-11 items-center justify-center rounded-full bg-slate-800 text-cream-50 shadow-soft transition-colors hover:bg-slate-900" suppressHydrationWarning
             >
               <IconPhone className="h-5 w-5" />
             </a>
@@ -234,7 +234,7 @@ export default function Header() {
               aria-label={open ? 'Close menu' : 'Open menu'}
               aria-expanded={open}
               aria-controls="mobile-menu"
-              className="flex h-11 w-11 items-center justify-center rounded-full border border-cream-300 bg-white text-forest-800 transition-colors hover:bg-cream-100"
+              className="flex h-11 w-11 items-center justify-center rounded-full border border-cream-300 bg-white text-slate-800 transition-colors hover:bg-cream-100"
             >
               {open ? <IconClose className="h-6 w-6" /> : <IconMenu className="h-6 w-6" />}
             </button>
@@ -259,7 +259,7 @@ export default function Header() {
           tabIndex={-1}
           aria-hidden
           onClick={() => setOpen(false)}
-          className="absolute inset-0 bg-forest-950/30 backdrop-blur-sm"
+          className="absolute inset-0 bg-slate-950/30 backdrop-blur-sm"
         />
         <nav
           ref={panelRef}
@@ -278,7 +278,7 @@ export default function Header() {
                   <div className="flex items-center">
                     <Link
                       href={item.href}
-                      className="flex-1 py-3 text-lg font-semibold text-forest-900"
+                      className="flex-1 py-3 text-lg font-semibold text-slate-900"
                     >
                       {item.label}
                     </Link>
@@ -291,7 +291,7 @@ export default function Header() {
                           : `Expand ${item.label} submenu`
                       }
                       aria-expanded={treatOpen}
-                      className="flex h-10 w-10 items-center justify-center rounded-full text-forest-700 hover:bg-cream-100"
+                      className="flex h-10 w-10 items-center justify-center rounded-full text-slate-700 hover:bg-cream-100"
                     >
                       <IconChevronDown
                         className={`h-5 w-5 transition-transform ${
@@ -306,7 +306,7 @@ export default function Header() {
                         <li key={child.label}>
                           <Link
                             href={child.href}
-                            className="block rounded-xl px-3 py-2.5 text-forest-700 hover:bg-cream-100"
+                            className="block rounded-xl px-3 py-2.5 text-slate-700 hover:bg-cream-100"
                           >
                             {child.label}
                           </Link>
@@ -319,7 +319,7 @@ export default function Header() {
                 <li key={item.label}>
                   <Link
                     href={item.href}
-                    className="block py-4 text-lg font-semibold text-forest-900"
+                    className="block py-4 text-lg font-semibold text-slate-900"
                   >
                     {item.label}
                   </Link>

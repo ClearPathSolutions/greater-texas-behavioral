@@ -20,55 +20,42 @@ const config: Config = {
     },
     extend: {
       colors: {
-        // Deep forest / pine — primary brand
-        forest: {
-          50: '#f2f6f2',
-          100: '#e0eae1',
-          200: '#c1d5c4',
-          300: '#98b89d',
-          400: '#6b9472',
-          500: '#4a7553',
-          600: '#385d41',
-          700: '#2c4a35',
-          800: '#213a29',
-          900: '#183024',
-          950: '#0c2418',
+        // Slate — primary brand (logo wordmark / Texas outline, #474F5D = 700)
+        slate: {
+          50: '#f3f4f6',
+          100: '#e4e6ea',
+          200: '#c9cdd5',
+          300: '#a3aab6',
+          400: '#77808f',
+          500: '#5d6676',
+          600: '#4f5868',
+          700: '#474f5d',
+          800: '#383f4b',
+          900: '#2a303a',
+          950: '#181c23',
         },
-        // Sage — secondary / accents
-        sage: {
-          50: '#f4f7f3',
-          100: '#e5ede3',
-          200: '#cbd9c8',
-          300: '#a6bfa1',
-          400: '#7fa079',
-          500: '#5f8259',
-          600: '#4a6c46',
-          700: '#3c5639',
-          800: '#324630',
-          900: '#2a3b29',
-        },
-        // Warm Texas gold — used sparingly
-        gold: {
-          50: '#fbf6ec',
-          100: '#f4e6c9',
-          200: '#e9cd93',
-          300: '#deb35f',
-          400: '#d29c3a',
-          500: '#be8a3d',
-          600: '#a1722f',
-          700: '#815a2a',
-          800: '#6a4a27',
-          900: '#5a3f24',
+        // Tan — accent (logo speech bubbles, #B1AA97 = 400)
+        tan: {
+          50: '#faf8f4',
+          100: '#f2efe7',
+          200: '#e2ddd0',
+          300: '#cdc7b6',
+          400: '#b1aa97',
+          500: '#968e79',
+          600: '#7a735f',
+          700: '#615b49',
+          800: '#4d483a',
+          900: '#3b372d',
         },
         // Warm neutral cream backgrounds
         cream: {
-          50: '#fdfcf8',
-          100: '#faf8f1',
-          200: '#f4f1e7',
-          300: '#ebe6d7',
+          50: '#fcfbf9',
+          100: '#f8f6f1',
+          200: '#f1eee6',
+          300: '#e5e1d5',
         },
-        ink: '#1c2620',
-        muted: '#5a655c',
+        ink: '#1f242c',
+        muted: '#5c6370',
       },
       fontFamily: {
         sans: ['var(--font-inter)', 'system-ui', 'sans-serif'],
@@ -84,9 +71,9 @@ const config: Config = {
         '3xl': '1.75rem',
       },
       boxShadow: {
-        soft: '0 2px 8px -2px rgba(24, 48, 36, 0.08), 0 8px 24px -8px rgba(24, 48, 36, 0.10)',
-        card: '0 1px 2px rgba(24,48,36,0.04), 0 12px 32px -12px rgba(24,48,36,0.16)',
-        lift: '0 18px 48px -18px rgba(24,48,36,0.28)',
+        soft: '0 2px 8px -2px rgba(42, 48, 58, 0.08), 0 8px 24px -8px rgba(42, 48, 58, 0.10)',
+        card: '0 1px 2px rgba(42,48,58,0.04), 0 12px 32px -12px rgba(42,48,58,0.16)',
+        lift: '0 18px 48px -18px rgba(42,48,58,0.28)',
       },
       keyframes: {
         'fade-up': {

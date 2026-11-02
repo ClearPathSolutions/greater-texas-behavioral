@@ -62,23 +62,23 @@ export default async function TeamPage() {
                       ) : (
                         <span
                           aria-hidden="true"
-                          className="flex h-28 w-28 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-forest-600 to-forest-900 font-display text-3xl font-bold tracking-wide text-cream-50 ring-4 ring-cream-50 shadow-soft"
+                          className="flex h-28 w-28 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-slate-600 to-slate-900 font-display text-3xl font-bold tracking-wide text-cream-50 ring-4 ring-cream-50 shadow-soft"
                         >
                           {initials(person.name)}
                         </span>
                       )}
 
-                      <h2 className="mt-5 font-display text-2xl font-bold text-forest-900">
+                      <h2 className="mt-5 font-display text-2xl font-bold text-slate-900">
                         {person.name}
                       </h2>
-                      <p className="mt-1.5 text-xs font-semibold uppercase tracking-[0.14em] text-forest-600">
+                      <p className="mt-1.5 text-xs font-semibold uppercase tracking-[0.14em] text-slate-600">
                         {person.title}
                       </p>
 
                       {anyCredentials && (
                         <div className="mt-3 flex h-6 items-center">
                           {person.credentials && (
-                            <span className="inline-flex items-center rounded-full bg-gold-50 px-3 py-1 text-xs font-semibold tracking-wide text-gold-700 ring-1 ring-gold-200">
+                            <span className="inline-flex items-center rounded-full bg-tan-50 px-3 py-1 text-xs font-semibold tracking-wide text-tan-700 ring-1 ring-tan-200">
                               {person.credentials}
                             </span>
                           )}
@@ -105,7 +105,7 @@ export default async function TeamPage() {
                   Want to know if our Virtual OP is right for you?{' '}
                   <Link
                     href="/contact"
-                    className="font-semibold text-forest-700 underline decoration-gold-300 underline-offset-2 hover:text-forest-900"
+                    className="font-semibold text-slate-700 underline decoration-tan-300 underline-offset-2 hover:text-slate-900"
                   >
                     Reach out to our admissions team
                   </Link>
@@ -154,17 +154,17 @@ export default async function TeamPage() {
                     ) : (
                       <span
                         aria-hidden="true"
-                        className="flex h-28 w-28 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-forest-600 to-forest-900 font-display text-3xl font-bold tracking-wide text-cream-50 ring-4 ring-cream-50 shadow-soft"
+                        className="flex h-28 w-28 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-slate-600 to-slate-900 font-display text-3xl font-bold tracking-wide text-cream-50 ring-4 ring-cream-50 shadow-soft"
                       >
                         {initials(leader.name)}
                       </span>
                     )}
 
                     <div>
-                      <h3 className="font-display text-2xl font-bold text-forest-900">
+                      <h3 className="font-display text-2xl font-bold text-slate-900">
                         {leader.name}
                       </h3>
-                      <p className="mt-1.5 text-xs font-semibold uppercase tracking-[0.14em] text-forest-600">
+                      <p className="mt-1.5 text-xs font-semibold uppercase tracking-[0.14em] text-slate-600">
                         {leader.title}
                       </p>
                       <p className="mt-4 text-[1.0625rem] leading-[1.8] text-ink/85">
@@ -172,7 +172,7 @@ export default async function TeamPage() {
                       </p>
                       <Link
                         href={`/team/${leader.slug}`}
-                        className="group mt-5 inline-flex items-center gap-2 text-sm font-semibold text-forest-700 transition-colors hover:text-forest-900"
+                        className="group mt-5 inline-flex items-center gap-2 text-sm font-semibold text-slate-700 transition-colors hover:text-slate-900"
                       >
                         Read {leader.name}&rsquo;s full bio
                         <IconArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />

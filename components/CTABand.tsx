@@ -28,7 +28,7 @@ export default function CTABand({
         sizes="100vw"
         className="object-cover"
       />
-      <div className="absolute inset-0 bg-forest-950/78" />
+      <div className="absolute inset-0 bg-slate-950/78" />
       <div
         className="absolute inset-0"
         style={{
@@ -38,7 +38,7 @@ export default function CTABand({
       />
       <div className="container-x relative section">
         <Reveal className="mx-auto max-w-2xl text-center">
-          <span className="eyebrow text-gold-300 before:bg-gold-300">
+          <span className="eyebrow text-tan-300 before:bg-tan-300">
             {eyebrow}
           </span>
           <h2 className="h-section mt-4 text-cream-50">{title}</h2>
@@ -61,7 +61,7 @@ export default function CTABand({
             </Link>
           </div>
           <p className="mt-6 inline-flex items-center gap-2 text-sm text-cream-100/70">
-            <IconLock className="h-4 w-4 text-sage-300" />
+            <IconLock className="h-4 w-4 text-tan-300" />
             100% confidential · Free assessment · No obligation
           </p>
         </Reveal>

@@ -92,7 +92,7 @@ export default function AboutPage() {
                   information on this site in our{' '}
                   <Link
                     href={EDITORIAL_POLICY_PATH}
-                    className="font-semibold text-forest-700 underline decoration-gold-300 underline-offset-2 hover:text-forest-900"
+                    className="font-semibold text-slate-700 underline decoration-tan-300 underline-offset-2 hover:text-slate-900"
                   >
                     Editorial Policy
                   </Link>
@@ -126,10 +126,10 @@ export default function AboutPage() {
           sizes="100vw"
           className="object-cover"
         />
-        <div className="absolute inset-0 bg-forest-950/85" />
+        <div className="absolute inset-0 bg-slate-950/85" />
         <div className="container-x relative section-sm">
           <Reveal className="mx-auto max-w-3xl text-center">
-            <span className="eyebrow justify-center text-gold-300 before:bg-gold-300">
+            <span className="eyebrow justify-center text-tan-300 before:bg-tan-300">
               Our mission
             </span>
             <p className="mt-6 font-display text-2xl font-semibold leading-snug text-cream-50 sm:text-3xl">
@@ -158,11 +158,11 @@ export default function AboutPage() {
             {principles.map((p, i) => (
               <Reveal key={p.title} delay={i * 100}>
                 <article className="card flex h-full gap-5 p-7">
-                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-forest-800 text-cream-50">
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-slate-800 text-cream-50">
                     <p.icon className="h-6 w-6" />
                   </div>
                   <div>
-                    <h3 className="font-display text-xl font-bold text-forest-900">
+                    <h3 className="font-display text-xl font-bold text-slate-900">
                       {p.title}
                     </h3>
                     <p className="mt-2 leading-relaxed text-muted">{p.body}</p>

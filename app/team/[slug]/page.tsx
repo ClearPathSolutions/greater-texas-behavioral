@@ -117,22 +117,22 @@ export default function TeamMemberPage({
                   ) : (
                     <span
                       aria-hidden="true"
-                      className="flex h-28 w-28 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-forest-600 to-forest-900 font-display text-3xl font-bold tracking-wide text-cream-50 ring-4 ring-cream-50 shadow-soft"
+                      className="flex h-28 w-28 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-slate-600 to-slate-900 font-display text-3xl font-bold tracking-wide text-cream-50 ring-4 ring-cream-50 shadow-soft"
                     >
                       {initials(leader.name)}
                     </span>
                   )}
 
-                  <h2 className="mt-5 font-display text-2xl font-bold text-forest-900">
+                  <h2 className="mt-5 font-display text-2xl font-bold text-slate-900">
                     {leader.name}
                   </h2>
-                  <p className="mt-1.5 text-xs font-semibold uppercase tracking-[0.14em] text-forest-600">
+                  <p className="mt-1.5 text-xs font-semibold uppercase tracking-[0.14em] text-slate-600">
                     {leader.title}
                   </p>
 
                   {leader.credentials && (
                     <div className="mt-3 flex h-6 items-center">
-                      <span className="inline-flex items-center rounded-full bg-gold-50 px-3 py-1 text-xs font-semibold tracking-wide text-gold-700 ring-1 ring-gold-200">
+                      <span className="inline-flex items-center rounded-full bg-tan-50 px-3 py-1 text-xs font-semibold tracking-wide text-tan-700 ring-1 ring-tan-200">
                         {leader.credentials}
                       </span>
                     </div>
@@ -153,7 +153,7 @@ export default function TeamMemberPage({
             <Reveal className="pt-2">
               <Link
                 href="/team"
-                className="inline-flex items-center gap-2 font-semibold text-forest-700 hover:text-forest-900"
+                className="inline-flex items-center gap-2 font-semibold text-slate-700 hover:text-slate-900"
               >
                 <IconArrowLeft className="h-4 w-4" />
                 Back to our team

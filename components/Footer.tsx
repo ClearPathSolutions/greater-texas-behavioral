@@ -15,7 +15,7 @@ export default function Footer() {
     termsOfServiceLink,
   ];
   return (
-    <footer className="bg-forest-950 text-cream-100">
+    <footer className="bg-slate-950 text-cream-100">
       {/* Top CTA strip */}
       <div className="border-b border-white/10">
         <div className="container-x flex flex-col items-start justify-between gap-6 py-10 sm:flex-row sm:items-center">
@@ -53,7 +53,7 @@ export default function Footer() {
             structured, evidence-based addiction and mental health treatment
             through secure telehealth — anywhere in Texas.
           </p>
-          <p className="mt-4 inline-flex items-center gap-2 rounded-full bg-white/5 px-3 py-1.5 text-xs font-medium text-sage-200">
+          <p className="mt-4 inline-flex items-center gap-2 rounded-full bg-white/5 px-3 py-1.5 text-xs font-medium text-tan-200">
             <IconMapPin className="h-4 w-4" />
             Serving all of Texas · 100% online
           </p>
@@ -99,7 +99,7 @@ export default function Footer() {
                 href={site.phoneHref}
                 className="group flex items-start gap-3 text-cream-100/80 hover:text-cream-50" suppressHydrationWarning
               >
-                <IconPhone className="mt-0.5 h-5 w-5 text-sage-300" />
+                <IconPhone className="mt-0.5 h-5 w-5 text-tan-300" />
                 <span suppressHydrationWarning>
                   <span className="block text-xs uppercase tracking-wide text-cream-100/50">
                     Phone
@@ -113,7 +113,7 @@ export default function Footer() {
                 href={`mailto:${site.email}`}
                 className="group flex items-start gap-3 break-all text-cream-100/80 hover:text-cream-50"
               >
-                <IconMail className="mt-0.5 h-5 w-5 shrink-0 text-sage-300" />
+                <IconMail className="mt-0.5 h-5 w-5 shrink-0 text-tan-300" />
                 <span>
                   <span className="block text-xs uppercase tracking-wide text-cream-100/50">
                     Email
@@ -127,7 +127,7 @@ export default function Footer() {
       </div>
 
       {/* Crisis resources — responsible practice for a behavioral health site */}
-      <div className="border-t border-white/10 bg-forest-950">
+      <div className="border-t border-white/10 bg-slate-950">
         <div className="container-x py-5">
           <p className="text-xs leading-relaxed text-cream-100/55" suppressHydrationWarning>
             <strong className="font-semibold text-cream-100/80">

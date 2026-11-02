@@ -145,21 +145,21 @@ export default function HomePage() {
           sizes="100vw"
           className="object-cover"
         />
-        <div className="absolute inset-0 bg-radial-forest" />
-        <div className="absolute inset-0 bg-forest-950/45" />
+        <div className="absolute inset-0 bg-radial-slate" />
+        <div className="absolute inset-0 bg-slate-950/45" />
 
         <div className="container-x relative">
           <div className="max-w-3xl pt-24 pb-20 sm:pt-28 sm:pb-24 lg:pt-36 lg:pb-32">
             <Reveal>
               <span className="inline-flex items-center gap-2 rounded-full border border-cream-100/20 bg-cream-50/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.14em] text-cream-50 backdrop-blur">
-                <span className="h-1.5 w-1.5 rounded-full bg-gold-400" />
+                <span className="h-1.5 w-1.5 rounded-full bg-tan-400" />
                 Evidence-based virtual care in Texas
               </span>
             </Reveal>
             <Reveal delay={80}>
               <h1 className="h-display mt-6 text-cream-50">
                 Structured online addiction &amp; mental health treatment,{' '}
-                <span className="text-gold-300">statewide.</span>
+                <span className="text-tan-300">statewide.</span>
               </h1>
             </Reveal>
             <Reveal delay={160}>
@@ -172,7 +172,7 @@ export default function HomePage() {
             </Reveal>
             <Reveal delay={240}>
               <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-                <a href={site.phoneHref} className="btn-gold w-full sm:w-auto" suppressHydrationWarning>
+                <a href={site.phoneHref} className="btn-accent w-full sm:w-auto" suppressHydrationWarning>
                   <IconPhone className="h-5 w-5" />
                   Call {site.phone}
                 </a>
@@ -192,7 +192,7 @@ export default function HomePage() {
                     key={b.label}
                     className="flex items-center gap-2 text-sm font-medium text-cream-50/90"
                   >
-                    <b.icon className="h-5 w-5 text-sage-300" />
+                    <b.icon className="h-5 w-5 text-tan-300" />
                     {b.label}
                   </li>
                 ))}
@@ -251,7 +251,7 @@ export default function HomePage() {
               </div>
               {/* floating stat card */}
               <div className="absolute -bottom-6 hidden rounded-2xl border border-cream-300 bg-white/95 p-5 shadow-lift backdrop-blur sm:block sm:left-4 lg:left-auto lg:-left-6">
-                <p className="font-display text-3xl font-extrabold text-forest-800">
+                <p className="font-display text-3xl font-extrabold text-slate-800">
                   100%
                 </p>
                 <p className="mt-1 text-sm text-muted">
@@ -282,17 +282,17 @@ export default function HomePage() {
             {programs.map((p, i) => (
               <Reveal key={p.title} delay={i * 120}>
                 <article className="card flex h-full flex-col p-8">
-                  <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-forest-800 text-cream-50">
+                  <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-800 text-cream-50">
                     <p.icon className="h-7 w-7" />
                   </div>
-                  <h3 className="mt-6 font-display text-2xl font-bold text-forest-900">
+                  <h3 className="mt-6 font-display text-2xl font-bold text-slate-900">
                     {p.title}
                   </h3>
                   <p className="mt-3 text-muted leading-relaxed">{p.body}</p>
                   <ul className="mt-6 grid gap-x-4 gap-y-2.5 sm:grid-cols-2">
                     {p.features.map((f) => (
-                      <li key={f} className="flex items-start gap-2 text-sm text-forest-800">
-                        <IconCheck className="mt-0.5 h-4 w-4 shrink-0 text-gold-500" />
+                      <li key={f} className="flex items-start gap-2 text-sm text-slate-800">
+                        <IconCheck className="mt-0.5 h-4 w-4 shrink-0 text-tan-500" />
                         {f}
                       </li>
                     ))}
@@ -305,10 +305,10 @@ export default function HomePage() {
       </section>
 
       {/* ================= STEPS ================= */}
-      <section className="section bg-forest-900 text-cream-50">
+      <section className="section bg-slate-900 text-cream-50">
         <div className="container-x">
           <Reveal className="mx-auto max-w-2xl text-center">
-            <span className="eyebrow justify-center text-gold-300 before:bg-gold-300">
+            <span className="eyebrow justify-center text-tan-300 before:bg-tan-300">
               Getting started
             </span>
             <h2 className="h-section mt-4 text-cream-50">
@@ -324,7 +324,7 @@ export default function HomePage() {
               <Reveal key={s.title} delay={i * 100} as="li">
                 <div className="relative flex h-full flex-col rounded-2xl border border-white/10 bg-white/5 p-7 backdrop-blur">
                   <div className="flex items-center justify-between">
-                    <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-gold-500 text-forest-950">
+                    <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-tan-500 text-slate-950">
                       <s.icon className="h-6 w-6" />
                     </span>
                     <span className="font-display text-4xl font-extrabold text-white/15">
@@ -343,7 +343,7 @@ export default function HomePage() {
           </ol>
 
           <Reveal className="mt-12 flex justify-center">
-            <a href={site.phoneHref} className="btn-gold" suppressHydrationWarning>
+            <a href={site.phoneHref} className="btn-accent" suppressHydrationWarning>
               <IconPhone className="h-5 w-5" />
               Start today — {site.phone}
             </a>
@@ -377,16 +377,16 @@ export default function HomePage() {
                       sizes="(max-width: 768px) 100vw, 50vw"
                       className="object-cover transition-transform duration-500 group-hover:scale-105"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-forest-950/60 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 to-transparent" />
                   </div>
                   <div className="p-8">
-                    <h3 className="font-display text-2xl font-bold text-forest-900">
+                    <h3 className="font-display text-2xl font-bold text-slate-900">
                       {c.title}
                     </h3>
                     <p className="mt-3 text-muted leading-relaxed">{c.body}</p>
                     <Link
                       href={`/what-we-treat#${c.id}`}
-                      className="mt-5 inline-flex items-center gap-1.5 font-semibold text-forest-700 hover:text-forest-900"
+                      className="mt-5 inline-flex items-center gap-1.5 font-semibold text-slate-700 hover:text-slate-900"
                     >
                       Learn more
                       <IconArrowRight className="h-4 w-4" />
@@ -425,10 +425,10 @@ export default function HomePage() {
               {whyItems.map((w, i) => (
                 <Reveal key={w.title} delay={i * 90}>
                   <div className="card h-full p-6">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-forest-100 text-forest-700">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-slate-100 text-slate-700">
                       <w.icon className="h-6 w-6" />
                     </div>
-                    <h3 className="mt-4 font-display text-lg font-bold text-forest-900">
+                    <h3 className="mt-4 font-display text-lg font-bold text-slate-900">
                       {w.title}
                     </h3>
                     <p className="mt-2 text-sm leading-relaxed text-muted">

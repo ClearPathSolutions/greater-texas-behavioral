@@ -27,7 +27,7 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-display font-bold tracking-tight text-forest-900;
+    @apply font-display font-bold tracking-tight text-slate-900;
     text-wrap: balance;
   }
 
@@ -36,7 +36,7 @@
   }
 
   ::selection {
-    @apply bg-forest-900 text-cream-50;
+    @apply bg-slate-900 text-cream-50;
   }
 
   /* Accessible focus ring */
@@ -46,7 +46,7 @@
   textarea:focus-visible,
   select:focus-visible,
   [tabindex]:focus-visible {
-    @apply outline-none ring-2 ring-forest-500 ring-offset-2 ring-offset-cream-50 rounded-sm;
+    @apply outline-none ring-2 ring-slate-500 ring-offset-2 ring-offset-cream-50 rounded-sm;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -86,11 +86,11 @@
 
   /* Eyebrow / kicker label above headings */
   .eyebrow {
-    @apply inline-flex items-center gap-2 text-xs sm:text-sm font-semibold uppercase tracking-[0.16em] text-forest-600;
+    @apply inline-flex items-center gap-2 text-xs sm:text-sm font-semibold uppercase tracking-[0.16em] text-slate-600;
   }
   .eyebrow::before {
     content: '';
-    @apply inline-block h-px w-6 bg-gold-400;
+    @apply inline-block h-px w-6 bg-tan-400;
   }
 
   /* Fluid, balanced display headings */
@@ -115,18 +115,18 @@
            focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2;
   }
   .btn-primary {
-    @apply btn bg-forest-800 text-cream-50 shadow-soft
-           hover:bg-forest-900 hover:-translate-y-0.5 hover:shadow-lift
-           focus-visible:ring-forest-500 focus-visible:ring-offset-cream-50;
+    @apply btn bg-slate-800 text-cream-50 shadow-soft
+           hover:bg-slate-900 hover:-translate-y-0.5 hover:shadow-lift
+           focus-visible:ring-slate-500 focus-visible:ring-offset-cream-50;
   }
-  .btn-gold {
-    @apply btn bg-gold-500 text-forest-950 shadow-soft
-           hover:bg-gold-400 hover:-translate-y-0.5 hover:shadow-lift
-           focus-visible:ring-gold-500 focus-visible:ring-offset-cream-50;
+  .btn-accent {
+    @apply btn bg-tan-500 text-slate-950 shadow-soft
+           hover:bg-tan-400 hover:-translate-y-0.5 hover:shadow-lift
+           focus-visible:ring-tan-500 focus-visible:ring-offset-cream-50;
   }
   .btn-outline {
-    @apply btn border border-forest-300 text-forest-800 bg-transparent
-           hover:bg-forest-50 hover:border-forest-400 focus-visible:ring-forest-500;
+    @apply btn border border-slate-300 text-slate-800 bg-transparent
+           hover:bg-slate-50 hover:border-slate-400 focus-visible:ring-slate-500;
   }
   .btn-ghost-light {
     @apply btn border border-cream-100/40 text-cream-50 bg-cream-50/5 backdrop-blur
@@ -146,10 +146,10 @@
     @apply mt-6;
   }
   .prose-tx h2 {
-    @apply text-2xl sm:text-3xl mt-12 mb-2 text-forest-900;
+    @apply text-2xl sm:text-3xl mt-12 mb-2 text-slate-900;
   }
   .prose-tx h3 {
-    @apply text-xl sm:text-2xl mt-10 mb-1 text-forest-800;
+    @apply text-xl sm:text-2xl mt-10 mb-1 text-slate-800;
   }
   .prose-tx p {
     @apply text-[1.0625rem] text-ink/85;
@@ -162,19 +162,19 @@
   }
   .prose-tx ul > li::before {
     content: '';
-    @apply absolute left-0 top-[0.65em] h-2 w-2 rounded-full bg-gold-400;
+    @apply absolute left-0 top-[0.65em] h-2 w-2 rounded-full bg-tan-400;
   }
   .prose-tx ol {
-    @apply list-decimal space-y-3 pl-5 marker:text-forest-500 marker:font-semibold;
+    @apply list-decimal space-y-3 pl-5 marker:text-slate-500 marker:font-semibold;
   }
   .prose-tx a {
-    @apply text-forest-700 underline decoration-gold-300 underline-offset-2 hover:text-forest-900;
+    @apply text-slate-700 underline decoration-tan-300 underline-offset-2 hover:text-slate-900;
   }
   .prose-tx blockquote {
-    @apply border-l-4 border-gold-400 bg-cream-100 rounded-r-xl py-4 pl-6 pr-4 italic text-forest-800;
+    @apply border-l-4 border-tan-400 bg-cream-100 rounded-r-xl py-4 pl-6 pr-4 italic text-slate-800;
   }
   .prose-tx strong {
-    @apply text-forest-900 font-semibold;
+    @apply text-slate-900 font-semibold;
   }
 
   /* Article byline (editorial-policy package: templates/article-byline.css).
@@ -195,7 +195,7 @@
     font-size: 0.875rem;
   }
   .article-byline a {
-    @apply underline decoration-gold-300 underline-offset-2 hover:text-gold-300;
+    @apply underline decoration-tan-300 underline-offset-2 hover:text-tan-300;
   }
 
   /* Editorial policy page. The template's own <article class="editorial-policy">
@@ -225,11 +225,11 @@
     @apply border-b-0;
   }
   .editorial-policy th {
-    @apply bg-cream-100 font-semibold text-forest-900;
+    @apply bg-cream-100 font-semibold text-slate-900;
   }
   /* Preview-only marker for a merge field that is still blank (lib/editorial.ts). */
   .editorial-policy .editorial-unset {
-    @apply rounded bg-gold-300/60 px-1 font-semibold not-italic text-forest-950;
+    @apply rounded bg-tan-300/60 px-1 font-semibold not-italic text-slate-950;
   }
 }
 
@@ -265,12 +265,12 @@
   }
 
   /* Subtle grain-free radial glow used behind hero content */
-  .bg-radial-forest {
+  .bg-radial-slate {
     background-image: radial-gradient(
       110% 90% at 50% 0%,
-      rgba(24, 48, 36, 0.0) 0%,
-      rgba(12, 36, 24, 0.55) 62%,
-      rgba(12, 36, 24, 0.85) 100%
+      rgba(42, 48, 58, 0.0) 0%,
+      rgba(24, 28, 35, 0.55) 62%,
+      rgba(24, 28, 35, 0.85) 100%
     );
   }
 }

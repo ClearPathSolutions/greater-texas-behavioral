@@ -6,7 +6,7 @@ import { useLeadDelivery } from '@/lib/useLeadDelivery';
 import { IconCheck, IconLock, IconPhone } from './ui/Icon';
 
 const fieldBase =
-  'w-full rounded-xl border border-cream-300 bg-white px-4 py-3 text-ink placeholder:text-muted transition-colors focus:border-forest-400 focus:outline-none focus:ring-2 focus:ring-forest-500/40';
+  'w-full rounded-xl border border-cream-300 bg-white px-4 py-3 text-ink placeholder:text-muted transition-colors focus:border-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-500/40';
 
 /**
  * Insurance verification form.
@@ -33,13 +33,13 @@ export default function VerifyForm() {
   if (status === 'success') {
     return (
       <div role="status" aria-live="polite" className="card p-8 text-center">
-        <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-forest-100 text-forest-700">
+        <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-slate-100 text-slate-700">
           <IconCheck className="h-8 w-8" />
         </div>
         <h3
           ref={successHeadingRef}
           tabIndex={-1}
-          className="mt-5 font-display text-2xl font-bold text-forest-900 focus:outline-none"
+          className="mt-5 font-display text-2xl font-bold text-slate-900 focus:outline-none"
         >
           Thank you — we&apos;ve got it.
         </h3>
@@ -60,12 +60,12 @@ export default function VerifyForm() {
       {status === 'error' && (
         <div
           role="alert"
-          className="mb-6 rounded-xl border border-gold-400 bg-cream-100 p-4"
+          className="mb-6 rounded-xl border border-tan-400 bg-cream-100 p-4"
         >
           <p
             ref={errorRef}
             tabIndex={-1}
-            className="font-semibold text-forest-900 focus:outline-none"
+            className="font-semibold text-slate-900 focus:outline-none"
           >
             We couldn&apos;t submit your request.
           </p>
@@ -74,7 +74,7 @@ export default function VerifyForm() {
             us at{' '}
             <a
               href={site.phoneHref}
-              className="font-semibold text-forest-800 underline decoration-gold-300 underline-offset-2" suppressHydrationWarning
+              className="font-semibold text-slate-800 underline decoration-tan-300 underline-offset-2" suppressHydrationWarning
             >
               {site.phone}
             </a>{' '}
@@ -86,42 +86,42 @@ export default function VerifyForm() {
 
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="sm:col-span-2">
-          <label htmlFor="name" className="mb-1.5 block text-sm font-semibold text-forest-800">
-            Full name <span className="text-gold-600">*</span>
+          <label htmlFor="name" className="mb-1.5 block text-sm font-semibold text-slate-800">
+            Full name <span className="text-tan-600">*</span>
           </label>
           <input id="name" name="name" required autoComplete="name" className={fieldBase} placeholder="Your name" />
         </div>
 
         <div>
-          <label htmlFor="phone" className="mb-1.5 block text-sm font-semibold text-forest-800">
-            Phone <span className="text-gold-600">*</span>
+          <label htmlFor="phone" className="mb-1.5 block text-sm font-semibold text-slate-800">
+            Phone <span className="text-tan-600">*</span>
           </label>
           <input id="phone" name="phone" type="tel" required aria-required="true" autoComplete="tel" className={fieldBase} placeholder="(555) 555-5555" />
         </div>
 
         <div>
-          <label htmlFor="email" className="mb-1.5 block text-sm font-semibold text-forest-800">
+          <label htmlFor="email" className="mb-1.5 block text-sm font-semibold text-slate-800">
             Email
           </label>
           <input id="email" name="email" type="email" autoComplete="email" className={fieldBase} placeholder="you@email.com" />
         </div>
 
         <div>
-          <label htmlFor="insurance" className="mb-1.5 block text-sm font-semibold text-forest-800">
+          <label htmlFor="insurance" className="mb-1.5 block text-sm font-semibold text-slate-800">
             Insurance provider
           </label>
           <input id="insurance" name="insurance" className={fieldBase} placeholder="e.g. Blue Cross Blue Shield" />
         </div>
 
         <div>
-          <label htmlFor="memberId" className="mb-1.5 block text-sm font-semibold text-forest-800">
+          <label htmlFor="memberId" className="mb-1.5 block text-sm font-semibold text-slate-800">
             Member ID <span className="font-normal text-muted">(optional)</span>
           </label>
           <input id="memberId" name="memberId" className={fieldBase} placeholder="Found on your insurance card" />
         </div>
 
         <div className="sm:col-span-2">
-          <label htmlFor="message" className="mb-1.5 block text-sm font-semibold text-forest-800">
+          <label htmlFor="message" className="mb-1.5 block text-sm font-semibold text-slate-800">
             How can we help? <span className="font-normal text-muted">(optional)</span>
           </label>
           <textarea id="message" name="message" rows={4} className={fieldBase} placeholder="Tell us a little about what you're looking for. This is completely confidential." />
@@ -143,11 +143,11 @@ export default function VerifyForm() {
       </button>
 
       <p className="mt-4 flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-center text-sm text-muted">
-        <IconLock className="h-4 w-4 text-forest-500" />
+        <IconLock className="h-4 w-4 text-slate-500" />
         <span>Your information is kept 100% confidential.</span>
         <a
           href="/privacy-policy/"
-          className="underline decoration-cream-300 underline-offset-2 hover:text-forest-700"
+          className="underline decoration-cream-300 underline-offset-2 hover:text-slate-700"
         >
           Privacy policy
         </a>

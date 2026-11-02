@@ -137,7 +137,7 @@ export default function WhatWeTreatPage() {
 
               <Reveal delay={100} className={i % 2 === 1 ? 'lg:order-1' : ''}>
                 <span className="eyebrow">{c.eyebrow}</span>
-                <h3 className="mt-4 font-display text-3xl font-bold text-forest-900 sm:text-4xl">
+                <h3 className="mt-4 font-display text-3xl font-bold text-slate-900 sm:text-4xl">
                   {c.title}
                 </h3>
                 <p className="mt-5 text-lg leading-relaxed text-muted">{c.body}</p>
@@ -145,9 +145,9 @@ export default function WhatWeTreatPage() {
                   {c.tags.map((t) => (
                     <li
                       key={t}
-                      className="flex items-center gap-1.5 rounded-full border border-cream-300 bg-white px-3.5 py-2 text-sm font-medium text-forest-800"
+                      className="flex items-center gap-1.5 rounded-full border border-cream-300 bg-white px-3.5 py-2 text-sm font-medium text-slate-800"
                     >
-                      <IconCheck className="h-4 w-4 text-gold-500" />
+                      <IconCheck className="h-4 w-4 text-tan-500" />
                       {t}
                     </li>
                   ))}
@@ -179,10 +179,10 @@ export default function WhatWeTreatPage() {
             {whyItems.map((w, i) => (
               <Reveal key={w.title} delay={i * 90}>
                 <div className="card h-full p-6">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-forest-100 text-forest-700">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-slate-100 text-slate-700">
                     <w.icon className="h-6 w-6" />
                   </div>
-                  <h3 className="mt-4 font-display text-lg font-bold text-forest-900">
+                  <h3 className="mt-4 font-display text-lg font-bold text-slate-900">
                     {w.title}
                   </h3>
                   <p className="mt-2 text-sm leading-relaxed text-muted">

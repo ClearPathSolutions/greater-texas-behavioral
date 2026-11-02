@@ -62,7 +62,7 @@ export default async function BlogPostPage({
       <ArticleSchema post={post} byline={byline} />
       <article>
         {/* Hero */}
-        <header className="relative isolate overflow-hidden bg-forest-900">
+        <header className="relative isolate overflow-hidden bg-slate-900">
           <BlogCover
             src={post.cover_image_url}
             /* Decorative: the headline immediately below carries the meaning. */
@@ -71,7 +71,7 @@ export default async function BlogPostPage({
             priority
             className="object-cover"
           />
-          <div className="absolute inset-0 bg-forest-950/70" />
+          <div className="absolute inset-0 bg-slate-950/70" />
           <div className="container-x relative pt-28 pb-14 sm:pt-32 sm:pb-16 lg:pt-40 lg:pb-20">
             <div className="max-w-3xl">
               <div className="flex items-center gap-3 text-sm font-medium text-cream-100/80">
@@ -94,7 +94,7 @@ export default async function BlogPostPage({
         <div className="section bg-cream-50">
           <div className="container-narrow">
             {post.excerpt && (
-              <p className="lead mb-8 border-l-4 border-gold-400 pl-5">
+              <p className="lead mb-8 border-l-4 border-tan-400 pl-5">
                 {post.excerpt}
               </p>
             )}
@@ -112,7 +112,7 @@ export default async function BlogPostPage({
             <div className="mt-12 border-t border-cream-300 pt-8">
               <Link
                 href="/blog"
-                className="inline-flex items-center gap-2 font-semibold text-forest-700 hover:text-forest-900"
+                className="inline-flex items-center gap-2 font-semibold text-slate-700 hover:text-slate-900"
               >
                 <IconArrowLeft className="h-4 w-4" />
                 Back to all articles

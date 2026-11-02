@@ -15,44 +15,34 @@ export default function Logo({ className = '' }: { className?: string }) {
       <Image
         src="/logos/logo-horizontal.png"
         alt={site.name}
-        width={977}
-        height={391}
+        width={2000}
+        height={518}
         priority
-        className="h-9 w-auto sm:h-10"
+        className="h-11 w-auto sm:h-12"
       />
     </Link>
   );
 }
 
 /**
- * Footer / dark-background lockup — mark in a light badge + light wordmark,
- * so the brand reads clearly on the deep forest footer.
+ * Footer / dark-background lockup — the white horizontal logo (tan speech
+ * bubbles) on the deep slate footer.
  */
 export function LogoLight({ className = '' }: { className?: string }) {
   return (
     <Link
       href="/"
       aria-label={`${site.name} — home`}
-      className={`inline-flex items-center gap-3 ${className}`}
+      className={`inline-flex items-center ${className}`}
     >
-      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-cream-50 shadow-soft">
-        <Image
-          src="/logos/logo-mark.png"
-          alt=""
-          width={72}
-          height={72}
-          sizes="44px"
-          className="h-9 w-9"
-        />
-      </span>
-      <span className="leading-none">
-        <span className="block font-display text-[0.95rem] font-extrabold uppercase tracking-wide text-cream-50">
-          Greater Texas
-        </span>
-        <span className="block font-display text-xs font-semibold uppercase tracking-[0.22em] text-sage-300">
-          Behavioral
-        </span>
-      </span>
+      <Image
+        src="/logos/logo-horizontal-white.png"
+        alt={site.name}
+        width={2000}
+        height={518}
+        sizes="220px"
+        className="h-12 w-auto"
+      />
     </Link>
   );
 }

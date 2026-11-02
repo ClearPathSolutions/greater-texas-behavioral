@@ -70,30 +70,30 @@ export default async function StaffGrid({
                 ) : (
                   <span
                     aria-hidden="true"
-                    className="flex h-24 w-24 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-forest-600 to-forest-900 font-display text-2xl font-bold tracking-wide text-cream-50 ring-4 ring-cream-50 shadow-soft"
+                    className="flex h-24 w-24 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-slate-600 to-slate-900 font-display text-2xl font-bold tracking-wide text-cream-50 ring-4 ring-cream-50 shadow-soft"
                   >
                     {initials(person.name)}
                   </span>
                 )}
 
-                <h3 className="mt-5 font-display text-xl font-bold text-forest-900">
+                <h3 className="mt-5 font-display text-xl font-bold text-slate-900">
                   {person.name}
                 </h3>
-                <p className="mt-1.5 text-xs font-semibold uppercase tracking-[0.14em] text-forest-600">
+                <p className="mt-1.5 text-xs font-semibold uppercase tracking-[0.14em] text-slate-600">
                   {person.title}
                 </p>
 
                 {showCredentialRow && (
                   <div className="mt-3 flex h-6 items-center justify-center">
                     {person.credentials && (
-                      <span className="inline-flex items-center rounded-full bg-gold-50 px-3 py-1 text-xs font-semibold tracking-wide text-gold-700 ring-1 ring-gold-200">
+                      <span className="inline-flex items-center rounded-full bg-tan-50 px-3 py-1 text-xs font-semibold tracking-wide text-tan-700 ring-1 ring-tan-200">
                         {person.credentials}
                       </span>
                     )}
                   </div>
                 )}
 
-                <span aria-hidden="true" className="mt-5 h-px w-10 bg-gold-300" />
+                <span aria-hidden="true" className="mt-5 h-px w-10 bg-tan-300" />
 
                 {person.bio && (
                   <p className="mt-5 line-clamp-[8] text-left text-[15px] leading-relaxed text-muted">
@@ -109,7 +109,7 @@ export default async function StaffGrid({
           <Reveal className="mt-12 text-center">
             <Link
               href={moreHref}
-              className="group inline-flex items-center gap-2 text-sm font-semibold text-forest-700 transition-colors hover:text-forest-900"
+              className="group inline-flex items-center gap-2 text-sm font-semibold text-slate-700 transition-colors hover:text-slate-900"
             >
               Meet the full team &amp; read their bios
               <IconArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
