@@ -78,6 +78,17 @@ function auditBios(facility: string, staff: StaffMember[]): void {
   }
 }
 
+/**
+ * Local headshots for portal staff whose portal record has no photo
+ * (`photoUrl: null`). Keyed by lowercase full name; a photo the portal does
+ * supply always wins, so these fall away once the portal has its own.
+ */
+const LOCAL_HEADSHOTS: Record<string, string> = {
+  'emma fyffe': '/images/staff/emma-fyffe.jpg',
+  'jada spencer': '/images/staff/jada-spencer.jpg',
+  'norberto segredo': '/images/staff/norberto-segredo.jpg',
+};
+
 export async function fetchStaff(facility: string): Promise<StaffMember[]> {
   try {
     const res = await fetch(
@@ -86,7 +97,10 @@ export async function fetchStaff(facility: string): Promise<StaffMember[]> {
     );
     if (!res.ok) return [];
     const data = (await res.json()) as { staff?: StaffMember[] };
-    const staff = data.staff ?? [];
+    const staff = (data.staff ?? []).map((m) => ({
+      ...m,
+      photoUrl: m.photoUrl ?? LOCAL_HEADSHOTS[m.name.trim().toLowerCase()] ?? null,
+    }));
     auditBios(facility, staff);
     return staff;
   } catch {
