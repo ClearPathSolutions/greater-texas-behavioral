@@ -227,6 +227,9 @@ const nextConfig = {
       // variants used elsewhere in the portfolio so inbound links resolve.
       { source: '/contact-us', destination: '/contact/', permanent: true },
       { source: '/contact-location', destination: '/contact/', permanent: true },
+      // Network-leader profiles removed at the client's request (2026-11-06).
+      { source: '/team/pamela-tambini', destination: '/team/', permanent: true },
+      { source: '/team/casey-hyatt', destination: '/team/', permanent: true },
       // Common inbound variant for the privacy page.
       { source: '/privacy', destination: '/privacy-policy/', permanent: true },
       // Job listings live on ADP Workforce Now, not on this site. Temporary
