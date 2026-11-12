@@ -26,10 +26,10 @@ import { site } from './site';
 /**
  * Each post may also set the editorial-policy fields `written_by`,
  * `reviewed_by` (both `/team/<slug>/` bio slugs) and `last_reviewed`
- * (YYYY-MM-DD) — see `EditorialPostFields` in lib/clarion-blog.ts. None are set
- * yet: no author or reviewer has been supplied for these posts, so they show
- * their existing `author_name` and no reviewer line. Do not fill these in
- * without a real, confirmed reviewer.
+ * (YYYY-MM-DD) — see `EditorialPostFields` in lib/clarion-blog.ts. None are set:
+ * these posts show their existing `author_name`, and the reviewer line comes
+ * from the site default reviewer in lib/byline.ts (every post gets it, with no
+ * per-post field needed). Set `reviewed_by` only to name a different reviewer.
  */
 export const originalPosts: BlogPost[] = [
   {

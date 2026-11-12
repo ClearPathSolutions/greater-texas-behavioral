@@ -11,7 +11,9 @@
  *   GET {api}/blog/public/feed?site_key=KEY
  *       -> { posts: [{ slug, title, excerpt, published_at, author_name, cover_image_url }] }
  *   GET {api}/blog/public/post?site_key=KEY&slug=SLUG
- *       -> { slug, title, excerpt, published_at, author_name, cover_image_url, body_html }
+ *       -> { slug, title, excerpt, published_at, author_name, cover_image_url, body_html,
+ *            medically_reviewed_by, medically_reviewed_by_credentials,
+ *            medically_reviewed_by_url }   (each reviewer field may be null)
  */
 import { clarion } from './site';
 
@@ -36,20 +38,26 @@ export type ClarionListPost = {
 
 export type ClarionPost = ClarionListPost & {
   body_html?: string;
+  /** Reviewer fields from the post endpoint. Each populated one is kept; each
+   *  empty one is filled from the site default in lib/byline.ts. */
+  medically_reviewed_by?: string | null;
+  medically_reviewed_by_credentials?: string | null;
+  medically_reviewed_by_url?: string | null;
 };
 
 /**
- * Per-post editorial fields (editorial-policy package, "Post fields"). Clarion
- * has no such fields, so only locally authored posts (lib/original-posts.ts)
- * carry them. All optional; an empty field means no line in the byline and no
- * schema property — never a site-wide default (see lib/byline.ts).
+ * Per-post editorial fields (editorial-policy package, "Post fields"). Only
+ * locally authored posts (lib/original-posts.ts) carry them. All optional. An
+ * empty author field means no "Written by" line. The reviewer is different:
+ * every post shows one, and a post without one gets the site default reviewer
+ * (client instruction, 2026-11; see lib/byline.ts).
  */
 export type EditorialPostFields = {
   /** Author, as a `/team/<slug>/` bio slug. Overrides `author_name` when set. */
   written_by?: string;
-  /** Clinical reviewer, as a `/team/<slug>/` bio slug. Shown only with `last_reviewed`. */
+  /** Clinical reviewer, as a `/team/<slug>/` bio slug. Overrides the site default reviewer. */
   reviewed_by?: string;
-  /** Date of the clinical review, YYYY-MM-DD. */
+  /** Date of the clinical review, YYYY-MM-DD. Optional; the reviewer shows without it. */
   last_reviewed?: string;
 };
 

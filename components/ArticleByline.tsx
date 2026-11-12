@@ -12,22 +12,36 @@ function formatDate(iso: string): string {
   });
 }
 
+/** Name linked to the profile (same tab on this site, new tab off it); credentials after the link. */
 function PersonName({ person, rel }: { person: BylinePerson; rel?: string }) {
-  const label = person.credentials ? `${person.name}, ${person.credentials}` : person.name;
-  return person.bioPath ? (
+  const name = person.bioPath ? (
     <Link href={person.bioPath} rel={rel}>
-      {label}
+      {person.name}
     </Link>
+  ) : person.externalUrl ? (
+    <a
+      href={person.externalUrl}
+      target="_blank"
+      rel={['noopener noreferrer', rel].filter(Boolean).join(' ')}
+    >
+      {person.name}
+    </a>
   ) : (
-    <>{label}</>
+    person.name
+  );
+  return (
+    <>
+      {name}
+      {person.credentials ? `, ${person.credentials}` : ''}
+    </>
   );
 }
 
 /**
  * Article byline, from the editorial-policy package's
- * templates/article-byline.html. Sits directly under the post's H1. Each line
- * renders only when its data exists; getByline() has already dropped a
- * reviewer that has no review date.
+ * templates/article-byline.html. Sits directly under the post's H1. The
+ * reviewer line always renders (getByline() supplies the site default when a
+ * post names none); the other lines render only when their data exists.
  */
 export default function ArticleByline({ byline }: { byline: Byline }) {
   const { author, reviewer, lastReviewed, modified } = byline;
@@ -50,8 +64,6 @@ export default function ArticleByline({ byline }: { byline: Byline }) {
     ),
   ].filter(Boolean);
 
-  if (!author && meta.length === 0) return null;
-
   return (
     <div className="article-byline">
       {author && (
@@ -59,11 +71,9 @@ export default function ArticleByline({ byline }: { byline: Byline }) {
           Written by <PersonName person={author} rel="author" />
         </p>
       )}
-      {reviewer && (
-        <p className="byline-line">
-          Clinically reviewed by <PersonName person={reviewer} />
-        </p>
-      )}
+      <p className="byline-line">
+        Medically reviewed by <PersonName person={reviewer} />
+      </p>
       {meta.length > 0 && (
         <p className="byline-meta">
           {meta.flatMap((m, i) => (i === 0 ? [m] : [' · ', m]))}

@@ -137,9 +137,15 @@ export default async function BlogPostPage({
 const orgRef = { '@id': `${site.url}/#organization` };
 
 function personNode(person: BylinePerson) {
-  if (person.bioPath) {
-    const url = `${site.url}${person.bioPath}`;
-    return { '@type': 'Person', '@id': `${url}#person`, name: person.name, url };
+  const profile = person.bioPath ? `${site.url}${person.bioPath}` : person.externalUrl;
+  if (profile) {
+    return {
+      '@type': 'Person',
+      '@id': `${profile}#person`,
+      url: profile,
+      name: person.name,
+      ...(person.credentials ? { honorificSuffix: person.credentials } : {}),
+    };
   }
   // No bio page: name only. Both feeds credit a team ("… Editorial Team",
   // "The … Team") rather than a person, so don't call that a Person.
@@ -163,10 +169,10 @@ function ArticleSchema({ post, byline }: { post: BlogPost; byline: Byline }) {
               '@id': `${url}#webpage`,
               url,
               name: post.title,
-              // Only with a reviewer AND a date: never a default reviewer.
-              ...(byline.reviewer && byline.lastReviewed
-                ? { lastReviewed: byline.lastReviewed, reviewedBy: personNode(byline.reviewer) }
-                : {}),
+              // Every post has a reviewer (the site default when none is named,
+              // see lib/byline.ts). lastReviewed only with a real review date.
+              ...(byline.lastReviewed ? { lastReviewed: byline.lastReviewed } : {}),
+              reviewedBy: personNode(byline.reviewer),
               publisher: orgRef,
             },
             {
