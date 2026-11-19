@@ -15,13 +15,41 @@
  *            medically_reviewed_by, medically_reviewed_by_credentials,
  *            medically_reviewed_by_url }   (each reviewer field may be null)
  */
-import { clarion } from './site';
+import { clarion, site } from './site';
 
 // Clarion's edge blocks non-browser User-Agents (Node's default => connection reset).
 const BROWSER_UA =
   'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36';
 
 const API = clarion.api.replace(/\/$/, '');
+
+/**
+ * Blog images on this site's own domain. Clarion stores them and hands out
+ * `https://api.clarionlabs.ai/blog/public/image/<key>` (or, once Clarion is told
+ * this site proxies them, `<this site>/blog-images/<key>`). Both become
+ * `/blog-images/<key>`, which next.config.mjs rewrites to Clarion's bytes route,
+ * so the address a visitor, Google Images or a social card sees is this site's.
+ */
+export const IMAGE_PATH = '/blog-images';
+const CLARION_IMAGE = `${API}/blog/public/image/`;
+const OWN_IMAGE = new RegExp(
+  `https://(?:www\\.)?${new URL(site.url).hostname.replace(/^www\./, '').replace(/\./g, '\\.')}(?=${IMAGE_PATH}/)`,
+  'g',
+);
+
+export function onSiteImage(src: string): string {
+  if (src.startsWith(CLARION_IMAGE)) return `${IMAGE_PATH}/${src.slice(CLARION_IMAGE.length)}`;
+  return src.replace(OWN_IMAGE, '');
+}
+
+function onSiteImages(html: string): string {
+  return html.split(CLARION_IMAGE).join(`${IMAGE_PATH}/`).replace(OWN_IMAGE, '');
+}
+
+function withSiteImages<T extends ClarionListPost>(post: T): T {
+  return post.cover_image_url ? { ...post, cover_image_url: onSiteImage(post.cover_image_url) } : post;
+}
+
 const KEY = process.env.CLARION_SITE_KEY || clarion.siteKey;
 
 // Re-fetch from Clarion at most every 5 minutes (ISR).
@@ -34,6 +62,8 @@ export type ClarionListPost = {
   published_at?: string;
   author_name?: string;
   cover_image_url?: string;
+  /** The author's alt text for the cover; empty means none was written. */
+  cover_image_alt?: string | null;
 };
 
 export type ClarionPost = ClarionListPost & {
@@ -81,13 +111,23 @@ export async function getClarionFeed(): Promise<ClarionListPost[]> {
   const data = await clarionGet<{ posts?: ClarionListPost[] }>(
     `/blog/public/feed?site_key=${encodeURIComponent(KEY)}`,
   );
-  return Array.isArray(data?.posts) ? data!.posts : [];
+  return Array.isArray(data?.posts) ? data!.posts.map(withSiteImages) : [];
 }
 
 export async function getClarionPost(slug: string): Promise<ClarionPost | null> {
-  return clarionGet<ClarionPost>(
+  const post = await clarionGet<ClarionPost>(
     `/blog/public/post?site_key=${encodeURIComponent(KEY)}&slug=${encodeURIComponent(slug)}`,
   );
+  if (!post) return null;
+  return {
+    ...withSiteImages(post),
+    ...(post.body_html ? { body_html: onSiteImages(post.body_html) } : {}),
+  };
+}
+
+/** Cover alt text: the author's from Clarion, else the post title. Never empty. */
+export function coverAlt(post: { title: string; cover_image_alt?: string | null }): string {
+  return post.cover_image_alt?.trim() || post.title;
 }
 
 // ---------------------------------------------------------------------------

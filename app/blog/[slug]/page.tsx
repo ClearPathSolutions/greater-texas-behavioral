@@ -6,6 +6,7 @@ import {
   getAllBlogSlugs,
   getBlogPost,
   formatClarionDate,
+  coverAlt,
 } from '@/lib/clarion-blog';
 import { IconArrowLeft } from '@/components/ui/Icon';
 import { pageMetadata } from '@/lib/seo';
@@ -65,8 +66,7 @@ export default async function BlogPostPage({
         <header className="relative isolate overflow-hidden bg-slate-900">
           <BlogCover
             src={post.cover_image_url}
-            /* Decorative: the headline immediately below carries the meaning. */
-            alt=""
+            alt={coverAlt(post)}
             sizes="100vw"
             priority
             className="object-cover"
