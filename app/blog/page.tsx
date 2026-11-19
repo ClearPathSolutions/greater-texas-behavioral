@@ -3,7 +3,7 @@ import Link from 'next/link';
 import PageHero from '@/components/PageHero';
 import CTABand from '@/components/CTABand';
 import Reveal from '@/components/ui/Reveal';
-import { getAllBlogPosts, formatClarionDate } from '@/lib/clarion-blog';
+import { getAllBlogPosts, formatClarionDate, coverAlt } from '@/lib/clarion-blog';
 import { IconArrowRight, IconChat, IconPhone } from '@/components/ui/Icon';
 import { site } from '@/lib/site';
 import { pageMetadata } from '@/lib/seo';
@@ -71,7 +71,7 @@ export default async function BlogPage() {
                         <div className="relative aspect-[1200/630] overflow-hidden bg-cream-200">
                           <BlogCover
                             src={post.cover_image_url}
-                            alt={post.title}
+                            alt={coverAlt(post)}
                             sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
                             className="object-cover transition-transform duration-500 group-hover:scale-105"
                           />
