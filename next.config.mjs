@@ -135,6 +135,14 @@ const CSP = [
 
 const SECURITY_HEADERS = [
   { key: 'Content-Security-Policy', value: CSP },
+  // Matches the other Quadrant sites. includeSubDomains is safe: the only
+  // hostnames that exist are the apex and www, both HTTPS on Vercel (checked
+  // 2026-11-20 against DNS and certificate-transparency logs). Any subdomain
+  // added later must serve HTTPS, or browsers that saw this header refuse it.
+  {
+    key: 'Strict-Transport-Security',
+    value: 'max-age=63072000; includeSubDomains; preload',
+  },
   { key: 'X-Content-Type-Options', value: 'nosniff' },
   // Redundant with frame-ancestors, but still honoured by older crawlers/proxies.
   { key: 'X-Frame-Options', value: 'DENY' },
