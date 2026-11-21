@@ -55,7 +55,7 @@ const PATTERNS = [
   {
     id: 'in-person',
     pattern: /\b(?:in[-\s]?person|on[-\s]?site|walk[-\s]?in)\b/i,
-    why: 'describes in-person care. Only medical detox is in person, and via partners.',
+    why: 'describes in-person care. GTB is 100% telehealth.',
   },
 ];
 

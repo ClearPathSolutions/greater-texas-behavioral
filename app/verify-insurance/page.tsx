@@ -153,7 +153,7 @@ export default function VerifyInsurancePage() {
       <CTABand
         eyebrow="Peace of mind"
         title="Move forward with clarity and confidence"
-        body="Understanding your benefits shouldn't be stressful. Let us verify your coverage so you can focus on recovery."
+        body="Understanding your benefits shouldn't be stressful. Let us verify your coverage so you can focus on your care."
         image="/images/horses-closeup.jpg"
         imageAlt="Horses in a Texas field"
       />

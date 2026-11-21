@@ -12,7 +12,7 @@ import BlogCover from '@/components/BlogCover';
 export const metadata: Metadata = pageMetadata({
   title: 'Blog',
   description:
-    'Insights on addiction recovery, mental health, and virtual treatment from the team at Greater Texas Behavioral.',
+    'Insights on mental health and virtual treatment from the team at Greater Texas Behavioral.',
   path: 'blog',
 });
 
@@ -27,7 +27,7 @@ export default async function BlogPage() {
       <PageHero
         eyebrow="Insights & resources"
         title="The Greater Texas Behavioral blog"
-        subtitle="Guidance on addiction recovery, mental health, and getting the most from virtual treatment — from our clinical team."
+        subtitle="Guidance on mental health and getting the most from virtual treatment — from our clinical team."
         image="/images/tx-longhorns-sunset.jpg"
         imageAlt="Texas longhorns at sunset"
       />
@@ -44,8 +44,8 @@ export default async function BlogPage() {
                 New articles are on the way
               </h2>
               <p className="mt-4 text-lg leading-relaxed text-muted">
-                We&apos;re preparing helpful, Texas-focused resources on recovery
-                and mental wellness. In the meantime, our admissions team is
+                We&apos;re preparing helpful, Texas-focused resources on mental
+                health and wellness. In the meantime, our admissions team is
                 ready to answer any questions you have — confidentially and with
                 no obligation.
               </p>

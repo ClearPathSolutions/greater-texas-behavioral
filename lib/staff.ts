@@ -51,7 +51,7 @@ const BIO_RED_FLAGS: Array<{ pattern: RegExp; why: string }> = [
   },
   {
     pattern: /\b(?:in[-\s]?person|on[-\s]?site|walk[-\s]?in)\b/i,
-    why: 'describes in-person care. Only medical detox is delivered in person, and by partners — not by GTB.',
+    why: 'describes in-person care. GTB is 100% telehealth.',
   },
 ];
 

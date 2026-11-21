@@ -50,7 +50,7 @@ export default function Footer() {
           <LogoLight />
           <p className="mt-5 max-w-sm text-sm leading-relaxed text-cream-100/70">
             A fully licensed Virtual Outpatient Program delivering
-            structured, evidence-based addiction and mental health treatment
+            structured, evidence-based mental health treatment
             through secure telehealth — anywhere in Texas.
           </p>
           <p className="mt-4 inline-flex items-center gap-2 rounded-full bg-white/5 px-3 py-1.5 text-xs font-medium text-tan-200">

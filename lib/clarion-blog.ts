@@ -135,10 +135,19 @@ export function coverAlt(post: { title: string; cover_image_alt?: string | null 
 // Clarion is the live source of truth; a Clarion post with the same slug as a
 // local one takes precedence. Results are sorted newest-first.
 // ---------------------------------------------------------------------------
-import { originalPosts } from './original-posts';
+import { originalPosts as allOriginalPosts } from './original-posts';
+import { RETIRED_BLOG_SLUGS } from './retired-blog-slugs.mjs';
+
+// FR-1: SUD-first posts are withdrawn — see lib/retired-blog-slugs.mjs.
+const retired = new Set<string>(RETIRED_BLOG_SLUGS);
+const isLive = (p: { slug: string }) => !retired.has(p.slug);
+const originalPosts = allOriginalPosts.filter(isLive);
+async function getLiveFeed(): Promise<ClarionListPost[]> {
+  return (await getClarionFeed()).filter(isLive);
+}
 
 export async function getAllBlogPosts(): Promise<ClarionListPost[]> {
-  const feed = await getClarionFeed();
+  const feed = await getLiveFeed();
   const clarionSlugs = new Set(feed.map((p) => p.slug));
   const locals = originalPosts.filter((p) => !clarionSlugs.has(p.slug));
   return [...feed, ...locals].sort((a, b) =>
@@ -147,13 +156,14 @@ export async function getAllBlogPosts(): Promise<ClarionListPost[]> {
 }
 
 export async function getBlogPost(slug: string): Promise<BlogPost | null> {
+  if (retired.has(slug)) return null;
   const fromClarion = await getClarionPost(slug);
   if (fromClarion) return fromClarion;
   return originalPosts.find((p) => p.slug === slug) ?? null;
 }
 
 export async function getAllBlogSlugs(): Promise<string[]> {
-  const feed = await getClarionFeed();
+  const feed = await getLiveFeed();
   return Array.from(
     new Set([...feed.map((p) => p.slug), ...originalPosts.map((p) => p.slug)]),
   );

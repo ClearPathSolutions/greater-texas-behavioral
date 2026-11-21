@@ -25,17 +25,17 @@ const jakarta = Plus_Jakarta_Sans({
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: `${site.name} | Virtual OP for Addiction & Mental Health in Texas`,
+    default: `${site.name} | Virtual Mental Health Treatment in Texas`,
     template: `%s | ${site.name}`,
   },
   description: site.description,
   keywords: [
     'Virtual OP Texas',
-    'online addiction treatment Texas',
+    'online mental health treatment Texas',
     'telehealth mental health Texas',
-    'outpatient program',
-    'dual diagnosis treatment',
-    'online rehab Texas',
+    'virtual outpatient mental health program',
+    'online therapy for anxiety and depression Texas',
+    'trauma therapy Texas',
   ],
   alternates: { canonical: '/' },
   // NOTE: deliberately no `openGraph.url` here. Next.js merges openGraph
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'en_US',
     siteName: site.name,
-    title: `${site.name} | Virtual OP for Addiction & Mental Health in Texas`,
+    title: `${site.name} | Virtual Mental Health Treatment in Texas`,
     description: site.description,
     images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: site.name }],
   },
@@ -88,10 +88,11 @@ export default function RootLayout({
       name: parentOrg.name,
       url: parentOrg.url,
     },
-    medicalSpecialty: ['Psychiatric', 'Addiction Medicine'],
+    // FR-1 (2026-11-20): mental health only — never 'Addiction Medicine'.
+    medicalSpecialty: ['Psychiatric'],
     availableService: [
       { '@type': 'MedicalTherapy', name: 'Virtual Outpatient Program (OP)' },
-      { '@type': 'MedicalTherapy', name: 'Online Dual Diagnosis Treatment' },
+      { '@type': 'MedicalTherapy', name: 'Online Mental Health Treatment' },
     ],
     // Editorial policy package: merged into this node, never a second one.
     // Only once the policy is signed off and public (lib/editorial.ts).

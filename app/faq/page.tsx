@@ -11,10 +11,11 @@
  * SOURCING RULE — every answer below restates a claim ALREADY made on this site.
  * Nothing here is new. That is deliberate on two counts:
  *
- *   1. FR-1 (is SUD in scope?) is unresolved. An FAQ that only re-states existing
- *      copy adds no new service-line claim, so it cannot deepen that exposure. If
- *      FR-1 comes back "mental health only", this page needs the same edit as the
- *      rest of the site and no more.
+ *   1. FR-1 resolved 2026-11-20: GTB is a virtual outpatient MENTAL HEALTH
+ *      program. Substance use is addressed only as a co-occurring concern, never
+ *      as a primary service line (LegitScript Standards 9/16, Texas H&S Code
+ *      ch. 464). The "Do you treat substance use?" answer is the one place this
+ *      page says so — keep it secondary and do not list substances.
  *   2. Session frequency is described as "multiple sessions per week" and NOT as a
  *      specific number, because the site has never published one. Do not invent
  *      "three groups and one individual per week" to sound concrete — that is a
@@ -71,7 +72,7 @@ const GROUPS: Array<{ heading: string; items: Faq[] }> = [
       {
         q: 'What does a typical week look like?',
         answer:
-          'Your plan is individualized, but care generally combines individual therapy, therapist-led group sessions, relapse-prevention planning, and family support sessions where appropriate. Clinicians use evidence-based approaches including cognitive behavioral therapy. Sessions are scheduled around work, school, and family rather than the reverse.',
+          'Your plan is individualized, but care generally combines individual therapy, therapist-led group sessions, coping-skills building, and family support sessions where appropriate. Clinicians use evidence-based approaches including cognitive behavioral therapy. Sessions are scheduled around work, school, and family rather than the reverse.',
         extra: (
           <p className="mt-3">
             The program is described in more detail on{' '}
@@ -92,19 +93,18 @@ const GROUPS: Array<{ heading: string; items: Faq[] }> = [
       {
         q: 'What conditions do you treat?',
         answer:
-          'Substance use disorders — including alcohol, opioid, prescription, and stimulant use — and mental health conditions such as anxiety, depression, trauma-related symptoms, and mood instability. Because these frequently occur together, dual diagnosis care is integrated into treatment planning rather than handled separately.',
+          'We treat mental health conditions, including anxiety disorders, depression, trauma-related symptoms and PTSD, bipolar disorder, mood instability, and stress-related challenges.',
         extra: (
           <p className="mt-3">
             Full detail on{' '}
-            <Link href="/what-we-treat/#substance-use">substance use</Link> and{' '}
-            <Link href="/what-we-treat/#mental-health">mental health</Link>.
+            <Link href="/what-we-treat/">what we treat</Link>.
           </p>
         ),
       },
       {
-        q: 'What if I need medical detox first?',
+        q: 'Do you treat substance use?',
         answer:
-          'Medically supervised detox has to be delivered in person, so it is not something a virtual program provides. If there is physical dependence, our team assesses that during your consultation and helps coordinate a prompt connection to trusted medical detox providers. Once you are stabilized, treatment continues with us through telehealth.',
+          'Greater Texas Behavioral is a mental health treatment program. We do not operate a standalone substance use disorder treatment program and do not provide detox. When a client receiving mental health care also struggles with substance use, our clinicians address it as a co-occurring concern within their mental health treatment plan. If a different type of care is needed, our team will help connect you with an appropriate provider.',
       },
       {
         q: 'Is this the right level of care for me?',
@@ -152,7 +152,7 @@ const GROUPS: Array<{ heading: string; items: Faq[] }> = [
       {
         q: 'Is this confidential?',
         answer:
-          'Yes. Sessions are delivered over secure, HIPAA-compliant telehealth, and we do not disclose that you contacted us without your authorization except where the law requires it. For substance use disorder treatment records, the stricter federal confidentiality rules at 42 C.F.R. Part 2 also apply. One practical note: ordinary web forms and email are not encrypted end to end, so please avoid sending detailed clinical information that way — discuss it on the phone instead.',
+          'Yes. Sessions are delivered over secure, HIPAA-compliant telehealth, and we do not disclose that you contacted us without your authorization except where the law requires it. One practical note: ordinary web forms and email are not encrypted end to end, so please avoid sending detailed clinical information that way — discuss it on the phone instead.',
         extra: (
           <p className="mt-3">
             Our <Link href="/privacy-policy/">privacy policy</Link> sets out

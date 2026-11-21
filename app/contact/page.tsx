@@ -34,7 +34,7 @@ import {
 export const metadata: Metadata = pageMetadata({
   title: 'Contact Us',
   description:
-    'Get in touch with Greater Texas Behavioral. Speak with an admissions specialist about our Virtual OP for addiction and mental health treatment — anywhere in Texas.',
+    'Get in touch with Greater Texas Behavioral. Speak with an admissions specialist about our virtual outpatient mental health program — anywhere in Texas.',
   path: 'contact',
 });
 

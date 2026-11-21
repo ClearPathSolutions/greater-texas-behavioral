@@ -65,7 +65,7 @@ export default function TermsOfServicePage() {
               <p>No content may be copied, reproduced, distributed, or modified without prior written permission, except as permitted by applicable law.</p>
 
               <h2>No Guarantee of Outcomes</h2>
-              <p>Recovery and behavioral healthcare outcomes vary from person to person. Nothing on this website should be interpreted as a guarantee or promise of any particular treatment outcome or result.</p>
+              <p>Behavioral healthcare outcomes vary from person to person. Nothing on this website should be interpreted as a guarantee or promise of any particular treatment outcome or result.</p>
 
               <h2>Website Availability</h2>
               <p>This website may be modified, updated, interrupted, suspended or discontinued at any time without notice or liability.</p>

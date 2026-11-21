@@ -171,10 +171,10 @@ export default function NoticeOfPrivacyPracticesPage() {
 
               <h2>Substance use disorder treatment records</h2>
               <p>
-                Because we provide substance use disorder treatment, records that
-                identify you as seeking or receiving such treatment are also
-                protected by the federal confidentiality regulations at 42 C.F.R.
-                Part 2. In general, we may not tell anyone outside our program that
+                To the extent any records we maintain are subject to the federal
+                confidentiality regulations at 42 C.F.R. Part 2, records that
+                identify you as seeking or receiving substance use disorder
+                treatment are also protected by those regulations. In general, we may not tell anyone outside our program that
                 you attend the program, or disclose any information identifying you
                 as having a substance use disorder, unless you consent in writing,
                 the disclosure is allowed by a court order, or the disclosure is

@@ -6,9 +6,9 @@
 export const site = {
   name: 'Greater Texas Behavioral',
   shortName: 'Greater Texas Behavioral',
-  tagline: 'Structured Online Addiction & Mental Health Treatment — Statewide in Texas',
+  tagline: 'Structured Online Mental Health Treatment — Statewide in Texas',
   description:
-    'Greater Texas Behavioral offers a fully licensed Virtual Outpatient Program (OP) for addiction and mental health treatment, delivered through secure telehealth anywhere in Texas.',
+    'Greater Texas Behavioral offers a fully licensed virtual outpatient mental health treatment program, delivered through secure telehealth anywhere in Texas.',
   // `www.` is the primary host: Vercel 308s the apex to it (matching the sister
   // sites), so canonicals, og:url, JSON-LD, the sitemap and robots.txt must all
   // name it or every one of them points at a redirect. `assertCanonicalOrigin()`
@@ -108,7 +108,7 @@ export const clarion = {
  * That has now happened. See ISSUES.md CR-22.
  *
  * Separately: this is a behavioural-health site. Page paths such as
- * `/what-we-treat#substance-use` combined with an IP address are the pattern HHS
+ * `/what-we-treat#trauma` combined with an IP address are the pattern HHS
  * OCR's guidance on online tracking technologies treats as a disclosure of health
  * information. Confirm with counsel which tags may fire, and whether Google and
  * CallTrackingMetrics are covered by BAAs, before enabling anything beyond
@@ -169,15 +169,24 @@ export const nav: NavItem[] = [
     label: 'What We Treat',
     href: '/what-we-treat',
     children: [
+      // FR-1 resolved 2026-11-20: GTB is a virtual outpatient MENTAL HEALTH
+      // program only. Substance use is treated solely as a co-occurring
+      // diagnosis, never as a primary service line (LegitScript Standards 9 and
+      // 16; Texas H&S Code ch. 464). Do not add a substance-use entry here.
       {
-        label: 'Substance Use Disorders',
-        href: '/what-we-treat#substance-use',
-        description: 'Alcohol, opioids, stimulants & more',
+        label: 'Anxiety & Depression',
+        href: '/what-we-treat#mental-health',
+        description: 'Anxiety disorders, depression & stress',
       },
       {
-        label: 'Mental Health Conditions',
-        href: '/what-we-treat#mental-health',
-        description: 'Anxiety, depression, trauma & mood',
+        label: 'Trauma & PTSD',
+        href: '/what-we-treat#trauma',
+        description: 'Trauma-related symptoms & PTSD',
+      },
+      {
+        label: 'Mood Disorders',
+        href: '/what-we-treat#mood',
+        description: 'Bipolar disorder & mood instability',
       },
     ],
   },

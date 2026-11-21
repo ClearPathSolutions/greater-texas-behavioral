@@ -52,7 +52,7 @@ export default function PrivacyPolicyPage() {
                 <li>Information provided when communicating with our admissions, clinical, or administrative teams</li>
                 <li>Any other information you voluntarily choose to provide</li>
               </ul>
-              <p>Because Greater Texas Behavioral provides behavioral health and substance use disorder treatment services, information you provide when seeking treatment may include health-related or otherwise sensitive information.</p>
+              <p>Because Greater Texas Behavioral provides mental health treatment services, information you provide when seeking treatment may include health-related or otherwise sensitive information.</p>
               <h2>Information Collected Automatically</h2>
               <p>When you visit our website, certain information may be collected automatically through cookies, analytics technologies, pixels, server logs, and similar technologies.</p>
               <p>This information may include:</p>

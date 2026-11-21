@@ -162,7 +162,7 @@ export default function TeamMemberPage({
       </section>
 
       <CTABand
-        eyebrow="Start your recovery today"
+        eyebrow="Start your care today"
         title="Compassionate, structured care is one call away"
         body="Talk with our admissions team about whether our Virtual OP is the right fit — free, confidential, and no obligation."
         image="/images/horses-sunset.jpg"

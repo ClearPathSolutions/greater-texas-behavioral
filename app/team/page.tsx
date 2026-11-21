@@ -28,7 +28,7 @@ export default async function TeamPage() {
       <PageHero
         eyebrow="The people behind your care"
         title="Our Team"
-        subtitle="Licensed clinicians and case managers who walk alongside you — bringing clinical expertise, lived experience, and genuine compassion to every step of your recovery."
+        subtitle="Licensed clinicians and case managers who walk alongside you — bringing clinical expertise, lived experience, and genuine compassion to every step of your care."
         image="/images/community-support.jpg"
         imageAlt="A supportive group in conversation"
       />
@@ -187,7 +187,7 @@ export default async function TeamPage() {
       )}
 
       <CTABand
-        eyebrow="Start your recovery today"
+        eyebrow="Start your care today"
         title="Compassionate, structured care is one call away"
         body="Talk with our admissions team about whether our Virtual OP is the right fit — free, confidential, and no obligation."
         image="/images/horses-sunset.jpg"

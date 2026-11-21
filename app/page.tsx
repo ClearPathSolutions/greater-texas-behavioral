@@ -24,7 +24,7 @@ import type { Metadata } from 'next';
 import { pageMetadata } from '@/lib/seo';
 
 export const metadata: Metadata = pageMetadata({
-  title: `Virtual Outpatient Rehab in Texas | ${site.name}`,
+  title: `Virtual Mental Health Treatment in Texas | ${site.name}`,
   description: site.description,
   path: '',
   absoluteTitle: true,
@@ -45,22 +45,22 @@ const programs = [
     features: [
       'Individual therapy',
       'Therapist-led group sessions',
-      'Relapse prevention planning',
       'Cognitive behavioral therapy',
-      'Dual diagnosis treatment',
+      'Coping & emotional-regulation skills',
+      'Personalized treatment plans',
       'Family support sessions',
     ],
   },
   {
     icon: IconBrain,
-    title: 'Online Dual Diagnosis Treatment',
-    body: 'Many people struggling with addiction also experience anxiety, depression, or trauma. Our integrated approach treats substance use and mental health together to improve long-term outcomes.',
+    title: 'Online Mental Health Treatment',
+    body: 'Anxiety, depression, trauma, and mood disorders affect every part of life. Our licensed clinicians build an individualized plan that addresses your symptoms and strengthens the skills you need for lasting stability.',
     features: [
-      'Co-occurring disorder care',
       'Anxiety & depression support',
       'Trauma-informed therapy',
-      'Emotional regulation skills',
-      'Personalized treatment plans',
+      'PTSD & trauma-related symptoms',
+      'Bipolar & mood disorder care',
+      'Stress-related challenges',
       'Coordinated, measurable goals',
     ],
   },
@@ -95,7 +95,7 @@ const steps = [
 const whyItems = [
   {
     icon: IconHome,
-    title: 'Recover at home',
+    title: 'Care from home',
     body: 'No travel and no relocation — receive real clinical care from the comfort and privacy of home.',
   },
   {
@@ -110,25 +110,25 @@ const whyItems = [
   },
   {
     icon: IconLeaf,
-    title: 'Long-term recovery focus',
-    body: 'Relapse prevention, coping strategies, and aftercare planning designed for lasting change.',
+    title: 'Long-term wellness focus',
+    body: 'Coping strategies, skill-building, and aftercare planning designed for lasting change.',
   },
 ];
 
 const conditions = [
   {
-    id: 'substance-use',
-    image: '/images/substances.jpg',
-    alt: 'Support for substance use disorders',
-    title: 'Substance Use Disorders',
-    body: 'Alcohol, opioid, prescription, stimulant, and other substance-related challenges — addressing both the psychological and behavioral sides of addiction while building relapse-prevention skills.',
-  },
-  {
     id: 'mental-health',
     image: '/images/freedom-nature.jpg',
-    alt: 'Support for mental health conditions',
-    title: 'Mental Health Conditions',
-    body: 'Anxiety, depression, trauma-related symptoms, mood disorders, and stress-related conditions — treated alongside addiction to strengthen long-term recovery stability.',
+    alt: 'Support for anxiety and depression',
+    title: 'Anxiety & Depression',
+    body: 'Generalized anxiety, panic, depression, and stress-related challenges — building practical coping skills and a clearer path toward everyday stability.',
+  },
+  {
+    id: 'trauma',
+    image: '/images/wheat-field-hope.jpg',
+    alt: 'Support for trauma and mood disorders',
+    title: 'Trauma & Mood Disorders',
+    body: 'PTSD, trauma-related symptoms, bipolar disorder, and mood instability — treated with a trauma-informed, individualized approach that moves at your pace.',
   },
 ];
 
@@ -158,7 +158,7 @@ export default function HomePage() {
             </Reveal>
             <Reveal delay={80}>
               <h1 className="h-display mt-6 text-cream-50">
-                Structured online addiction &amp; mental health treatment,{' '}
+                Structured online mental health treatment,{' '}
                 <span className="text-tan-300">statewide.</span>
               </h1>
             </Reveal>
@@ -212,18 +212,17 @@ export default function HomePage() {
             </h2>
             <div className="mt-6 space-y-4 text-lg leading-relaxed text-muted">
               <p>
-                Our online OP delivers comprehensive addiction and mental health
-                treatment through secure telehealth sessions. We combine clinical
+                Our online OP delivers comprehensive mental health treatment
+                through secure telehealth sessions. We combine clinical
                 expertise with flexibility, so Texans can receive high-quality
                 care from the comfort and privacy of home.
               </p>
               <p>
-                We treat substance use disorders and co-occurring mental health
-                conditions using research-backed therapies led by licensed
-                clinicians. Whether you&apos;re transitioning from a higher level
-                of care or starting treatment for the first time, our Virtual OP
-                provides accountability, structure, and long-term recovery
-                support.
+                We treat anxiety, depression, trauma, and mood disorders using
+                research-backed therapies led by licensed clinicians. Whether
+                you&apos;re transitioning from a higher level of care or starting
+                treatment for the first time, our Virtual OP provides
+                accountability, structure, and long-term support.
               </p>
             </div>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -357,11 +356,11 @@ export default function HomePage() {
           <Reveal className="mx-auto max-w-2xl text-center">
             <span className="eyebrow justify-center">What we treat</span>
             <h2 className="h-section mt-4">
-              Comprehensive online treatment for Texas
+              Mental health care for Texans
             </h2>
             <p className="lead mt-5">
-              Evidence-based care for substance use and co-occurring mental
-              health conditions — addressed together for lasting stability.
+              Evidence-based virtual treatment for anxiety, depression, trauma,
+              and mood disorders — built for lasting stability.
             </p>
           </Reveal>
 
@@ -469,8 +468,8 @@ export default function HomePage() {
 
       {/* ================= CTA ================= */}
       <CTABand
-        title="Take the first step toward recovery today"
-        body="If you or a loved one is struggling with substance use or mental health challenges, we offer flexible, confidential Virtual OP treatment throughout Texas — structured clinical care without residential treatment."
+        title="Take the first step toward feeling better"
+        body="If you or a loved one is struggling with your mental health, we offer flexible, confidential Virtual OP treatment throughout Texas — structured clinical care from home."
         image="/images/tx-barn-bluebonnets.jpg"
         imageAlt="Texas barn among bluebonnets"
       />

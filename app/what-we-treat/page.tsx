@@ -20,43 +20,65 @@ import { pageMetadata } from '@/lib/seo';
 export const metadata: Metadata = pageMetadata({
   title: 'What We Treat',
   description:
-    'Our Texas Virtual OP treats substance use disorders and co-occurring mental health conditions — anxiety, depression, trauma, and more — through secure, evidence-based telehealth.',
+    'Our Texas virtual outpatient program treats mental health conditions — anxiety, depression, trauma, PTSD, and mood disorders — through secure, evidence-based telehealth.',
   path: 'what-we-treat',
 });
 
+/**
+ * FR-1 resolved 2026-11-20: Greater Texas Behavioral is a virtual outpatient
+ * MENTAL HEALTH program. It does not operate a substance use disorder program
+ * (no CDTF licence under Texas H&S Code ch. 464). Substance use appears on this
+ * page only in the co-occurring note below, as a secondary concern addressed
+ * within a mental health treatment plan. LegitScript flagged the old
+ * `#substance-use` section listed ahead of mental health — do not reintroduce
+ * a substance-use condition row, tag list, or nav entry.
+ */
 const conditions = [
-  {
-    id: 'substance-use',
-    icon: IconLeaf,
-    eyebrow: 'Substance use',
-    title: 'Substance Use Disorders',
-    image: '/images/substances.jpg',
-    alt: 'Clinical support for substance use disorders',
-    body: 'Our Texas Virtual OP provides clinically structured support for individuals struggling with substance use. Because addiction impacts both behavior and mental health, our program focuses on identifying triggers, restructuring harmful patterns, and building practical relapse-prevention strategies. Through therapist-led groups and individualized counseling conducted online, clients gain accountability, support, and measurable progress while continuing to live at home.',
-    tags: [
-      'Alcohol use disorder',
-      'Opioid misuse',
-      'Prescription medication dependence',
-      'Stimulant use',
-      'Marijuana dependency',
-      'Polysubstance use',
-    ],
-  },
   {
     id: 'mental-health',
     icon: IconBrain,
-    eyebrow: 'Mental health',
-    title: 'Mental Health Conditions',
+    eyebrow: 'Anxiety & depression',
+    title: 'Anxiety, Depression & Stress',
     image: '/images/freedom-nature.jpg',
-    alt: 'Support for mental health conditions',
-    body: 'Our Virtual OP treats a wide range of mental health conditions that often occur alongside substance use. Because many people facing addiction also live with underlying emotional or psychological distress, we integrate dual-diagnosis care into every treatment plan. Through structured online sessions, clients build emotional-regulation skills, strengthen coping strategies, and develop long-term wellness plans — all delivered securely through telehealth.',
+    alt: 'Support for anxiety and depression',
+    body: 'Anxiety and depression can affect sleep, work, relationships, and the way you see yourself. Our Texas Virtual OP provides clinically structured support to help you understand what is driving your symptoms, build practical coping skills, and regain a sense of stability. Through therapist-led groups and individual sessions conducted online, clients make measurable progress while continuing to live at home.',
     tags: [
-      'Anxiety disorders',
+      'Generalized anxiety',
+      'Panic & panic attacks',
+      'Social anxiety',
       'Depression',
-      'PTSD & trauma-related symptoms',
+      'Stress-related challenges',
+      'Life transitions',
+    ],
+  },
+  {
+    id: 'trauma',
+    icon: IconLeaf,
+    eyebrow: 'Trauma',
+    title: 'Trauma & PTSD',
+    image: '/images/wheat-field-hope.jpg',
+    alt: 'Support for trauma and PTSD',
+    body: 'Traumatic experiences can leave lasting effects long after the event itself — hypervigilance, intrusive memories, avoidance, and difficulty feeling safe. Our clinicians use a trauma-informed approach that moves at your pace, helping you process difficult experiences and strengthen emotional regulation in a secure, confidential setting.',
+    tags: [
+      'PTSD',
+      'Trauma-related symptoms',
+      'Emotional regulation',
+      'Grief & loss',
+    ],
+  },
+  {
+    id: 'mood',
+    icon: IconShieldCheck,
+    eyebrow: 'Mood',
+    title: 'Mood Disorders',
+    image: '/images/horses-sunset.jpg',
+    alt: 'Support for mood disorders',
+    body: 'Mood disorders can make everyday life feel unpredictable. Through structured online sessions, clients learn to recognize patterns, build routines that support stability, and develop long-term wellness plans — all coordinated by licensed clinicians and delivered securely through telehealth.',
+    tags: [
       'Bipolar disorder',
       'Mood instability',
-      'Stress-related challenges',
+      'Irritability & anger',
+      'Long-term wellness planning',
     ],
   },
 ];
@@ -65,7 +87,7 @@ const whyItems = [
   {
     icon: IconUsers,
     title: 'Licensed Texas clinicians',
-    body: 'Evidence-based therapy using proven modalities — CBT, relapse-prevention planning, and dual-diagnosis treatment.',
+    body: 'Evidence-based therapy using proven modalities such as cognitive behavioral therapy and individualized treatment planning.',
   },
   {
     icon: IconHome,
@@ -89,8 +111,8 @@ export default function WhatWeTreatPage() {
     <>
       <PageHero
         eyebrow="What We Treat"
-        title="Recover from addiction & mental health challenges"
-        subtitle="Structured, evidence-based Virtual OP care for substance use, anxiety, depression, trauma, and co-occurring conditions — delivered securely across Texas."
+        title="Virtual mental health treatment"
+        subtitle="Structured, evidence-based Virtual OP care for anxiety, depression, trauma, and mood disorders — delivered securely across Texas."
         image="/images/horses-grazing.jpg"
         imageAlt="Horses grazing in a Texas field at sunset"
       />
@@ -100,14 +122,14 @@ export default function WhatWeTreatPage() {
         <div className="container-x">
           <Reveal className="mx-auto max-w-3xl text-center">
             <h2 className="h-section">
-              We help you recover — and stay well
+              Professional mental health care, from home
             </h2>
             <p className="lead mt-5">
               Our Texas Virtual OP delivers evidence-based therapy through
               secure telehealth, so you can receive professional support while
               maintaining daily responsibilities. We focus on accountability,
-              measurable progress, and practical relapse-prevention strategies
-              that build long-term stability.
+              measurable progress, and practical coping strategies that build
+              long-term stability.
             </p>
           </Reveal>
         </div>
@@ -158,6 +180,31 @@ export default function WhatWeTreatPage() {
         </div>
       </section>
 
+      {/* Co-occurring note. Deliberately a small text block, not a condition
+          row: substance use is a secondary concern here (see FR-1 note). */}
+      <section id="co-occurring" className="scroll-mt-28 bg-cream-50 pt-20 pb-20 lg:pt-28">
+        <div className="container-x">
+          <Reveal className="mx-auto max-w-3xl rounded-3xl border border-cream-300 bg-white p-8 sm:p-10">
+            <h2 className="font-display text-2xl font-bold text-slate-900">
+              When other concerns are part of the picture
+            </h2>
+            <p className="mt-4 leading-relaxed text-muted">
+              Greater Texas Behavioral is a mental health treatment program.
+              Some clients living with a mental health condition also struggle
+              with alcohol or other substance use. When that happens, our
+              clinicians address it as a co-occurring concern within your mental
+              health treatment plan.
+            </p>
+            <p className="mt-4 leading-relaxed text-muted">
+              We do not operate a standalone substance use disorder treatment
+              program, and we do not provide detox. If your assessment shows
+              that a different level or type of care would serve you better, our
+              team will help connect you with an appropriate provider.
+            </p>
+          </Reveal>
+        </div>
+      </section>
+
       {/* Why choose */}
       <section className="section bg-cream-100">
         <div className="container-x">
@@ -169,9 +216,8 @@ export default function WhatWeTreatPage() {
               Why choose Greater Texas Behavioral?
             </h2>
             <p className="lead mt-5">
-              High-quality addiction and mental health treatment that fits into
-              real life — while producing measurable progress and long-term
-              recovery results.
+              High-quality mental health treatment that fits into real life —
+              while producing measurable progress and long-term stability.
             </p>
           </Reveal>
 
@@ -206,8 +252,8 @@ export default function WhatWeTreatPage() {
       </section>
 
       <CTABand
-        title="Take the first step toward recovery today"
-        body="If you or a loved one is struggling with addiction or mental health challenges, we're here to help — quick, private, and judgment-free."
+        title="Take the first step toward feeling better"
+        body="If you or a loved one is struggling with your mental health, we're here to help — quick, private, and judgment-free."
         image="/images/tx-bluebonnet-field.jpg"
         imageAlt="Texas bluebonnet field at sunset"
       />

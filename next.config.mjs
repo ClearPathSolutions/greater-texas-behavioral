@@ -16,6 +16,8 @@
  * again, so only the renamed and retired URLs need entries.
  * Destinations include the trailing slash so nothing takes a double hop.
  */
+import { RETIRED_BLOG_SLUGS } from './lib/retired-blog-slugs.mjs';
+
 
 /**
  * WordPress taxonomy/author archives that are indexed on production (audit
@@ -185,6 +187,12 @@ const nextConfig = {
   },
   async redirects() {
     return [
+      // FR-1 (2026-11-20): withdrawn SUD-first blog posts -> the blog index.
+      ...RETIRED_BLOG_SLUGS.map((slug) => ({
+        source: `/blog/${slug}`,
+        destination: '/blog/',
+        permanent: true,
+      })),
       // Renamed: WordPress `/insurance-verification/` -> `/verify-insurance/`
       {
         source: '/insurance-verification',
